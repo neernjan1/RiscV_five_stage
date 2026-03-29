@@ -26,23 +26,23 @@ The design is built as a **memory-mapped peripheral using APB protocol**, making
 
 ```
 CPU (APB Master)
-        ↓
+           ↓
 +-----------------------+
 |   APB Interface       |
 +-----------------------+
-        ↓
+           ↓
 +-----------------------+
 | Control + Status Regs |
 +-----------------------+
-        ↓
+           ↓
 +-----------------------+
 |        FSM            |
 +-----------------------+
-        ↓
+           ↓
 +-----------------------+
 |   ASCON Round Core    |
 +-----------------------+
-        ↓
+           ↓
 +-----------------------+
 | Data / Tag Output     |
 +-----------------------+
