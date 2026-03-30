@@ -18,7 +18,8 @@ output reg [2:0] aluOp_mux_out ,
 output reg branch_mux_out , 
 output reg memWrite_mux_out ,
 output reg memRead_mux_out,
-output reg memToReg_mux_out
+output reg memToReg_mux_out,
+output reg jump_mux_out
 );
 
 always @(*) begin
@@ -31,6 +32,7 @@ always @(*) begin
         memWrite_mux_out = 0;
         memRead_mux_out  = 0;
         memToReg_mux_out = 0;
+        jump_mux_out =0;
     end
     else begin
         // Normal operation
@@ -41,6 +43,7 @@ always @(*) begin
         memWrite_mux_out = memWrite;
         memRead_mux_out  = memRead;
         memToReg_mux_out = memToReg;
+        jump_mux_out = jump;
     end
 end
 
