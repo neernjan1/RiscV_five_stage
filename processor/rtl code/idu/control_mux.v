@@ -10,7 +10,8 @@ input branch ,
 input memWrite ,
 input memRead,
 input memToReg,
-
+input jump,
+    
 output reg regWrite_mux_out , 
 output reg aluSrc_mux_out , 
 output reg [2:0] aluOp_mux_out ,
