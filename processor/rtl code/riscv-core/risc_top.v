@@ -303,7 +303,7 @@ ex_mem ex_mem1 (
     .rst(rst),
 
     .alu_result_in(alu_result_ex),
-    .write_data_in(src2), // chnaged it from read_data2_ex
+    .write_data_in(src2_forwarded),// earlier scr2 was forwarded .. but for store instruction it created mess 
     .rd_in(rd_ex),
 
     .mem_read_in(mem_read_ex),
@@ -326,13 +326,13 @@ ex_mem ex_mem1 (
 wire [31:0] mem_result_mem;
 
 data_memory dmem (
-    clk,
-    rst,
-    alu_result_mem,
-    write_data_mem,
-    mem_read_mem,
-    mem_write_mem,
-    mem_result_mem
+    .clk(clk),
+   .rst(rst),
+    .addr(alu_result_mem),
+   .w_data (write_data_mem),
+    .mem_read(mem_read_mem),
+   .mem_write(mem_write_mem),
+   .r_data(mem_result_mem)
 );
 
 // ======================= MEM/WB =======================
