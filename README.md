@@ -34,7 +34,7 @@ processor/
 │
 ├── docs/              # Reference materials, diagrams, PDFs
 │
-├── rtl code/          # Main RTL implementation
+├── rtl/               # Main RTL implementation
 │   ├── ifu/           # Instruction Fetch Unit
 │   ├── idu/           # Instruction Decode Unit
 │   ├── ex/            # Execute stage (ALU, forwarding, branch)
