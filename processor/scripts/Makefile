@@ -20,7 +20,8 @@ OUT = $(SIM_DIR)/out.vvp
 VCD = $(SIM_DIR)/dump.vcd
 
 # Source files (auto collect)
-RTL_SRC = $(shell find $(RTL_DIR) -name "*.v")
+#RTL_SRC = $(shell find $(RTL_DIR) -name "*.v")
+RTL_SRC = $(shell find $(RTL_DIR)/riscv-core -name "*.v") # Only include core RTL files
 TB_SRC  = $(shell find $(TB_DIR) -name "*.v")
 
 # ==============================

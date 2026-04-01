@@ -28,9 +28,17 @@ end
 //--------------------------------------------------
  
  
- initial begin
-    $monitor("x10 = %0d", uut.rf.register[10]);
-end
+initial begin
+    
+
+  $monitor("t=%0t | x1=%0d x2=%0d x3=%0d x5=%0d",
+    $time,
+    uut.rf.mem[1],
+    uut.rf.mem[2],
+    uut.rf.mem[3],
+    uut.rf.mem[5]
+);
+end   
 //initial begin
 //    $monitor(
 //    "T=%0t | PC=%h | INST=%h | rs1=%0d rs2=%0d rd=%0d | ID: d1=%h d2=%h | EX: d1=%h d2=%h | src1=%h src2=%h | ALU=%h | WB: rd=%0d data=%h we=%b",
