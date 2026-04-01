@@ -41,8 +41,13 @@ module idu_tb;
 
     
     always #5 clk = ~clk;
+    initial begin
+    $dumpfile("../simulations/dump.vcd");
+    $dumpvars(0, tb);
+end
 
     initial begin
+
         clk = 0;
         rst = 1;
         stall = 0;
