@@ -1,43 +1,20 @@
-# ==============================
-# RISC-V Processor Makefile
-# ==============================
-
-# Top module
-TOP = riscv_top
-
-# Simulator
-IVERILOG = iverilog
+IVERILOG = iverilog -I ../rtl/include
 VVP = vvp
 
-# Directories
-RTL_DIR = ../rtl
-TB_DIR = ../testbench
-SIM_DIR = ../simulations
-IVERILOG = iverilog -I ../rtl/include
+RTL_DIR = ../rtl/riscv-core
+TB = ../testbench/top_tb.v
+OUT = ../simulations/out.vvp
 
-# Output
-OUT = $(SIM_DIR)/out.vvp
-VCD = $(SIM_DIR)/dump.vcd
-
-# Source files (auto collect)
-#RTL_SRC = $(shell find $(RTL_DIR) -name "*.v")
-RTL_SRC = $(shell find $(RTL_DIR)/riscv-core -name "*.v") # Only include core RTL files
-TB_SRC  = $(shell find $(TB_DIR) -name "*.v")
-
-# ==============================
-# Targets
-# ==============================
+# Collect only core RTL files
+RTL_SRC = $(shell find $(RTL_DIR) -name "*.v")
 
 all: run
 
 compile:
-	$(IVERILOG) -o $(OUT) $(RTL_SRC) $(TB_SRC)
+	$(IVERILOG) -o $(OUT) $(RTL_SRC) $(TB)
 
 run: compile
 	$(VVP) $(OUT)
 
-wave:
-	gtkwave $(VCD)
-
 clean:
-	rm -rf $(SIM_DIR)/*
+	rm -rf ../simulations/*
