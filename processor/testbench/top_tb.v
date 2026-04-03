@@ -31,12 +31,13 @@ end
 initial begin
     
 
-  $monitor("t=%0t | x1=%0d x2=%0d x3=%0d x5=%0d",
+  $monitor("t=%0t | x1=%0d x2=%0d  x3=%0d x4=%0d x5=%0d",
     $time,
-    uut.rf.mem[1],
-    uut.rf.mem[2],
-    uut.rf.mem[3],
-    uut.rf.mem[5]
+    uut.rf.register[1],
+    uut.rf.register[2],
+    uut.rf.register[3],
+    uut.rf.register[4],
+    uut.rf.register[5]
 );
 end   
 //initial begin
