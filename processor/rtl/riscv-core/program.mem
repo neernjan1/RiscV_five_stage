@@ -1,19 +1,5 @@
-// Program 4
-
-0x00500513   //# addi x10, x0, 5      ; x10 = 5 (input value)
-0x00000317   //# auipc x6, 0          ; x6 = PC + 0 (prepare for jalr)
-0x010300E7   //# jalr x1, 16(x6)      ; call function at PC+16, save return addr in x1
-0x00A00893   //# addi x17, x0, 10     ; x17 = 10 (optional setup inside function)
-0x00000073   //# ecall                ; system call (prints x10 if convention is print int)
-0xFE010113   //# addi x2, x2, -32     ; adjust stack pointer down by 32
-0x00112E23   //# sw x1, 28(x2)        ; save return address to stack
-0x00812C23   //# sw x8, 24(x2)        ; save x8 (s0) to stack
-0x02010413   //# addi x8, x2, 32      ; x8 = x2 + 32 (frame pointer)
-0xFEA42623   //# sw x10, -20(x8)      ; save input (x10) to stack
-0xFEC42783   //# lw x15, -20(x8)      ; load input from stack to x15
-0x02F787B3   //# add x15, x15, x15    ; x15 = x15 + x15 (double the value)
-0x00078513   //# addi x10, x15, 0     ; move result back to x10
-0x01C12083   //# lw x1, 28(x2)        ; restore return address from stack
-0x01812403   //# lw x8, 24(x2)        ; restore x8 (s0) from stack
-0x02010113   //# addi x2, x2, 32      ; restore stack pointer
-0x00008067   //# jalr x0, 0(x1)       ; return from function (jump to x1)
+0x00A00093
+0x00100113
+0x402080B3
+0xFE009EE3
+0x0000006F

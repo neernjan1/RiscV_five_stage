@@ -20,7 +20,7 @@ initial begin
 
     #10 rst = 0;
 
-    #30000 $finish;
+    #3000 $finish;
 end
 
 //--------------------------------------------------
@@ -32,9 +32,12 @@ initial begin
 $dumpfile("riscv_core.vcd");
 $dumpvars(0, tb_risc); 
 
-  $monitor("t=%0t | x10=%0d  ",
+  $monitor("t=%0t | x0=%0d x1=%0d x2=%0d ",
     $time,
-    uut.rf.register[10],
+    uut.rf.register[0],
+    uut.rf.register[1],
+    uut.rf.register[2]
+    
 
     
 );
