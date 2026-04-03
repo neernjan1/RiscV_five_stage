@@ -9,6 +9,7 @@ module ID_EX(
     input rst,
     input stall, 
     input flush,
+    input id_ex_write, // Control signal to stall the pipeline by preventing the ID/EX register from updating
 
     input [31:0] pc_id ,
 
@@ -117,6 +118,15 @@ module ID_EX(
       
         else if (stall) begin
             // Do nothing → retain previous values
+             // Control signals cleared → NOP //added by me to prevent unintended writes during stall
+            regWrite_ex     <= 0;
+            aluSrc_ex       <= 0;
+            aluOp_ex        <= 0;
+            branch_ex       <= 0;
+            memWrite_ex     <= 0;
+            memRead_ex      <= 0;
+            memToReg_ex     <= 0;
+            jump_ex         <= 0;
         end
 
       

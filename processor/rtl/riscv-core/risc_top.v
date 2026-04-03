@@ -365,7 +365,7 @@ mux_wb wb_mux (
 );
 
 // ======================= HAZARD UNIT =======================
-
+wire id_ex_write; // Control signal to stall the pipeline by preventing the ID/EX register from updating
 hazard_detection hz (
     rs1_id,
     rs2_id,
@@ -373,6 +373,7 @@ hazard_detection hz (
     mem_read_ex,
     pc_write,
     if_id_write,
+    id_ex_write,
     control_mux_sel_id
 );
 

@@ -17,8 +17,13 @@ module data_memory(
             for (i = 0; i < 4096; i = i + 1)
                 data_mem[i] <= 32'b0;
         end else if (mem_write) begin
-            data_mem[addr[13:2]] <= w_data;
-        end
+            data_mem[addr[13:0]] <= w_data;
+           
+   
+        $display("WRITE: MEM[%0d] = %0d", addr[13:0], w_data);
+    
+end
+        
     end
 
     // READ (combinational)

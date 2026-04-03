@@ -29,16 +29,19 @@ end
  
  
 initial begin
-    
+$dumpfile("riscv_core.vcd");
+$dumpvars(0, tb_risc); 
 
-  $monitor("t=%0t | x1=%0d x2=%0d  x3=%0d x4=%0d x5=%0d",
+  $monitor("t=%0t | x1=%0d x2=%0d  x3=%0d  MEM[10] = %d ",
     $time,
     uut.rf.register[1],
     uut.rf.register[2],
     uut.rf.register[3],
-    uut.rf.register[4],
-    uut.rf.register[5]
+    uut.dmem.data_mem[10]
+    
 );
+//$display("MEM[10] = %d", uut.dmem.data_mem[10]); 
+
 end   
 //initial begin
 //    $monitor(
