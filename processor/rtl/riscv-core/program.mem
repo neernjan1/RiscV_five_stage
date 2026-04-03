@@ -1,8 +1,50 @@
-0x00A00093
-0x06300113
-0x0020A023
-0x0000A183
-addi x1, x0, 10
-sw   x1, 0(x0)
-lw   x2, 0(x0)
-add  x3, x2, x2   # depends on lw
+//program for load working fine...
+/*
+lui x1 ,4
+addi x2 x0 4
+addi x3 x0 1
+sw x2 2(x3)
+lw x4 2(x3)
+*/
+
+0x000040B7
+0x00400113
+0x00100193
+0x0021A123
+0x0021A203
+
+//program 2
+/*# x1 = 0x4000
+lui x1, 0x4000      
+
+# x2 = 4
+addi x2, x0, 4      
+
+# x3 = 1
+addi x3, x0, 1      
+
+# Store 4 into MEM[x3+2] → MEM[3] = 4
+sw x2, 2(x3)       
+
+# Load MEM[3] into x4 (hazard candidate)
+lw x4, 2(x3)       
+
+# Immediately use x4 in an arithmetic operation
+add x5, x4, x2      # x5 should = 4 + 4 = 8*/
+
+0x040000B7
+0x00400113
+0x00100193
+0x0021A123
+0x0021A203
+0x002202B3
+
+/* program 3 
+lw x4, 2(x3)
+add x5, x4, x2
+sub x6, x5, x4
+*/
+0x0021A203
+0x002202B3
+0x40428333
+
