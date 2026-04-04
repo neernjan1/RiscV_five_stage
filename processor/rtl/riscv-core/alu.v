@@ -55,7 +55,7 @@ always @(*) begin
 
         // --- Special ---
         `ALU_LUI: alu_result = src2;   // immediate << 12 already done in decode
-        `ALU_JAL: alu_result = src1 + 4; // return address
+        `ALU_JAL: alu_result = 32'b0; // return address
 
         default: alu_result = 32'hDEADBEEF;
     endcase
