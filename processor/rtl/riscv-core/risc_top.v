@@ -5,24 +5,24 @@ module risc_top(
     input rst
 );
 
+// ================= WB WIRES =================
 wire [31:0] alu_result_wb, mem_result_wb;
 wire [4:0] rd_wb;
 wire reg_write_wb, mem_to_reg_wb;
 
+// ================= MEM WIRES =================
 wire [31:0] alu_result_mem, write_data_mem;
 wire [4:0] rd_mem;
 wire reg_write_mem, mem_write_mem, mem_read_mem, mem_to_reg_mem;
 
-// 🔥 NEW: result_src pipeline
+// 🔥 result_src pipeline
 wire [1:0] result_src_id, result_src_id_mux;
 wire [1:0] result_src_ex, result_src_mem, result_src_wb;
 
-// 🔥 NEW: pc+4 pipeline
+// 🔥 pc+4 pipeline
 wire [31:0] pc_plus_4_ex, pc_plus_4_mem, pc_plus_4_wb;
 
-
 // ======================= IF STAGE =======================
-
 wire [31:0] pc, next_pc, pc_plus_4, pc_target;
 wire [31:0] instruction_code_if;
 
@@ -53,9 +53,7 @@ adder add_if (
     pc_plus_4
 );
 
-
 // ======================= IF/ID =======================
-
 wire [31:0] instruction_code_id, pc_id, pc_plus_4_id;
 
 IF_ID if_id_reg (
@@ -71,9 +69,7 @@ IF_ID if_id_reg (
     pc_plus_4_id
 );
 
-
 // ======================= ID STAGE =======================
-
 wire [6:0] opcode_id, funct7_id;
 wire [2:0] funct3_id;
 wire [4:0] rs1_id, rs2_id, rd_id;
@@ -88,11 +84,6 @@ assign funct7_id = instruction_code_id[31:25];
 wire reg_write_id, alu_src_id, branch_id;
 wire mem_write_id, mem_read_id, mem_to_reg_id, jump_id;
 wire [2:0] alu_op_id;
-
-wire reg_write_id_mux, alu_src_id_mux, branch_id_mux;
-wire mem_write_id_mux, mem_read_id_mux, mem_to_reg_id_mux, jump_id_mux;
-wire [2:0] alu_op_id_mux;
-wire control_mux_sel_id;
 
 wire [31:0] read_data_1_id, read_data_2_id;
 wire [31:0] write_data_wb;
@@ -116,7 +107,7 @@ imm_gen imm1 (
     imm_val_id
 );
 
-// 🔥 MODIFIED CONTROL (added result_src)
+// CONTROL
 control ctrl (
     opcode_id,
     reg_write_id,
@@ -127,10 +118,15 @@ control ctrl (
     mem_read_id,
     mem_to_reg_id,
     jump_id,
-    result_src_id   // 🔥 NEW
+    result_src_id
 );
 
-// 🔥 MODIFIED CONTROL MUX (added result_src)
+// CONTROL MUX
+wire reg_write_id_mux, alu_src_id_mux, branch_id_mux;
+wire mem_write_id_mux, mem_read_id_mux, mem_to_reg_id_mux, jump_id_mux;
+wire [2:0] alu_op_id_mux;
+wire control_mux_sel_id;
+
 control_mux cmux (
     control_mux_sel_id,
     reg_write_id,
@@ -141,7 +137,7 @@ control_mux cmux (
     mem_read_id,
     mem_to_reg_id,
     jump_id,
-    result_src_id,           // 🔥 NEW INPUT
+    result_src_id,
 
     reg_write_id_mux,
     alu_src_id_mux,
@@ -151,12 +147,10 @@ control_mux cmux (
     mem_read_id_mux,
     mem_to_reg_id_mux,
     jump_id_mux,
-    result_src_id_mux        // 🔥 NEW OUTPUT
+    result_src_id_mux
 );
 
-
 // ======================= ID/EX =======================
-
 wire [31:0] pc_ex, read_data_1_ex, read_data_2_ex, imm_val_ex;
 wire [4:0] rs1_ex, rs2_ex, rd_ex;
 wire [2:0] funct3_ex, alu_op_ex;
@@ -172,7 +166,7 @@ ID_EX id_ex1 (
     .flush(flush),
 
     .pc_id(pc_id),
-    .pc_plus_4_id(pc_plus_4_id),   // 🔥 NEW
+    .pc_plus_4_id(pc_plus_4_id),
 
     .rs1_id(rs1_id),
     .rs2_id(rs2_id),
@@ -193,10 +187,10 @@ ID_EX id_ex1 (
     .memRead_id(mem_read_id_mux),
     .memToReg_id(mem_to_reg_id_mux),
     .jump_id(jump_id_mux),
-    .result_src_id(result_src_id_mux),   // 🔥 NEW
+    .result_src_id(result_src_id_mux),
 
     .pc_ex(pc_ex),
-    .pc_plus_4_ex(pc_plus_4_ex),         // 🔥 NEW
+    .pc_plus_4_ex(pc_plus_4_ex),
 
     .rs1_ex(rs1_ex),
     .rs2_ex(rs2_ex),
@@ -217,12 +211,83 @@ ID_EX id_ex1 (
     .memRead_ex(mem_read_ex),
     .memToReg_ex(mem_to_reg_ex),
     .jump_ex(jump_ex),
-    .result_src_ex(result_src_ex)        // 🔥 NEW
+    .result_src_ex(result_src_ex)
 );
 
+// ======================= EX STAGE =======================
+wire [1:0] forwardA, forwardB;
+
+forwarding fwd (
+    rs1_ex,
+    rs2_ex,
+    rd_mem,
+    rd_wb,
+    reg_write_mem,
+    reg_write_wb,
+    forwardA,
+    forwardB
+);
+
+wire [31:0] src1, src2_forwarded, src2;
+
+muxSrc1 m1 (
+    read_data_1_ex,
+    alu_result_mem,
+    write_data_wb,
+    forwardA,
+    src1
+);
+
+muxSrc2 m2 (
+    read_data_2_ex,
+    alu_result_mem,
+    write_data_wb,
+    forwardB,
+    src2_forwarded
+);
+
+muxSrcImm m3 (
+    alu_src_ex,
+    src2_forwarded,
+    imm_val_ex,
+    src2
+);
+
+wire [5:0] operation;
+
+alu_control alu_ctrl (
+    alu_op_ex,
+    funct3_ex,
+    funct7_ex,
+    operation
+);
+
+wire [31:0] alu_result_ex;
+wire branch_condn_ex;
+
+alu alu1 (
+    src1,
+    src2,
+    operation,
+    alu_result_ex,
+    branch_condn_ex
+);
+
+pc_offset pco (
+    pc_ex,
+    imm_val_ex,
+    pc_target
+);
+
+branch_decision bd (
+    branch_condn_ex,
+    jump_ex,
+    branch_ex,
+    pc_src,
+    flush
+);
 
 // ======================= EX/MEM =======================
-
 ex_mem ex_mem1 (
     .clk(clk),
     .rst(rst),
@@ -236,8 +301,8 @@ ex_mem ex_mem1 (
     .mem_to_reg_in(mem_to_reg_ex),
     .reg_write_in(reg_write_ex),
 
-    .pc_plus_4_ex(pc_plus_4_ex),   // 🔥 NEW
-    .result_src_ex(result_src_ex), // 🔥 NEW
+    .pc_plus_4_ex(pc_plus_4_ex),
+    .result_src_ex(result_src_ex),
 
     .alu_result_out(alu_result_mem),
     .write_data_out(write_data_mem),
@@ -248,13 +313,24 @@ ex_mem ex_mem1 (
     .mem_to_reg_out(mem_to_reg_mem),
     .reg_write_out(reg_write_mem),
 
-    .pc_plus_4_mem(pc_plus_4_mem),   // 🔥 NEW
-    .result_src_mem(result_src_mem)  // 🔥 NEW
+    .pc_plus_4_mem(pc_plus_4_mem),
+    .result_src_mem(result_src_mem)
 );
 
+// ======================= MEM STAGE =======================
+wire [31:0] mem_result_mem;
+
+data_memory dmem (
+    .clk(clk),
+    .rst(rst),
+    .addr(alu_result_mem),
+    .w_data(write_data_mem),
+    .mem_read(mem_read_mem),
+    .mem_write(mem_write_mem),
+    .r_data(mem_result_mem)
+);
 
 // ======================= MEM/WB =======================
-
 mem_wb mem_wb1 (
     .clk(clk),
     .rst(rst),
@@ -264,8 +340,8 @@ mem_wb mem_wb1 (
     .mem_to_reg_mem(mem_to_reg_mem),
     .rd_mem(rd_mem),
 
-    .pc_plus_4_mem(pc_plus_4_mem),   // 🔥 NEW
-    .result_src_mem(result_src_mem), // 🔥 NEW
+    .pc_plus_4_mem(pc_plus_4_mem),
+    .result_src_mem(result_src_mem),
 
     .alu_result_wb(alu_result_wb),
     .read_data_wb(mem_result_wb),
@@ -273,22 +349,18 @@ mem_wb mem_wb1 (
     .mem_to_reg_wb(mem_to_reg_wb),
     .rd_wb(rd_wb),
 
-    .pc_plus_4_wb(pc_plus_4_wb),     // 🔥 NEW
-    .result_src_wb(result_src_wb)    // 🔥 NEW
+    .pc_plus_4_wb(pc_plus_4_wb),
+    .result_src_wb(result_src_wb)
 );
 
-
-// ======================= WB =======================
-
-// 🔥 MODIFIED WB MUX (3-input)
+// ======================= WB STAGE =======================
 mux_wb wb_mux (
     alu_result_wb,
     mem_result_wb,
-    pc_plus_4_wb,   // 🔥 NEW
-    result_src_wb,  // 🔥 NEW
+    pc_plus_4_wb,
+    result_src_wb,
     write_data_wb
 );
-
 
 // ======================= HAZARD =======================
 hazard_detection hz (
@@ -298,6 +370,7 @@ hazard_detection hz (
     mem_read_ex,
     pc_write,
     if_id_write,
+ID_EX_write, // This signal is used inside the ID/EX register to stall it   
     control_mux_sel_id
 );
 
