@@ -1,5 +1,25 @@
 `include "defines.vh"
 `timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 03/26/2026 11:28:41 AM
+// Design Name: 
+// Module Name: control
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 
 module control(
 input [6:0] opcode ,
@@ -10,10 +30,19 @@ output reg branch ,
 output reg memWrite ,
 output reg memRead,
 output reg memToReg,
-output reg jump
+output reg jump ,
+output reg [1:0] result_src // 🔥 NEW
     );
     
     always @(*) begin
+//        regWrite = 0;
+//        aluSrc   = 0;
+//        aluOp    = 3'b000;
+//        branch   = 0;
+//        memWrite = 0;
+//        memRead  = 0;
+//        memToReg = 0;
+//        jump = 0;
     case(opcode)
     
     `OPCODE_R_TYPE: 
@@ -26,6 +55,7 @@ output reg jump
          memRead = 0;
          memToReg = 0;
          jump = 0;
+         result_src = 2'b00;// 🔥 NEW
     end
     
      `OPCODE_I_TYPE: 
@@ -38,6 +68,8 @@ output reg jump
          memRead = 0;
          memToReg = 0;
          jump = 0;
+                  result_src = 2'b00;// 🔥 NEW
+
     end
     
      `OPCODE_LOAD: 
@@ -50,6 +82,8 @@ output reg jump
          memRead = 1;
          memToReg = 1;
          jump = 0;
+                  result_src = 2'b01;// 🔥 NEW
+
     end
      
      `OPCODE_STORE: 
@@ -62,6 +96,8 @@ output reg jump
          memRead = 0;
          memToReg = 0;
          jump = 0;
+                  result_src = 2'b00;// 🔥 NEW
+
     end
 
      
@@ -75,6 +111,8 @@ output reg jump
          memRead = 0;
          memToReg = 0;
          jump = 0;
+                  result_src = 2'b00;// 🔥 NEW
+
     end
 
   
@@ -88,6 +126,8 @@ output reg jump
          memRead = 0;
          memToReg = 0;
          jump = 1;
+                  result_src = 2'b10;// 🔥 NEW
+
     end
 
   
@@ -101,6 +141,8 @@ output reg jump
          memRead = 0;
          memToReg = 0;
          jump = 1;
+                  result_src = 2'b10;// 🔥 NEW
+
     end
 
    
@@ -114,6 +156,8 @@ output reg jump
          memRead=0;
          memToReg=0;
          jump = 0;
+                  result_src = 2'b00;// 🔥 NEW
+
     end
 
   
@@ -127,6 +171,8 @@ output reg jump
          memRead = 0;
          memToReg = 0;
          jump = 0;
+                  result_src = 2'b00;// 🔥 NEW
+
     end
 
     default : begin
@@ -139,6 +185,8 @@ output reg jump
         memRead  = 0;
         memToReg = 0;
         jump = 0;
+                 result_src = 2'b00;// 🔥 NEW
+
     end 
 
     endcase
