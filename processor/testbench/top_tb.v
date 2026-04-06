@@ -20,7 +20,8 @@ initial begin
 
     #10 rst = 0;
 
-    #300$finish;
+    #30000
+    $finish;
 end
 
 //--------------------------------------------------
@@ -32,19 +33,25 @@ initial begin
 $dumpfile("riscv_core.vcd");
 $dumpvars(0, tb_risc); 
 
-  $monitor("t=%0t | x0=%0d x1=%0d x2=%0d x3=%0d x4=%0d x5=%0d",
+  $monitor("t=%0t | MEM[100]=%h MEM[104]=%h MEM[108]=%h MEM[112]=%h MEM[116]=%h MEM[120]=%h",
     $time,
-    uut.rf.register[0],
-    uut.rf.register[1],
-    uut.rf.register[2],
-    uut.rf.register[3],
-    uut.rf.register[4],
-    uut.rf.register[5]
-
+    // uut.rf.register[0],
+    // uut.rf.register[1],
+    // uut.rf.register[2],
+    uut.dmem.data_mem[100],
+     uut.dmem.data_mem[104],
+        uut.dmem.data_mem[108],
+        uut.dmem.data_mem[112],
+        uut.dmem.data_mem[116],
+        uut.dmem.data_mem[120]
+    // uut.pc_if.pc
+    );
     
 
     
-);
+
+    
+
 //$display("MEM[10] = %d", uut.dmem.data_mem[10]); 
 
 end   

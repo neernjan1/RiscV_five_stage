@@ -121,8 +121,8 @@ control ctrl (
     mem_to_reg_id,
     jump_id,
     jalr_sel_id,      // ✅ ADD
-    alu_pc_sel_id,    // ✅ ADD
-    result_src_id
+    alu_pc_sel_id  // ✅ ADD
+   
 );
 
 // CONTROL MUX
@@ -141,7 +141,9 @@ control_mux cmux (
     mem_read_id,
     mem_to_reg_id,
     jump_id,
-    result_src_id,
+    jalr_sel_id, // NEW      
+    alu_pc_sel_id, // NEW
+   
 
     reg_write_id_mux,
     alu_src_id_mux,
@@ -151,7 +153,9 @@ control_mux cmux (
     mem_read_id_mux,
     mem_to_reg_id_mux,
     jump_id_mux,
-    result_src_id_mux
+    jalr_sel_id_mux, // NEW
+    alu_pc_sel_id_mux // NEW
+    
 );
 
 // ======================= ID/EX =======================
@@ -170,7 +174,7 @@ ID_EX id_ex1 (
     .flush(flush),
 
     .pc_id(pc_id),
-    .pc_plus_4_id(pc_plus_4_id),
+    //.pc_plus_4_id(pc_plus_4_id),
 
     .rs1_id(rs1_id),
     .rs2_id(rs2_id),
@@ -191,10 +195,11 @@ ID_EX id_ex1 (
     .memRead_id(mem_read_id_mux),
     .memToReg_id(mem_to_reg_id_mux),
     .jump_id(jump_id_mux),
-    .result_src_id(result_src_id_mux),
-
+    .jalr_sel_id(jalr_sel_id_mux), // NEW
+    .alu_pc_sel_id(alu_pc_sel_id_mux), // NEW
+//outputs
     .pc_ex(pc_ex),
-    .pc_plus_4_ex(pc_plus_4_ex),
+    
 
     .rs1_ex(rs1_ex),
     .rs2_ex(rs2_ex),
@@ -215,7 +220,11 @@ ID_EX id_ex1 (
     .memRead_ex(mem_read_ex),
     .memToReg_ex(mem_to_reg_ex),
     .jump_ex(jump_ex),
-    .result_src_ex(result_src_ex)
+        .jalr_sel_ex(jalr_sel_ex), // NEW
+    .alu_pc_sel_ex(alu_pc_sel_ex) // NEW
+
+
+    
 );
 
 // ======================= EX STAGE =======================
@@ -256,19 +265,21 @@ muxSrcImm m3 (
     imm_val_ex,
     src2
 );
-
+wire [31:0]src1_forwarded;
 muxSrcPc m4 (
-    alu_pc_sel_ex,
-    src1,
-    pc_ex,
-    src1_forwarded
+    .src1_in(src1),
+    .pc(pc_ex),
+    .alu_pc_sel(alu_pc_sel_ex),
+    .src1(src1_forwarded)
 ); //check inputs
 
+wire jalr_sel_ex;
+wire [31:0] pc_int_offset;
 mux_jalr m5 (
-    jalr_sel_ex,
-    src1_forwarded,
-    imm_val_ex,
-    pc_target
+    .read_data_1_ex(read_data_1_ex),
+    .pc(pc_ex),
+    .jalr_sel(jalr_sel_ex),
+    .pc_offset_in(pc_int_offset)
 ); //check inputs
 
 
@@ -285,7 +296,7 @@ wire [31:0] alu_result_ex;
 wire branch_condn_ex;
 
 alu alu1 (
-    src1,
+    src1_forwarded, //as new mux added so taking src1_forwarded instead src1 ,giving jalr x1 correct
     src2,
     operation,
     alu_result_ex,
@@ -293,9 +304,9 @@ alu alu1 (
 );
 
 pc_offset pco (
-    pc_ex,
-    imm_val_ex,
-    pc_target
+    .pc_offset_in(pc_int_offset), // input from mux_jalr
+     .imm(imm_val_ex),
+    .pc_offset_out(pc_target)
 );
 
 branch_decision bd (
@@ -320,8 +331,8 @@ ex_mem ex_mem1 (
     .mem_to_reg_in(mem_to_reg_ex),
     .reg_write_in(reg_write_ex),
 
-    .pc_plus_4_ex(pc_plus_4_ex),
-    .result_src_ex(result_src_ex),
+    
+   
 
     .alu_result_out(alu_result_mem),
     .write_data_out(write_data_mem),
@@ -330,10 +341,10 @@ ex_mem ex_mem1 (
     .mem_read_out(mem_read_mem),
     .mem_write_out(mem_write_mem),
     .mem_to_reg_out(mem_to_reg_mem),
-    .reg_write_out(reg_write_mem),
+    .reg_write_out(reg_write_mem)
 
-    .pc_plus_4_mem(pc_plus_4_mem),
-    .result_src_mem(result_src_mem)
+  
+    
 );
 
 // ======================= MEM STAGE =======================
@@ -359,26 +370,20 @@ mem_wb mem_wb1 (
     .mem_to_reg_mem(mem_to_reg_mem),
     .rd_mem(rd_mem),
 
-    .pc_plus_4_mem(pc_plus_4_mem),
-    .result_src_mem(result_src_mem),
-
     .alu_result_wb(alu_result_wb),
     .read_data_wb(mem_result_wb),
     .reg_write_wb(reg_write_wb),
     .mem_to_reg_wb(mem_to_reg_wb),
-    .rd_wb(rd_wb),
+    .rd_wb(rd_wb)
 
-    .pc_plus_4_wb(pc_plus_4_wb),
-    .result_src_wb(result_src_wb)
 );
 
 // ======================= WB STAGE =======================
 mux_wb wb_mux (
-    alu_result_wb,
-    mem_result_wb,
-    pc_plus_4_wb,
-    result_src_wb,
-    write_data_wb
+    .alu_result(alu_result_wb),
+   .r_data(mem_result_wb),
+    .memToReg(mem_to_reg_wb),
+    .data_out(write_data_wb)
 );
 
 // ======================= HAZARD =======================
