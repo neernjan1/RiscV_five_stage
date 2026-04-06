@@ -253,6 +253,21 @@ muxSrcImm m3 (
     src2
 );
 
+muxSrcPC m4 (
+    alu_pc_sel_ex,
+    src1,
+    pc_ex,
+    src1_forwarded
+); //check inputs
+
+mux_jalr m5 (
+    jalr_sel_ex,
+    src1_forwarded,
+    imm_val_ex,
+    pc_target
+); //check inputs
+
+
 wire [5:0] operation;
 
 alu_control alu_ctrl (

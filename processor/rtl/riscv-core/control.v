@@ -1,25 +1,5 @@
-
+`include "defines.vh"
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 03/26/2026 11:28:41 AM
-// Design Name: 
-// Module Name: control
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
 
 module control(
 input [6:0] opcode ,
@@ -43,6 +23,9 @@ output reg [1:0] result_src // 🔥 NEW
 //        memRead  = 0;
 //        memToReg = 0;
 //        jump = 0;
+          //jalr_sel = 0; // NEW      
+        //   alu_pc_sel = 0;// NEW
+                //  result_src = 2'b00;// 🔥 NEW
     case(opcode)
     
     `OPCODE_R_TYPE: 
@@ -55,7 +38,9 @@ output reg [1:0] result_src // 🔥 NEW
          memRead = 0;
          memToReg = 0;
          jump = 0;
-         result_src = 2'b00;// 🔥 NEW
+          jalr_sel = 0; // NEW      
+           alu_pc_sel = 0;// NEW
+                //  result_src = 2'b00;// 🔥 NEW
     end
     
      `OPCODE_I_TYPE: 
@@ -68,7 +53,9 @@ output reg [1:0] result_src // 🔥 NEW
          memRead = 0;
          memToReg = 0;
          jump = 0;
-                  result_src = 2'b00;// 🔥 NEW
+                jalr_sel = 0; // NEW      
+           alu_pc_sel = 0;// NEW
+                //  result_src = 2'b00;// 🔥 NEW
 
     end
     
@@ -82,7 +69,9 @@ output reg [1:0] result_src // 🔥 NEW
          memRead = 1;
          memToReg = 1;
          jump = 0;
-                  result_src = 2'b01;// 🔥 NEW
+                  jalr_sel = 0; // NEW      
+           alu_pc_sel = 0;// NEW
+                //  result_src = 2'b00;// 🔥 NEW
 
     end
      
@@ -96,8 +85,9 @@ output reg [1:0] result_src // 🔥 NEW
          memRead = 0;
          memToReg = 0;
          jump = 0;
-                  result_src = 2'b00;// 🔥 NEW
-
+ jalr_sel = 0; // NEW      
+           alu_pc_sel = 0;// NEW
+                //  result_src = 2'b00;// 🔥 NEW
     end
 
      
@@ -111,7 +101,9 @@ output reg [1:0] result_src // 🔥 NEW
          memRead = 0;
          memToReg = 0;
          jump = 0;
-                  result_src = 2'b00;// 🔥 NEW
+         jalr_sel = 0; // NEW      
+           alu_pc_sel = 0;// NEW
+                //  result_src = 2'b00;// 🔥 NEW
 
     end
 
@@ -126,7 +118,9 @@ output reg [1:0] result_src // 🔥 NEW
          memRead = 0;
          memToReg = 0;
          jump = 1;
-                  result_src = 2'b10;// 🔥 NEW
+         jalr_sel = 0; // NEW
+         alu_pc_sel = 1;// NEW
+                // result_src = 2'b10;// 🔥 NEW
 
     end
 
@@ -141,7 +135,9 @@ output reg [1:0] result_src // 🔥 NEW
          memRead = 0;
          memToReg = 0;
          jump = 1;
-                  result_src = 2'b10;// 🔥 NEW
+         jalr_sel = 1; // NEW
+         alu_pc_sel = 1;// NEW
+                //  result_src = 2'b10;// 🔥 NEW
 
     end
 
@@ -156,7 +152,9 @@ output reg [1:0] result_src // 🔥 NEW
          memRead=0;
          memToReg=0;
          jump = 0;
-                  result_src = 2'b00;// 🔥 NEW
+        jalr_sel = 0; // NEW
+         alu_pc_sel = 0;// NEW
+                //result_src = 2'b00;// 🔥 NEW
 
     end
 
@@ -171,7 +169,9 @@ output reg [1:0] result_src // 🔥 NEW
          memRead = 0;
          memToReg = 0;
          jump = 0;
-                  result_src = 2'b00;// 🔥 NEW
+         jalr_sel = 0; // NEW
+         alu_pc_sel = 1;// NEW
+                //  result_src = 2'b00;// 🔥 NEW
 
     end
 
@@ -185,7 +185,9 @@ output reg [1:0] result_src // 🔥 NEW
         memRead  = 0;
         memToReg = 0;
         jump = 0;
-                 result_src = 2'b00;// 🔥 NEW
+        jalr_sel = 0; // NEW
+         alu_pc_sel = 0;// NEW
+                // result_src = 2'b00;// 🔥 NEW
 
     end 
 
