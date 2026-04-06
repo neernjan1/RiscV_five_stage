@@ -121,7 +121,7 @@ control ctrl (
     mem_to_reg_id,
     jump_id,
     jalr_sel_id,      // ✅ ADD
-    alu_pc_sel_id  // ✅ ADD
+    alu_pc_sel_id    // ✅ ADD
    
 );
 
@@ -275,12 +275,28 @@ muxSrcPc m4 (
 
 wire jalr_sel_ex;
 wire [31:0] pc_int_offset;
+
 mux_jalr m5 (
     .read_data_1_ex(read_data_1_ex),
     .pc(pc_ex),
     .jalr_sel(jalr_sel_ex),
     .pc_offset_in(pc_int_offset)
 ); //check inputs
+
+
+// muxSrcPc m4 (
+//     alu_pc_sel_ex,
+//     src1,
+//     pc_ex,
+//     src1_forwarded
+// ); //check inputs
+
+// mux_jalr m5 (
+//     jalr_sel_ex,
+//     src1_forwarded,
+//     imm_val_ex,
+//     pc_target
+// ); //check inputs
 
 
 wire [5:0] operation;
