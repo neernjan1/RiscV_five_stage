@@ -71,6 +71,8 @@
 // --- Special Instructions ---
 `define ALU_LUI          6'b100001
 `define ALU_JAL          6'b100010
+`define ALU_JALR         6'b100011
+`define ALU_AUIPC        6'b100100
 
 // =============================================================================
 // 3. ALUOp (Instruction Category for ALU Control)

@@ -33,6 +33,8 @@ module ID_EX(
     input memRead_id,
     input memToReg_id ,
     input jump_id,
+     input jalr_sel_id, // NEW      
+   input alu_pc_sel_id ,//
 
   
     // OUTPUTS (EX STAGE)
@@ -59,12 +61,14 @@ module ID_EX(
     output reg memRead_ex,
     output reg memToReg_ex ,
     output reg jump_ex ,
+     output reg jalr_sel_ex, // NEW      
+   output reg alu_pc_sel_ex //
 
-  input  [31:0] pc_plus_4_id, // 🔥 NEW
-    output reg [31:0] pc_plus_4_ex,// 🔥 NEW
+  //  input  [31:0] pc_plus_4_id, // 🔥 NEW
+   // output reg [31:0] pc_plus_4_ex,// 🔥 NEW
     // 🔥 ADD
-    input [1:0] result_src_id,// 🔥 NEW
-    output reg [1:0] result_src_ex// 🔥 NEW
+  //  input [1:0] result_src_id,// 🔥 NEW
+   // output reg [1:0] result_src_ex// 🔥 NEW
 );
 
     always @(posedge clk) begin
@@ -91,8 +95,10 @@ module ID_EX(
             memRead_ex      <= 0;
             memToReg_ex     <= 0;
             jump_ex         <= 0;
-          pc_plus_4_ex    <= 0;// 🔥 NEW
-            result_src_ex   <= 0 ;// 🔥 NEW
+              jalr_sel_ex <= 0; // NEW      
+             alu_pc_sel_ex <= 0;// NEW
+        //  pc_plus_4_ex    <= 0;// 🔥 NEW
+          //  result_src_ex   <= 0 ;// 🔥 NEW
         end
 
       
@@ -119,8 +125,10 @@ module ID_EX(
             imm_val_ex      <= 0;
             funct3_ex       <= 0;
             funct7_ex       <= 0;
-          pc_plus_4_ex    <= 0;// 🔥 NEW
-            result_src_ex   <= 0 ;// 🔥 NEW
+                jalr_sel_ex <= 0; // NEW      
+                alu_pc_sel_ex <= 0;// NEW
+         // pc_plus_4_ex    <= 0;// 🔥 NEW
+          //  result_src_ex   <= 0 ;// 🔥 NEW
         end
 
       
@@ -137,7 +145,10 @@ module ID_EX(
             memRead_ex      <= 0;
             memToReg_ex     <= 0;
             jump_ex         <= 0;
-          result_src_ex   <= 0 ;// 🔥 NEW
+              jalr_sel_ex <= 0; // NEW      
+             alu_pc_sel_ex <= 0;// NEW
+         // pc_plus_4_ex    <= 0;// 🔥 NEW
+          //  result_src_ex   <= 0 ;// 🔥 NEW
         end
 
       
@@ -165,10 +176,14 @@ module ID_EX(
             memRead_ex      <= memRead_id;
             memToReg_ex     <= memToReg_id;
             jump_ex         <= jump_id;
-           pc_plus_4_ex    <= pc_plus_4_id ; // 🔥 NEW
-            result_src_ex   <= result_src_id ;// 🔥 NEW
+                jalr_sel_ex <= jalr_sel_id; // NEW      
+                 alu_pc_sel_ex <= alu_pc_sel_id;// NEW
+           //pc_plus_4_ex    <= pc_plus_4_id ; // 🔥 NEW
+           // result_src_ex   <= result_src_id ;// 🔥 NEW
         end
 
     end
 
 endmodule
+
+

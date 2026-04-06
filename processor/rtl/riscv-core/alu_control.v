@@ -6,7 +6,11 @@ module alu_control (
     input [6:0] func7,
     output reg [5:0] operation
 );
-
+initial begin
+    $display("JAL   = %b", `ALU_JAL);
+    $display("JALR  = %b", `ALU_JALR);
+    $display("AUIPC = %b", `ALU_AUIPC);
+end
 always @(*) begin 
 
     operation = `ALU_ADD;
@@ -53,14 +57,14 @@ always @(*) begin
                 default: operation = `ALU_ADDI;
             endcase
         end
+         
+        `ALUOP_JAL: operation = `ALU_JAL; // new addition for JAL
 
-        `ALUOP_JAL: operation = `ALU_ADD;
-
-        `ALUOP_JALR: operation = `ALU_ADD;
+        `ALUOP_JALR: operation = `ALU_JALR;// new addition for JALR
 
         `ALUOP_LUI: operation = `ALU_LUI;
       
-        `ALUOP_AUIPC: operation = `ALU_ADD;
+        `ALUOP_AUIPC: operation = `ALU_AUIPC;// new addition for AUIPC
    
          default: operation = `ALU_ADD;
 
