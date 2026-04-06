@@ -27,10 +27,10 @@ module control_mux( // full change due to jal , jalr additon
     output reg memToReg_mux_out,
     output reg jump_mux_out,
      output reg jalr_sel_out, // NEW      
-   output reg alu_pc_sel_out ,// NEW
+   output reg alu_pc_sel_out // NEW
                   //  output reg [1:0] result_src_mux_out   // 🔥 NEW
    
-
+);
 always @(*) begin
 
     if (control_mux_sel) begin

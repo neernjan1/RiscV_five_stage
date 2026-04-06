@@ -1,4 +1,4 @@
-module muxSrc1Pc (
+module muxSrcPc (
     input [31:0] src1_in,  //input from muxSrc1
     input [31:0] pc,    // input from id_ex register
     input alu_pc_sel, // control signal to select between src1 and pc

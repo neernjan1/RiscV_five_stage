@@ -62,7 +62,7 @@ module ID_EX(
     output reg memToReg_ex ,
     output reg jump_ex ,
      output reg jalr_sel_ex, // NEW      
-   output reg alu_pc_sel_ex ,//
+   output reg alu_pc_sel_ex //
 
   //  input  [31:0] pc_plus_4_id, // 🔥 NEW
    // output reg [31:0] pc_plus_4_ex,// 🔥 NEW
@@ -185,3 +185,5 @@ module ID_EX(
     end
 
 endmodule
+
+

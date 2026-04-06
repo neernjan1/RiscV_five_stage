@@ -21,8 +21,7 @@ module ex_mem (
     output reg mem_read_out,
     output reg mem_write_out,
     output reg mem_to_reg_out,
-    output reg reg_write_out , 
-    
+    output reg reg_write_out 
     // input  [31:0] pc_plus_4_ex, // 🔥 NEW
     // output reg [31:0] pc_plus_4_mem , // 🔥 NEW
     // // 🔥 ADD
@@ -58,3 +57,5 @@ always @(posedge clk) begin
 end
 
 endmodule
+
+

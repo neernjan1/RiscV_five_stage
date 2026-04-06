@@ -108,6 +108,8 @@ imm_gen imm1 (
 );
 
 // CONTROL
+wire jalr_sel_id, alu_pc_sel_id;
+
 control ctrl (
     opcode_id,
     reg_write_id,
@@ -118,6 +120,8 @@ control ctrl (
     mem_read_id,
     mem_to_reg_id,
     jump_id,
+    jalr_sel_id,      // ✅ ADD
+    alu_pc_sel_id,    // ✅ ADD
     result_src_id
 );
 
@@ -253,7 +257,7 @@ muxSrcImm m3 (
     src2
 );
 
-muxSrcPC m4 (
+muxSrcPc m4 (
     alu_pc_sel_ex,
     src1,
     pc_ex,

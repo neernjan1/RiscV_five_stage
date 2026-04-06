@@ -11,7 +11,9 @@ output reg memWrite ,
 output reg memRead,
 output reg memToReg,
 output reg jump ,
-output reg [1:0] result_src // 🔥 NEW
+output reg jalr_sel, // NEW      
+output reg alu_pc_sel // NEW
+//output reg [1:0] result_src // 🔥 NEW
     );
     
     always @(*) begin
