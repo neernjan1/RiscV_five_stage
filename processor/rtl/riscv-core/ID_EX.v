@@ -9,7 +9,7 @@ module ID_EX(
     input rst,
     input stall, 
     input flush,
-    input id_ex_write, // Control signal to stall the pipeline by preventing the ID/EX register from updating
+     // Control signal to stall the pipeline by preventing the ID/EX register from updating
 
     input [31:0] pc_id ,
 

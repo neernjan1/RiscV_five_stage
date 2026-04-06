@@ -8,7 +8,7 @@ module data_memory(
     output [31:0] r_data
 );
 
-    reg [4096:0] data_mem [0:31];
+    reg [0:31] data_mem [0:4095];   // 16KB memory (4096 words of 32 bits each)
     integer i;
 
     // WRITE + RESET
