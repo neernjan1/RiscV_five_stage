@@ -37,12 +37,12 @@
 `define ALU_SRA          6'b001000
 `define ALU_OR           6'b001001
 `define ALU_AND          6'b001010
-`define ALU_SRAI         6'bXXXXXX
-// --- Immediate Instructions ---
+`define ALU_SRAI         6'b010110   // pick unused unique code// --- Immediate Instructions ---
 `define ALU_ADDI         6'b001011
 `define ALU_SLLI         6'b001100
 `define ALU_SLTI         6'b001101
-`define ALU_ANDI         6'b001110
+`define ALU_SLTIU        6'b001110      // ✅ NEW (choose unused code)
+`define ALU_ANDI         6'b100101
 `define ALU_XORI         6'b001111
 `define ALU_SRLI         6'b010000
 `define ALU_ORI          6'b010001
@@ -52,8 +52,8 @@
 `define ALU_L_BYTE       6'b010011
 `define ALU_L_HALF       6'b010100
 `define ALU_L_WORD       6'b010101
-`define ALU_L_BU         6'b010110
-`define ALU_L_HU         6'b010111
+`define ALU_L_BU         6'b011011
+`define ALU_L_HU         6'b011100
 
 // --- Store Instructions ---
 `define ALU_S_BYTE       6'b011000
@@ -61,12 +61,12 @@
 `define ALU_S_WORD       6'b011010
 
 // --- Branch Checks ---
-`define ALU_BEQ          6'b011011
-`define ALU_BNE          6'b011100
-`define ALU_BLT          6'b011101
-`define ALU_BGE          6'b011110
-`define ALU_BLTU         6'b100000
-`define ALU_BGEU         6'b011111
+`define ALU_BEQ          6'b110000
+`define ALU_BNE          6'b110001
+`define ALU_BLT          6'b110010
+`define ALU_BGE          6'b110011
+`define ALU_BLTU         6'b110100
+`define ALU_BGEU         6'b110101
 
 // --- Special Instructions ---
 `define ALU_LUI          6'b100001

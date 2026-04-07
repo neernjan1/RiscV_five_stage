@@ -16,8 +16,7 @@ always @(*) begin
         `ALU_SUB:  alu_result = src1 - src2;
         `ALU_SLL:  alu_result = src1 << src2[4:0];
         `ALU_SLT:  alu_result = ($signed(src1) < $signed(src2)) ? 1 : 0;
-        `ALU_SLTU: alu_result = (src1 < src2) ? 1 : 0;
-        `ALU_XOR:  alu_result = src1 ^ src2;
+        `ALU_SLTU: alu_result = ($unsigned(src1) < $unsigned(src2)) ? 32'd1 : 32'd0;        `ALU_XOR:  alu_result = src1 ^ src2;
         `ALU_SRL:  alu_result = src1 >> src2[4:0];
         `ALU_SRA:  alu_result = $signed(src1) >>> src2[4:0];
         `ALU_OR:   alu_result = src1 | src2;
@@ -26,9 +25,15 @@ always @(*) begin
         // --- I-Type (same ops, different source of src2) ---
         `ALU_ADDI: alu_result = src1 + src2;
         `ALU_SLLI: alu_result = src1 << src2[4:0];
+        
         `ALU_SLTI: alu_result = ($signed(src1) < $signed(src2)) ? 1 : 0;
+        `ALU_SLTIU:  alu_result = ($unsigned(src1) < $unsigned(src2)) ? 32'd1 : 32'd0; //New
+
         `ALU_XORI: alu_result = src1 ^ src2;
         `ALU_SRLI: alu_result = src1 >> src2[4:0];
+        `ALU_SRAI: begin
+                    alu_result = $signed(src1) >>> src2[4:0];
+                end
         `ALU_ORI:  alu_result = src1 | src2;
         `ALU_ANDI: alu_result = src1 & src2;
         `ALU_ANDI_ALT: alu_result = src1 & src2;

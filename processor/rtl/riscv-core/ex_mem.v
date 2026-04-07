@@ -12,6 +12,9 @@ module ex_mem (
     input mem_write_in,
     input mem_to_reg_in,
     input reg_write_in,
+    
+   
+    
 
     // Outputs
     output reg [31:0] alu_result_out,
@@ -21,7 +24,15 @@ module ex_mem (
     output reg mem_read_out,
     output reg mem_write_out,
     output reg mem_to_reg_out,
-    output reg reg_write_out 
+    output reg reg_write_out ,
+    
+    
+    
+    //operation passed for load store
+    input [5:0] operation_ex,
+    output reg[5:0] operation_mem
+    
+    
     // input  [31:0] pc_plus_4_ex, // 🔥 NEW
     // output reg [31:0] pc_plus_4_mem , // 🔥 NEW
     // // 🔥 ADD
@@ -39,6 +50,7 @@ always @(posedge clk) begin
         mem_write_out <= 0;
         mem_to_reg_out <= 0;
         reg_write_out <= 0;
+        operation_mem <= 0;
         // pc_plus_4_mem <= 0 ;// 🔥 NEW
         // result_src_mem <= 0 ;// 🔥 NEW
     end
@@ -51,6 +63,7 @@ always @(posedge clk) begin
         mem_write_out <= mem_write_in;
         mem_to_reg_out <= mem_to_reg_in;
         reg_write_out <= reg_write_in;
+        operation_mem <= operation_ex;
         // pc_plus_4_mem <= pc_plus_4_ex ;// 🔥 NEW
         // result_src_mem <= result_src_ex ; // 🔥 NEW
     end

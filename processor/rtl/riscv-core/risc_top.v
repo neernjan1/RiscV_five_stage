@@ -305,7 +305,8 @@ alu_control alu_ctrl (
     alu_op_ex,
     funct3_ex,
     funct7_ex,
-    operation
+    operation,
+    mem_write_ex
 );
 
 wire [31:0] alu_result_ex;
@@ -332,7 +333,7 @@ branch_decision bd (
     pc_src,
     flush
 );
-
+wire [5:0] operation_mem ;
 // ======================= EX/MEM =======================
 ex_mem ex_mem1 (
     .clk(clk),
@@ -357,7 +358,11 @@ ex_mem ex_mem1 (
     .mem_read_out(mem_read_mem),
     .mem_write_out(mem_write_mem),
     .mem_to_reg_out(mem_to_reg_mem),
-    .reg_write_out(reg_write_mem)
+    .reg_write_out(reg_write_mem),
+    
+    //operation passing for load store 
+    .operation_ex(operation),
+    .operation_mem(operation_mem)
 
   
     
@@ -371,6 +376,7 @@ data_memory dmem (
     .rst(rst),
     .addr(alu_result_mem),
     .w_data(write_data_mem),
+    .operation(operation_mem),
     .mem_read(mem_read_mem),
     .mem_write(mem_write_mem),
     .r_data(mem_result_mem)

@@ -17,17 +17,17 @@ output reg alu_pc_sel // NEW
     );
     
     always @(*) begin
-//        regWrite = 0;
-//        aluSrc   = 0;
-//        aluOp    = 3'b000;
-//        branch   = 0;
-//        memWrite = 0;
-//        memRead  = 0;
-//        memToReg = 0;
-//        jump = 0;
-          //jalr_sel = 0; // NEW      
-        //   alu_pc_sel = 0;// NEW
-                //  result_src = 2'b00;// 🔥 NEW
+        regWrite = 0;
+        aluSrc   = 0;
+        aluOp    = 3'b000;
+        branch   = 0;
+        memWrite = 0;
+        memRead  = 0;
+        memToReg = 0;
+        jump = 0;
+        jalr_sel = 0; // NEW      
+        alu_pc_sel = 0;// NEW
+        
     case(opcode)
     
     `OPCODE_R_TYPE: 

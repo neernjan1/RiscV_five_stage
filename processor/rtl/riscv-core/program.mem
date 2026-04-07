@@ -1,14 +1,25 @@
-0x00000093
-0x00100113
-0x00500193
-0x00000213
-0x06400513
-0x00152023
-0x00052303
-0x00450513
-0x002082B3
-0x000100B3
-0x00028133
-0x00120213
-0xFE3242E3
-0x00000013
+/*
+# main program
+addi x5, x0, 10       # x5 = 10
+addi x6, x0, 20       # x6 = 20
+
+jal x1, func          # call function (ra = x1)
+
+addi x7, x0, 99       # executes AFTER return
+addi x1, x7, 1
+
+# function
+func:
+add x10, x5, x6       # x10 = x5 + x6 = 30
+
+jalr x0, x1 ,0       # return to caller
+*/
+
+0x00A00293
+0x01400313
+0x00C000EF
+0x06300393
+0x00138093
+0x00628533
+0x00008067
+
