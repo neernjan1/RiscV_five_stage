@@ -8,11 +8,7 @@ module alu_control (
     
     input mem_write_ex //added for load and store differ
 );
-initial begin
-    $display("JAL   = %b", `ALU_JAL);
-    $display("JALR  = %b", `ALU_JALR);
-    $display("AUIPC = %b", `ALU_AUIPC);
-end
+
 always @(*) begin 
 
     operation = `ALU_ADD;
