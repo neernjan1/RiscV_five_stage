@@ -9,6 +9,7 @@ module ID_EX(
     input rst,
     input stall, 
     input flush,
+     // Control signal to stall the pipeline by preventing the ID/EX register from updating
 
     input [31:0] pc_id ,
 
@@ -32,6 +33,8 @@ module ID_EX(
     input memRead_id,
     input memToReg_id ,
     input jump_id,
+     input jalr_sel_id,     
+   input alu_pc_sel_id ,
 
   
     // OUTPUTS (EX STAGE)
@@ -57,7 +60,11 @@ module ID_EX(
     output reg memWrite_ex ,
     output reg memRead_ex,
     output reg memToReg_ex ,
-    output reg jump_ex
+    output reg jump_ex ,
+     output reg jalr_sel_ex,    
+   output reg alu_pc_sel_ex 
+
+
 );
 
     always @(posedge clk) begin
@@ -84,6 +91,9 @@ module ID_EX(
             memRead_ex      <= 0;
             memToReg_ex     <= 0;
             jump_ex         <= 0;
+              jalr_sel_ex <= 0;     
+             alu_pc_sel_ex <= 0;
+       
         end
 
       
@@ -110,6 +120,8 @@ module ID_EX(
             imm_val_ex      <= 0;
             funct3_ex       <= 0;
             funct7_ex       <= 0;
+                jalr_sel_ex <= 0;      
+                alu_pc_sel_ex <= 0;
         end
 
       
@@ -117,6 +129,18 @@ module ID_EX(
       
         else if (stall) begin
             // Do nothing → retain previous values
+             // Control signals cleared → NOP //added by me to prevent unintended writes during stall
+            regWrite_ex     <= 0;
+            aluSrc_ex       <= 0;
+            aluOp_ex        <= 0;
+            branch_ex       <= 0;
+            memWrite_ex     <= 0;
+            memRead_ex      <= 0;
+            memToReg_ex     <= 0;
+            jump_ex         <= 0;
+              jalr_sel_ex <= 0;    
+             alu_pc_sel_ex <= 0;
+        
         end
 
       
@@ -144,8 +168,13 @@ module ID_EX(
             memRead_ex      <= memRead_id;
             memToReg_ex     <= memToReg_id;
             jump_ex         <= jump_id;
+                jalr_sel_ex <= jalr_sel_id; 
+                 alu_pc_sel_ex <= alu_pc_sel_id;
+          
         end
 
     end
 
 endmodule
+
+

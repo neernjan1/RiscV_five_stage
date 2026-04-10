@@ -9,6 +9,7 @@ module ID_EX(
     input rst,
     input stall, 
     input flush,
+    input id_ex_write, // Control signal to stall the pipeline by preventing the ID/EX register from updating
 
     input [31:0] pc_id ,
 
@@ -31,6 +32,7 @@ module ID_EX(
     input memWrite_id ,
     input memRead_id,
     input memToReg_id ,
+    input jump_id,
 
   
     // OUTPUTS (EX STAGE)
@@ -55,7 +57,14 @@ module ID_EX(
     output reg branch_ex , 
     output reg memWrite_ex ,
     output reg memRead_ex,
-    output reg memToReg_ex
+    output reg memToReg_ex ,
+    output reg jump_ex ,
+
+  input  [31:0] pc_plus_4_id, // 🔥 NEW
+    output reg [31:0] pc_plus_4_ex,// 🔥 NEW
+    // 🔥 ADD
+    input [1:0] result_src_id,// 🔥 NEW
+    output reg [1:0] result_src_ex// 🔥 NEW
 );
 
     always @(posedge clk) begin
@@ -81,6 +90,9 @@ module ID_EX(
             memWrite_ex     <= 0;
             memRead_ex      <= 0;
             memToReg_ex     <= 0;
+            jump_ex         <= 0;
+          pc_plus_4_ex    <= 0;// 🔥 NEW
+            result_src_ex   <= 0 ;// 🔥 NEW
         end
 
       
@@ -95,6 +107,7 @@ module ID_EX(
             memWrite_ex     <= 0;
             memRead_ex      <= 0;
             memToReg_ex     <= 0;
+            jump_ex         <= 0;
 
             // Data (optional clear)
             pc_ex           <= 0;
@@ -106,6 +119,8 @@ module ID_EX(
             imm_val_ex      <= 0;
             funct3_ex       <= 0;
             funct7_ex       <= 0;
+          pc_plus_4_ex    <= 0;// 🔥 NEW
+            result_src_ex   <= 0 ;// 🔥 NEW
         end
 
       
@@ -113,6 +128,16 @@ module ID_EX(
       
         else if (stall) begin
             // Do nothing → retain previous values
+             // Control signals cleared → NOP //added by me to prevent unintended writes during stall
+            regWrite_ex     <= 0;
+            aluSrc_ex       <= 0;
+            aluOp_ex        <= 0;
+            branch_ex       <= 0;
+            memWrite_ex     <= 0;
+            memRead_ex      <= 0;
+            memToReg_ex     <= 0;
+            jump_ex         <= 0;
+          result_src_ex   <= 0 ;// 🔥 NEW
         end
 
       
@@ -139,6 +164,9 @@ module ID_EX(
             memWrite_ex     <= memWrite_id;
             memRead_ex      <= memRead_id;
             memToReg_ex     <= memToReg_id;
+            jump_ex         <= jump_id;
+           pc_plus_4_ex    <= pc_plus_4_id ; // 🔥 NEW
+            result_src_ex   <= result_src_id ;// 🔥 NEW
         end
 
     end

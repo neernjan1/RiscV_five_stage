@@ -11,7 +11,11 @@ module control_mux( // full change due to jal , jalr additon
     input memRead,
     input memToReg,
     input jump,
-    input [1:0] result_src,   // 🔥 NEW
+  
+
+   input jalr_sel,   
+   input alu_pc_sel ,
+               
 
     // OUTPUT CONTROL SIGNALS
     output reg regWrite_mux_out,
@@ -22,13 +26,15 @@ module control_mux( // full change due to jal , jalr additon
     output reg memRead_mux_out,
     output reg memToReg_mux_out,
     output reg jump_mux_out,
-    output reg [1:0] result_src_mux_out   // 🔥 NEW
+     output reg jalr_sel_out,   
+   output reg alu_pc_sel_out 
+               
+   
 );
-
 always @(*) begin
 
     if (control_mux_sel) begin
-        // 🔥 STALL → INSERT NOP
+        // STALL → INSERT NOP
         regWrite_mux_out = 0;
         aluSrc_mux_out   = 0;
         aluOp_mux_out    = 3'b000;
@@ -37,7 +43,9 @@ always @(*) begin
         memRead_mux_out  = 0;
         memToReg_mux_out = 0;
         jump_mux_out     = 0;
-        result_src_mux_out = 2'b00;   // 🔥 IMPORTANT
+        jalr_sel_out = 0;  
+        alu_pc_sel_out = 0;
+       
     end
     else begin
         // NORMAL FLOW
@@ -49,7 +57,9 @@ always @(*) begin
         memRead_mux_out  = memRead;
         memToReg_mux_out = memToReg;
         jump_mux_out     = jump;
-        result_src_mux_out = result_src;   // 🔥 IMPORTANT
+        jalr_sel_out = jalr_sel;   
+        alu_pc_sel_out = alu_pc_sel;
+    
     end
 
 end

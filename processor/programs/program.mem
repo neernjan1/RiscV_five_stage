@@ -49,7 +49,8 @@ c	    00008133	    add x2 x1 x0	add x2, x1, x0 #  RAW hazard (uses x1 immediatel
 
 
 
-/*	0	01200293	addi x5 x0 18	addi x5, x0, 12 # x5 = 12
+/*	
+0	01200293	addi x5 x0 18	addi x5, x0, 12 # x5 = 12
 4	03400313	addi x6 x0 52	addi x6, x0, 34 # x6 = 34
 8	05600393	addi x7 x0 86	addi x7, x0, 56 # x7 = 56
 c	07800413	addi x8 x0 120	addi x8, x0, 78 # x8 = 78

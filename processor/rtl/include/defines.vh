@@ -41,7 +41,7 @@
 `define ALU_ADDI         6'b001011
 `define ALU_SLLI         6'b001100
 `define ALU_SLTI         6'b001101
-`define ALU_SLTIU        6'b001110      // ✅ NEW (choose unused code)
+`define ALU_SLTIU        6'b001110      
 `define ALU_ANDI         6'b100101
 `define ALU_XORI         6'b001111
 `define ALU_SRLI         6'b010000

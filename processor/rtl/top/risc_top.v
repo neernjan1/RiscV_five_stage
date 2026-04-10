@@ -120,8 +120,8 @@ control ctrl (
     mem_read_id,
     mem_to_reg_id,
     jump_id,
-    jalr_sel_id,      // ✅ ADD
-    alu_pc_sel_id    // ✅ ADD
+    jalr_sel_id,      
+    alu_pc_sel_id    
    
 );
 
@@ -141,8 +141,8 @@ control_mux cmux (
     mem_read_id,
     mem_to_reg_id,
     jump_id,
-    jalr_sel_id, // NEW      
-    alu_pc_sel_id, // NEW
+    jalr_sel_id,    
+    alu_pc_sel_id, 
    
 
     reg_write_id_mux,
@@ -153,8 +153,8 @@ control_mux cmux (
     mem_read_id_mux,
     mem_to_reg_id_mux,
     jump_id_mux,
-    jalr_sel_id_mux, // NEW
-    alu_pc_sel_id_mux // NEW
+    jalr_sel_id_mux, 
+    alu_pc_sel_id_mux 
     
 );
 
@@ -174,7 +174,7 @@ ID_EX id_ex1 (
     .flush(flush),
 
     .pc_id(pc_id),
-    //.pc_plus_4_id(pc_plus_4_id),
+  
 
     .rs1_id(rs1_id),
     .rs2_id(rs2_id),
@@ -195,9 +195,8 @@ ID_EX id_ex1 (
     .memRead_id(mem_read_id_mux),
     .memToReg_id(mem_to_reg_id_mux),
     .jump_id(jump_id_mux),
-    .jalr_sel_id(jalr_sel_id_mux), // NEW
-    .alu_pc_sel_id(alu_pc_sel_id_mux), // NEW
-//outputs
+    .jalr_sel_id(jalr_sel_id_mux),
+    .alu_pc_sel_id(alu_pc_sel_id_mux),
     .pc_ex(pc_ex),
     
 
@@ -220,8 +219,8 @@ ID_EX id_ex1 (
     .memRead_ex(mem_read_ex),
     .memToReg_ex(mem_to_reg_ex),
     .jump_ex(jump_ex),
-        .jalr_sel_ex(jalr_sel_ex), // NEW
-    .alu_pc_sel_ex(alu_pc_sel_ex) // NEW
+        .jalr_sel_ex(jalr_sel_ex), 
+    .alu_pc_sel_ex(alu_pc_sel_ex) 
 
 
     
@@ -281,23 +280,7 @@ mux_jalr m5 (
     .pc(pc_ex),
     .jalr_sel(jalr_sel_ex),
     .pc_offset_in(pc_int_offset)
-); //check inputs
-
-
-// muxSrcPc m4 (
-//     alu_pc_sel_ex,
-//     src1,
-//     pc_ex,
-//     src1_forwarded
-// ); //check inputs
-
-// mux_jalr m5 (
-//     jalr_sel_ex,
-//     src1_forwarded,
-//     imm_val_ex,
-//     pc_target
-// ); //check inputs
-
+); 
 
 wire [5:0] operation;
 
