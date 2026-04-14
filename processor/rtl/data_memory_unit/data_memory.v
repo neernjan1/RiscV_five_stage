@@ -20,7 +20,8 @@ module data_memory(
             for (i = 0; i < 16384; i = i + 1) begin
                 mem[i] <= 8'b0;
             end
-        end else if (mem_write && addr < 16384-3)  begin // Ensure we don't write out of bounds
+        end else if (mem_write )  begin // Ensure we don't write out of bounds && addr < 16384-3
+            $display("MEM[%0d]  =   %0d",addr,w_data);
             case (operation)
                 `ALU_S_BYTE: mem[addr] <= w_data[7:0];
                 `ALU_S_HALF: begin 
@@ -39,7 +40,7 @@ module data_memory(
 
     // --- Reading (LB, LBU, LH, LHU, LW) ---
     always @(*) begin 
-        if (mem_read && addr < 16384-3) begin // Ensure we don't read out of bounds
+        if (mem_read ) begin // Ensure we don't read out of bounds && addr < 16384-3
             case (operation)
                 `ALU_L_BYTE: r_data = {{24{mem[addr][7]}}, mem[addr]}; // Sign extend
                 `ALU_L_BU:   r_data = {24'b0, mem[addr]};             // Zero extend

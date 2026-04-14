@@ -34,7 +34,7 @@ end
 // 🔹 Simulation Control
 //--------------------------------------
 initial begin
-    #300; // Run simulation for 300ns (adjust as needed)
+    #300000; // Run simulation for 300ns (adjust as needed)
      $display("-------------------------------------------------------------");
     $display("\n✅Waveform Dump Complete: 'riscv_core.vcd'");
    
@@ -57,18 +57,16 @@ end
 //--------------------------------------
 initial begin
     $display("-------------------------------------------------------------");
-    $display(" Time    |   x0    x1    x2    x5    x6    x7    x10 ");
+    $display(" Time    |   x0    x1    x2    x3    x4");
     $display("-------------------------------------------------------------");
 
-    $monitor("%8t | %4d  %4d  %4d  %4d  %4d  %4d  %4d",
+    $monitor("%8t | %4d  %4d  %4d  %4d  %4d  ",
         $time,
         uut.rf.register[0],
         uut.rf.register[1],
         uut.rf.register[2],
-        uut.rf.register[5],
-        uut.rf.register[6],
-        uut.rf.register[7],
-        uut.rf.register[10]
+        uut.rf.register[3],
+        uut.rf.register[4]
     );
     
 end
