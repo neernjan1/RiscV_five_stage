@@ -108,10 +108,9 @@ Generates datapath control signals based on the instruction opcode:
 ## Register Names
 
 ![Register Names](./processor/docs/registerNames.png)
-```
 
-![Register Names](./processor/docs/registerNames.png)
-```
+---
+
 ## 🧩 Repository Structure
 
 ```
@@ -196,14 +195,24 @@ gedit program.mem      # edit hex instructions directly
 ## 📐 Block Diagrams
 
 All architecture diagrams are stored in [`processor/docs/`](./processor/docs/).
-![Final Block Diagram ] (./processor/docs/block.png)
+
+
+
+![final Diagram](./processor/docs/block.png)
+---
+
 ![Block Diagram](./processor/docs/BLOCK.jpeg)
+
 ![IF Block Diagram](./processor/docs/IF_block_diagram.jpeg)
+
 ![dataMem Block Diagram](./processor/docs/data_mem_block.jpeg)
+
 ![Block Diagram](./processor/docs/example.jpeg)
 
 ![Pipeline Diagram](./processor/docs/pipeline_diagram.png)
+
 ![Hazard Unit](./processor/docs/hazard_unit.png)
+
 ![Forwarding Unit](./processor/docs/forwarding_unit.png)
 
 
