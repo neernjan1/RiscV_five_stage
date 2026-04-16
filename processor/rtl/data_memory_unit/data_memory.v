@@ -1,3 +1,4 @@
+`include "defines.vh"
 module data_memory(
     input clk,
     input rst,

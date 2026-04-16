@@ -1,0 +1,15 @@
+/*
+addi x1, x0, 10   # x1 = 10
+addi x2, x0, 1    # x2 = 1
+loop:
+sub x1, x1, x2    # x1 -= 1
+bne x1, x0, loop  # continue if x1 != 0
+l2:
+jal x0,  l2       # stop execution
+*/
+
+0x00A00093
+0x00100113
+0x402080B3
+0xFE009EE3
+0x0000006F
