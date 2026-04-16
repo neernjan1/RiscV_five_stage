@@ -60,13 +60,14 @@ initial begin
     $display(" Time    |   x0    x1    x2    x3    x4");
     $display("-------------------------------------------------------------");
 
-    $monitor("%8t | %4d  %4d  %4d  %4d  %4d  ",
+    $monitor("%8t | %4h  %4h  %4h  %4h  %4h  ",
         $time,
         uut.rf.register[0],
         uut.rf.register[1],
         uut.rf.register[2],
         uut.rf.register[3],
-        uut.rf.register[4]
+        uut.rf.register[4],
+        
     );
     
 end

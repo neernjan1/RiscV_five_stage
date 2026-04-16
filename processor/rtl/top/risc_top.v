@@ -28,6 +28,14 @@ wire [31:0] instruction_code_if;
 
 wire pc_src, pc_write, if_id_write, flush;
 
+//wires required for APB interface
+wire stall_mem;
+wire [31:0] mem_result_final;
+// APB interface signals INPUT  FROM PERIPHERALS
+wire [31:0] mem_rdata ,uart_PRDATA, gpio_PRDATA, spi_PRDATA, ascon_PRDATA, i2c_PRDATA, plic_PRDATA, timer_PRDATA, clint_PRDATA;
+wire uart_PREADY, gpio_PREADY, spi_PREADY, ascon_PREADY, i2c_PREADY, plic_PREADY, timer_PREADY, clint_PREADY;
+
+
 mux mux_if (
     pc_plus_4,
     pc_target,
@@ -38,7 +46,7 @@ mux mux_if (
 pc pc_if (
     clk,
     rst,
-    pc_write,
+    pc_write & ~stall_mem,
     next_pc,
     pc
 );
@@ -60,7 +68,7 @@ IF_ID if_id_reg (
     clk,
     rst,
     flush,
-    if_id_write,
+    if_id_write & ~stall_mem,
     instruction_code_if,
     pc,
     pc_plus_4,
@@ -170,7 +178,7 @@ wire mem_write_ex, mem_read_ex, mem_to_reg_ex, jump_ex;
 ID_EX id_ex1 (
     .clk(clk),
     .rst(rst),
-    .stall(control_mux_sel_id),
+    .stall(control_mux_sel_id | stall_mem), // Stall the pipeline if there's a hazard or if APB is busy 
     .flush(flush),
 
     .pc_id(pc_id),
@@ -370,7 +378,7 @@ mem_wb mem_wb1 (
     .clk(clk),
     .rst(rst),
     .alu_result_mem(alu_result_mem),
-    .read_data_mem(mem_result_mem),
+    .read_data_mem(mem_result_final), // This will be the output from APB or data memory based on address decoding
     .reg_write_mem(reg_write_mem),
     .mem_to_reg_mem(mem_to_reg_mem),
     .rd_mem(rd_mem),
@@ -401,6 +409,42 @@ hazard_detection hz (
     if_id_write,
 ID_EX_write, // This signal is used inside the ID/EX register to stall it   
     control_mux_sel_id
+);
+
+
+// ======================= APB =======================
+
+//instantiation of APB interface module
+apb_top apb_interface (
+    .clk(clk),
+    .rst(rst),  
+    .addr(alu_result_mem), // Address from MEM stage //add more conditions
+    .wdata(write_data_mem), // Write data from MEM stage //for mem or apb
+    .mem_read(mem_read_mem), // Memory read signal from MEM stage
+    .mem_write(mem_write_mem), // Memory write signal from MEM stage    
+    .rdata(mem_result_final) ,// Read data to MEM stage //or apb read data
+    // Connect other APB signals as needed
+
+    .stall_mem(stall_mem), // Connect to hazard detection if needed
+    .mem_rdata(mem_result_mem), // Connect to data memory read data
+
+    // Peripheral side connections // Connection to actual peripherals
+    .uart_PRDATA(32'd543), // Connect to UART peripheral
+    .uart_PREADY(1'b1), // Connect to UART peripheral
+    .gpio_PRDATA(32'b0), // Connect to GPIO peripheral
+    .gpio_PREADY(1'b1), // Connect to GPIO peripheral
+    .spi_PRDATA(32'b0), // Connect to SPI peripheral
+    .spi_PREADY(1'b1), // Connect to SPI peripheral 
+    .ascon_PRDATA(32'b0), // Connect to ASCON peripheral
+    .ascon_PREADY(1'b1), // Connect to ASCON peripheral
+    .i2c_PRDATA(32'b0), // Connect to I2C peripheral
+    .i2c_PREADY(1'b1), // Connect to I2C peripheral
+    .plic_PRDATA(32'b0), // Connect to PLIC peripheral
+    .plic_PREADY(1'b1), // Connect to PLIC peripheral
+    .timer_PRDATA(32'b0), // Connect to Timer peripheral
+    .timer_PREADY(1'b1), // Connect to Timer peripheral
+    .clint_PRDATA(32'b0), // Connect to CLINT peripheral
+    .clint_PREADY(1'b1) // Connect to CLINT peripheral
 );
 
 endmodule

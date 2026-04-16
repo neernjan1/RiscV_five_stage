@@ -1,0 +1,235 @@
+/*
+PC	    Machine Code	Basic Code	    Original Code
+0x0 	0x00500093	    addi x1 x0 5	addi x1 x0 5
+0x4	    0x00800113	    addi x2 x0 8	addi x2 x0 8
+0x8	    0x00102023	    sw x1 0(x0) 	sw x1 0(x0)
+0xc	    0x00202223	    sw x2 4(x0)	    sw x2 4(x0)
+0x10	0x00002183	    lw x3 0(x0)	    lw x3 0(x0)
+0x14	0x00402203	    lw x4 4(x0)	    lw x4 4(x0)
+
+
+0x00500093
+0x00800113
+0x00102023
+0x00202223
+0x00002183
+0x00402203
+*/
+/*
+// fibbonacci sequence 
+0x00000093
+0x00008313
+0x00000113
+0x00100193
+0x00232023
+0x00430313
+0x00332023
+0x00430313
+0x06200293
+0x00310233
+0x00432023
+0x00430313
+0x00018133
+0x000201B3
+0xFFF28293
+0xFE0294E3
+0x00000013
+0x00000013
+*/
+//increasing powers of three 
+/*
+0x00000093
+0x00100113
+0x05000193
+0x0020A023
+0x00210233
+0x00220233
+0x00020133
+0x00408093
+0xFFF18193
+0xFE0194E3
+0x00000013
+0x00000013
+*/
+//reverse the array 
+/*
+0x00000093
+0x00100113
+0x01400193
+0x0020A023
+0x00408093
+0x00110113
+0xFFF18193
+0xFE0198E3
+0x04C00213
+0x05000293
+0x01400313
+0x00022383
+0x0072A023
+0xFFC20213
+0x00428293
+0xFFF30313
+0xFE0316E3
+*/
+//add 10 and then reverse
+/*
+0x00000093
+0x00000113
+0x01400193
+0x0020A023
+0x00408093
+0x00A10113
+0xFFF18193
+0xFE0198E3
+0x04C00213
+0x05000293
+0x01400313
+0x00022383
+0x0072A023
+0xFFC20213
+0x00428293
+0xFFF30313
+0xFE0316E3
+*/
+/*stack issue
+0x10010137
+0x00010113
+0x00500293
+0xFFC10113
+0x00512023
+0x00700293
+0xFFC10113
+0x00512023
+0x00012303
+0x00410113
+0x00012383
+0x00410113
+0x00730E33
+*/
+//student record program and finding record 
+/*
+0x00000513
+0x00100593
+0x02800613
+0x00B52023
+0x02858693
+0x00D52223
+0x03C58713
+0x00E52423
+0x00C50513
+0x00158593
+0xFFF60613
+0xFE0610E3
+0x00000513
+0x02800613
+0x00052783
+0x00452803
+0x00852883
+0x03200913
+0x01284E63
+0x04B00913
+0x0128CA63
+0x000780B3
+0x00080133
+0x000881B3
+0x0100006F
+0x00C50513
+0xFFF60613
+0xFC0616E3
+0x00000013
+*/
+
+//real life progam 
+/*
+# -----------------------------
+# STORE STUDENT DATA
+# -----------------------------
+addi x10, x0, 0        # base pointer
+addi x11, x0, 1        # roll number
+addi x12, x0, 40       # count
+
+store_loop:
+
+    # roll
+    sw x11, 0(x10)
+
+    # marks (example pattern)
+    addi x13, x11, 40
+    sw x13, 4(x10)
+
+    # attendance (example pattern)
+    addi x14, x11, 60
+    sw x14, 8(x10)
+
+    # next student
+    addi x10, x10, 12
+    addi x11, x11, 1
+    addi x12, x12, -1
+
+    bne x12, x0, store_loop
+
+
+# -----------------------------
+# FIND SELECTED STUDENT
+# -----------------------------
+addi x10, x0, 0        # pointer reset
+addi x12, x0, 40       # count
+
+find_loop:
+
+    lw x15, 0(x10)     # roll
+    lw x16, 4(x10)     # marks
+    lw x17, 8(x10)     # attendance
+
+    # check marks >= 50
+    addi x18, x0, 60
+    blt x16, x18, skip
+
+    # check attendance >= 75
+    addi x18, x0, 85
+    blt x17, x18, skip
+
+    # SELECTED → store in required registers
+    add x1, x15, x0
+    add x2, x16, x0
+    add x3, x17, x0
+
+    jal x0, end_program
+
+skip:
+    addi x10, x10, 12
+    addi x12, x12, -1
+    bne x12, x0, find_loop
+
+end_program:
+    nop
+*/
+0x00000513
+0x00100593
+0x02800613
+0x00B52023
+0x02858693
+0x00D52223
+0x03C58713
+0x00E52423
+0x00C50513
+0x00158593
+0xFFF60613
+0xFE0610E3
+0x00000513
+0x02800613
+0x00052783
+0x00452803
+0x00852883
+0x03C00913
+0x01284E63
+0x05500913
+0x0128CA63
+0x000780B3
+0x00080133
+0x000881B3
+0x0100006F
+0x00C50513
+0xFFF60613
+0xFC0616E3
+0x00000013
