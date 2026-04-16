@@ -1,0 +1,71 @@
+//program 1
+/*
+//00500093   // addi x1, x0, 5
+//00600113   // addi x2, x0, 6
+//002081b3   // add  x3, x1, x2   (x3 = 11)
+//00302023   // sw   x3, 0(x0)
+//00002283   // lw   x5, 0(x0)    (x5 = 11)
+*/ //verified above 
+
+//program 2
+/*
+00500093   // x1 = 5
+00500113   // x2 = 5
+00208663   // beq x1, x2, skip
+00100193   // x3 = 1  (should be skipped)
+*/ //verified beq 
+
+//program 3 verified
+/*
+00500093
+00308113
+*/
+
+//program 4 verified
+/*
+00500093
+00112023
+00013203
+*/
+//program 5  problem load use hazard
+//00012083
+//00208193
+
+//program 6 verified
+/*
+00500093
+00500113
+00208463
+00100193
+00200213
+*/
+//program 7 problem load use hazard
+/*0x00500113 
+0x00212023
+0x00012083
+//0x00000013
+0x0000A183*/
+
+//same just comments for understanding 
+0x00500113  // → addi x2, x0, 5 works
+0x00212023  // → sw   x2, 0(x2) 
+0x00012083  // → lw   x1, 0(x2)
+//0x00000013 // nop works with this..perfectly
+0x0000A183  // → lw   x3, 0(x1)
+
+/*
+//for load hazard final program 
+0x00A00113
+0x06300213
+0x00412023
+0x00012083
+0x001081B3
+*/
+
+
+
+
+
+
+
+
