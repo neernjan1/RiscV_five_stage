@@ -1,15 +1,16 @@
 #--------------------------------------
 # 🔹 Tools
 #--------------------------------------
-IVERILOG = iverilog -I ../rtl/include
+IVERILOG = iverilog -I ../../rtl/include
 VVP = vvp
 
 #--------------------------------------
 # 🔹 Paths
 #--------------------------------------
-RTL_DIR = ../rtl
-TB = ../testbench/top_tb.v
-OUT = ../simulations/out.vvp
+RTL_DIR = ../../rtl
+#TB = ../../testbench/top_tb.v
+TB = ../../tb/icarus/top_tb.v
+OUT = ../../results/out.vvp
 
 # Collect all RTL sources (recursive)
 RTL_SRC = $(shell find $(RTL_DIR) -type f -name "*.v")

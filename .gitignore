@@ -1,2 +1,46 @@
-*.vcd
+# =========================
+# BUILD / SIMULATION OUTPUT
+# =========================
+
+# Verilator
+sim/verilator/obj_dir/
+obj_dir/
+
+# Icarus / VVP
 *.vvp
+*.out
+
+# Compiled objects
+*.o
+*.d
+*.a
+
+# Generated C++ (Verilator)
+*.cpp
+*.h
+
+# Waveforms
+*.vcd
+*.fst
+
+# Logs
+*.log
+
+# =========================
+# IMAGES / TEMP FILES
+# =========================
+#*.png
+#*.jpg
+#*.jpeg
+
+# =========================
+# OS / EDITOR
+# =========================
+.DS_Store
+*.swp
+
+# =========================
+# OPTIONAL (if generated)
+# =========================
+coverage/
+build/
