@@ -18,10 +18,10 @@ module data_memory(
             // Initialize memory to zero on reset
           
             for (i = 0; i < 16384; i = i + 1) begin
-                mem[i] <= 8'b0;
+                mem[i] = 8'b0;
             end
         end else if (mem_write )  begin // Ensure we don't write out of bounds && addr < 16384-3
-            $display("MEM[%0d]  =   %0d",addr,w_data);
+           // $display("MEM[%0d]  =   %0d",addr,w_data); //only for debug with iverilog, remove later
             case (operation)
                 `ALU_S_BYTE: mem[addr] <= w_data[7:0];
                 `ALU_S_HALF: begin 
