@@ -1,0 +1,25 @@
+
+/home/neeraj/Desktop/processor/processor_verification/processor/gcc_files/tst_spike.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+80000000 <_start>:
+80000000:	00001117          	auipc	sp,0x1
+80000004:	20010113          	addi	sp,sp,512 # 80001200 <_stack_top>
+80000008:	008000ef          	jal	80000010 <main>
+
+8000000c <trap>:
+8000000c:	0000006f          	j	8000000c <trap>
+
+80000010 <main>:
+80000010:	00b00713          	li	a4,11
+80000014:	00100793          	li	a5,1
+80000018:	00000513          	li	a0,0
+8000001c:	0080006f          	j	80000024 <main+0x14>
+80000020:	00068513          	mv	a0,a3
+80000024:	fff70713          	addi	a4,a4,-1
+80000028:	00078693          	mv	a3,a5
+8000002c:	00a787b3          	add	a5,a5,a0
+80000030:	fe0718e3          	bnez	a4,80000020 <main+0x10>
+80000034:	00008067          	ret

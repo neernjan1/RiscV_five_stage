@@ -1,0 +1,25 @@
+
+/home/neeraj/Desktop/processor/processor_verification/processor/gcc_files/tst.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	00001117          	auipc	sp,0x1
+   4:	20010113          	addi	sp,sp,512 # 1200 <_stack_top>
+   8:	008000ef          	jal	10 <main>
+
+0000000c <trap>:
+   c:	0000006f          	j	c <trap>
+
+00000010 <main>:
+  10:	00b00713          	li	a4,11
+  14:	00100793          	li	a5,1
+  18:	00000513          	li	a0,0
+  1c:	0080006f          	j	24 <main+0x14>
+  20:	00068513          	mv	a0,a3
+  24:	fff70713          	addi	a4,a4,-1
+  28:	00078693          	mv	a3,a5
+  2c:	00a787b3          	add	a5,a5,a0
+  30:	fe0718e3          	bnez	a4,20 <main+0x10>
+  34:	00008067          	ret
