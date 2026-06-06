@@ -1,0 +1,36 @@
+# {{ HEADER_AUTOGEN }}
+set ROOT "{{ root }}"
+{# Separate compilation: one block per source group -#}
+{% if compilation_mode == 'separate' -%}
+{%- for group in srcs %}
+{% if source_annotations %}# {{ group.metadata }}
+{% endif %}add_files -norecurse -fileset [current_fileset] [list \
+    {% for file in group.files %}{% if source_annotations %}{% if file.comment %}# {{ file.comment }}
+    {% endif %}{% endif %}{{ file.file | replace(from=root, to='$ROOT') }} \
+{% if not loop.last %}    {% endif %}{% endfor %}]
+{% endfor -%}
+{# Common compilation: all files in one block -#}
+{%- else -%}
+{%- for file in all_files -%}
+{%- if loop.first %}add_files -norecurse -fileset [current_fileset] [list \
+    {% endif %}{% if source_annotations %}{% if file.comment %}# {{ file.comment }}
+    {% endif %}{% endif %}{{ file.file | replace(from=root, to='$ROOT') }} \
+{% if not loop.last %}    {% endif %}{% if loop.last %}]
+{% endif %}{% endfor %}{% endif -%}
+{# Set include directories and defines for each fileset -#}
+{%- for arg in vivado_filesets -%}
+{%- for incdir in all_incdirs -%}
+{%- if loop.first %}
+set_property include_dirs [list \
+    {% endif %}{{incdir | replace(from=root, to='$ROOT') }}{%if loop.last %} \
+] [current_fileset{{ arg }}]
+{% else %} \
+    {% endif %}{% endfor %}{% endfor -%}
+{%- for arg in vivado_filesets -%}
+{%- for define in all_defines -%}
+{%- if loop.first %}
+set_property verilog_define [list \
+    {% endif %}{{ define.0 }}{% if define.1 %}={{ define.1 }}{% endif %}{% if loop.last %} \
+] [current_fileset{{ arg }}]
+{% else %} \
+    {% endif %}{% endfor %}{% endfor %}

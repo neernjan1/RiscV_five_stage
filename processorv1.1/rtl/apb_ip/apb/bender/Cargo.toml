@@ -1,0 +1,66 @@
+[package]
+name = "bender"
+version = "0.31.0"
+authors = [
+  "Fabian Schuiki <fschuiki@iis.ee.ethz.ch>",
+  "Andreas Kurth <akurth@iis.ee.ethz.ch>",
+  "Michael Rogenmoser <michael@rogenmoser.us>",
+]
+repository = "https://github.com/pulp-platform/bender"
+description = "A dependency management tool for hardware projects."
+readme = "README.md"
+license = "Apache-2.0 OR MIT"
+edition = "2024"
+rust-version = "1.87.0"
+
+[workspace]
+members = ["crates/bender-slang"]
+
+[profile.dist]
+inherits = "release"
+lto = "thin"
+
+[dependencies]
+bender-slang = { version = "0.1.0", path = "crates/bender-slang", optional = true }
+
+serde = { version = "1", features = ["derive"] }
+serde_yaml_ng = "0.10"
+serde_json = "1"
+
+futures = "0.3"
+tokio = { version = "1.27", features = ["full"] }
+async-recursion = "1.0"
+
+clap = { version = "4.0", features = ["derive", "env"] }
+clap_complete = "4.0"
+semver = { version = "1.0", features = ["serde"] }
+blake2 = "0.10"
+typed-arena = "2"
+dirs = "6"
+pathdiff = "0.2"
+itertools = "0.14"
+tabwriter = "1.2.1"
+indexmap = { version = "2", features = ["serde"] }
+tempfile = "3.5"
+glob = "0.3"
+walkdir = "2"
+subst = "0.3"
+tera = "1.19"
+miette = "7.6.0"
+thiserror = "2.0.18"
+owo-colors = { version = "4.2.3", features = ["supports-colors"] }
+indicatif = "0.18.3"
+regex = "1.12.2"
+log = "0.4"
+env_logger = { version = "0.11", default-features = false, features = ["auto-color"] }
+
+[target.'cfg(windows)'.dependencies]
+dunce = "1.0.4"
+
+[dev-dependencies]
+assert_cmd = "2.1.1"
+pretty_assertions = "1.4"
+
+[features]
+default = ["slang"]
+slang = ["dep:bender-slang"]

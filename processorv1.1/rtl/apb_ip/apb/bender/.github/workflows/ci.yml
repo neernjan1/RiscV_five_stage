@@ -1,0 +1,74 @@
+name: ci
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test (${{ matrix.os }}, Rust ${{ matrix.rust }})
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.rust == 'nightly' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # Linux runs the full Rust version matrix; Windows and macOS test stable only.
+        os: [ubuntu-latest]
+        rust: [stable, beta, nightly, "1.87.0"]
+        include:
+          - os: windows-latest
+            rust: stable
+          - os: macos-latest
+            rust: stable
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: ${{ matrix.rust }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: cargo-${{ matrix.os }}-${{ matrix.rust }}
+      - name: Build
+        run: cargo build
+      - name: Cargo Test
+        run: cargo test --workspace
+      - name: Run unit-tests
+        run: tests/run_all.sh
+        shell: bash
+
+  clippy_check:
+    name: Clippy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: cargo-${{ runner.os }}-stable
+      - run: cargo clippy
+
+  unused-deps:
+    name: Unused Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+      - name: Install machete
+        run: cargo install cargo-machete
+      - name: Check for unused dependencies
+        run: cargo machete

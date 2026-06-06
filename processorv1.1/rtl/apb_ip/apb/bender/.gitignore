@@ -1,0 +1,10 @@
+# Cargo build files
+target
+
+# Temporary test files
+tests/**/tmp
+tests/**/.bender
+
+# clangd
+.cache/clangd
+crates/bender-slang/cpp/compile_flags.txt

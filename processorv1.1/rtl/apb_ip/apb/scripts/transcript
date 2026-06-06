@@ -1,0 +1,857 @@
+# ** Note: (vsim-220) '/home/neeraj/altera_standard/25.1std/questa_fse/linux_x86_64/../modelsim.ini' is used as the ini file.
+# vsim tb_apb_regs -64 -t 1ns -coverage -lib work -voptargs="+acc +cover=bcesfx" 
+# Start time: 21:11:30 on Apr 23,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 linux_x86_64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.apb_pkg(fast)
+# Loading work.cf_math_pkg(fast)
+# Loading work.APB_DV(fast)
+# Loading work.apb_test(fast)
+# Loading work.tb_apb_regs(fast)
+# Loading work.APB_DV(fast__2)
+# Loading work.APB(fast__1)
+# Loading work.clk_rst_gen(fast)
+# Loading work.apb_regs_intf(fast)
+# Loading work.apb_regs(fast)
+# Loading work.addr_decode(fast)
+# Loading work.addr_decode_dync(fast)
+run -all
+# Write addr: 30000
+# Write data: 0 strb: f
+# Write resp: 0
+# Update golden model
+# ** Info: Write bit @c000, bit: 0
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: 1
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: 2
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: 3
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: 4
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: 5
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: 6
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: 7
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: 8
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: 9
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: a
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: b
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: c
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: d
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: e
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# ** Info: Write bit @c000, bit: f
+#    Time: 170 ns  Scope: tb_apb_regs.proc_apb_master File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 122
+# Read from addr: 2ff00
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff01
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff02
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff03
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff04
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff05
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff06
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff07
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff08
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff09
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff0a
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff0b
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff0c
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff0d
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff0e
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff0f
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff10
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff11
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff12
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff13
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff14
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff15
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff16
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff17
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff18
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff19
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff1a
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff1b
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff1c
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff1d
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff1e
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff1f
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff20
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff21
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff22
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff23
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff24
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff25
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff26
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff27
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff28
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff29
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff2a
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff2b
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff2c
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff2d
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff2e
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff2f
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff30
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff31
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff32
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff33
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff34
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff35
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff36
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff37
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff38
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff39
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff3a
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff3b
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff3c
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff3d
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff3e
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff3f
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff40
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff41
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff42
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff43
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff44
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff45
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff46
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff47
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff48
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff49
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff4a
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff4b
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff4c
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff4d
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff4e
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff4f
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff50
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff51
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff52
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff53
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff54
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff55
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff56
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff57
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff58
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff59
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff5a
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff5b
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff5c
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff5d
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff5e
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff5f
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff60
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff61
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff62
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff63
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff64
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff65
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff66
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff67
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff68
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff69
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff6a
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff6b
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff6c
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff6d
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff6e
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff6f
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff70
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff71
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff72
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff73
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff74
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff75
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff76
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff77
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff78
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff79
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff7a
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff7b
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff7c
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff7d
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff7e
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff7f
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff80
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff81
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff82
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff83
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff84
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff85
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff86
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff87
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff88
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff89
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff8a
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff8b
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff8c
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff8d
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff8e
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff8f
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff90
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff91
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff92
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff93
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff94
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff95
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff96
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff97
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff98
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff99
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff9a
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff9b
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff9c
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff9d
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff9e
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ff9f
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffa0
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffa1
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffa2
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffa3
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffa4
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffa5
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffa6
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffa7
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffa8
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffa9
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffaa
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffab
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffac
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffad
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffae
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffaf
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffb0
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffb1
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffb2
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffb3
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffb4
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffb5
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffb6
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffb7
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffb8
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffb9
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffba
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffbb
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffbc
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffbd
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffbe
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffbf
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffc0
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffc1
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffc2
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffc3
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffc4
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffc5
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffc6
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffc7
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffc8
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffc9
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffca
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffcb
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffcc
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffcd
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffce
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffcf
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffd0
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffd1
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffd2
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffd3
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffd4
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffd5
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffd6
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffd7
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffd8
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffd9
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffda
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffdb
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffdc
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffdd
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffde
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffdf
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffe0
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffe1
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffe2
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffe3
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffe4
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffe5
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffe6
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffe7
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffe8
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffe9
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffea
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffeb
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffec
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffed
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffee
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffef
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fff0
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fff1
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fff2
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fff3
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fff4
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fff5
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fff6
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fff7
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fff8
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fff9
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fffa
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fffb
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fffc
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fffd
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2fffe
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 2ffff
+# Read data: 3adb10c
+# Read resp: 1
+# Read from addr: 30000
+# Read data: 0
+# Read resp: 0
+# Read from addr: 30001
+# Read data: 0
+# Read resp: 0
+# Read from addr: 30002
+# Read data: 0
+# Read resp: 0
+# Read from addr: 30003
+# Read data: 0
+# Read resp: 0
+# Read from addr: 30004
+# Read data: 0
+# Read resp: 0
+# ** Fatal: Unexpected read response!
+#    Time: 11490 ns Started: 11490 ns  Scope: tb_apb_regs.correct_rdata File: /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv Line: 240
+# ** Note: $finish    : /home/neeraj/Desktop/processor/processor/rtl/apb_ip/apb/test/tb_apb_regs.sv(240)
+#    Time: 11490 ns  Iteration: 1  Instance: /tb_apb_regs/correct_rdata
+# End time: 21:11:31 on Apr 23,2026, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 0
