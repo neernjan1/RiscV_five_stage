@@ -1,2 +1,0 @@
-module broken(;
-endmodule

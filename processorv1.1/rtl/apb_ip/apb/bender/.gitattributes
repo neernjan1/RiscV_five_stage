@@ -1,3 +1,0 @@
-# Force all text files to always use LF (Unix) line endings on checkout,
-# even on Windows. This makes include_str! deterministic.
-* text eol=lf
