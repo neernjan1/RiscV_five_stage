@@ -1,9 +1,0 @@
-//for spike
-
-riscv32-unknown-elf-gcc -nostdlib -T link_sp.ld crt0.S tst.c -o spike.elf
-spike --isa=RV32I -l spike.elf | head -n 200 > spike_trace.txt
-
-//for own cpu model
-riscv32-unknown-elf-gcc -nostdlib -T link.ld crt0.S tst.c -o cpu.elf
-riscv32-unknown-elf-objcopy -O verilog cpu.elf cpu.hex
-
