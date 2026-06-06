@@ -1,0 +1,110 @@
+CROSS     ?= riscv64-unknown-elf
+CC        := $(CROSS)-gcc
+OBJDUMP   := $(CROSS)-objdump
+OBJCOPY   := $(CROSS)-objcopy
+SIZE      := $(CROSS)-size
+
+ARCH      ?= rv32im
+ABI       ?= ilp32
+ARCHFLAGS = -march=$(ARCH) -mabi=$(ABI)
+
+PARNET_DIR := $(abspath $(CURDIR)/..)
+GCC_DIR := $(PARNET_DIR)/gcc_files
+RTL_DIR := $(PARNET_DIR)/top_module
+
+
+C_SRC    = $(GCC_DIR)/tst.c
+ASM_SRC  = $(GCC_DIR)/crt0.S
+
+OBJ      = $(ASM_SRC:.S=.o) $(C_SRC:.c=.o)
+
+ELF      = $(GCC_DIR)/tst.elf
+BIN      = $(GCC_DIR)/tst.bin
+DISASM   = $(GCC_DIR)/disasm.txt
+
+IMEM_HEX = $(PARNET_DIR)/memory_files/imem.mem
+DMEM_HEX = $(PARNET_DIR)/memory_files/dmem.mem
+
+TB       = $(RTL_DIR)/Testbench.v
+SIMV     = $(RTL_DIR)/simv
+SIM_OUT  = $(RTL_DIR)/sim_output.txt
+
+
+
+CFLAGS  = $(ARCHFLAGS) -O2 -Wall -Wextra -ffreestanding \
+          -fdata-sections -ffunction-sections -c
+
+ASFLAGS = $(ARCHFLAGS) -ffreestanding -c
+
+LDFLAGS = $(ARCHFLAGS) -T $(GCC_DIR)/link.ld -nostdlib -nostartfiles
+
+.PHONY: all clean size dump
+
+all: $(DISASM) $(IMEM_HEX) $(DMEM_HEX)
+
+
+$(ELF): $(OBJ) $(GCC_DIR)/link.ld
+	@ $(CC) $(LDFLAGS) -o $@ $(OBJ)
+	@ $(SIZE) $@
+
+$(DISASM): $(ELF)
+	@ $(OBJDUMP) -d -S $< > $@
+
+$(BIN): $(ELF)
+	@ $(OBJCOPY) -O binary $< $@
+
+
+$(IMEM_HEX): $(ELF)
+	@echo "Generating Instruction Memory HEX (32-bit words)..."
+	@mkdir -p $(dir $@)
+	
+	@$(OBJCOPY) -O binary \
+		--only-section=.init \
+		--only-section=.text \
+		$< $(GCC_DIR)/imem.bin
+	
+	@echo "@00000000" > $@
+	
+	@hexdump -v -e '1/4 "%08x" "\n"' $(GCC_DIR)/imem.bin >> $@
+	
+	@rm -f $(GCC_DIR)/imem.bin
+
+
+$(DMEM_HEX): $(ELF)
+	@echo "Generating Data Memory HEX (32-bit words)..."
+	@mkdir -p $(dir $@)
+	
+	@if $(OBJDUMP) -h $< | grep -E "\.data|\.sdata|\.rodata" > /dev/null; then \
+	echo "  > Data sections detected. Extracting..."; \
+	$(OBJCOPY) -O binary \
+		--only-section=.rodata \
+		--only-section=.data \
+		--only-section=.sdata \
+		$< $(GCC_DIR)/dmem.bin; \
+		echo "" > $@; \
+		hexdump -v -e '1/4 "%08x" "\n"' $(GCC_DIR)/dmem.bin >> $@; \
+		rm -f $(GCC_DIR)/dmem.bin; \
+	else \
+		echo "  > No data sections found. Creating empty data_mem.mem"; \
+		touch $@; \
+	fi
+
+$(GCC_DIR)/%.o: $(GCC_DIR)/%.c
+	@$(CC) $(CFLAGS) -o $@ $<
+
+$(GCC_DIR)/%.o: $(GCC_DIR)/%.S
+	@$(CC) $(ASFLAGS) -o $@ $<
+
+
+size: $(ELF)
+	@$(SIZE) $(ELF)
+
+dump: $(ELF)
+	@$(OBJDUMP) -d -S $(ELF) | less
+
+# ================= Clean =================
+
+clean:
+	rm -f $(OBJ) $(ELF) $(BIN) \
+	      $(SIMV) $(SIM_OUT) \
+	      $(GCC_DIR)/dmem_tmp1.elf $(GCC_DIR)/dmem_tmp2.elf
