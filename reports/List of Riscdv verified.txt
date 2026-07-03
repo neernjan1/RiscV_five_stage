@@ -1,0 +1,1137 @@
+List of Riscdv verified :
+1.Basic Arithmetic test 
+
+.section .text
+.globl _start
+_start:
+
+    li x1,0
+    li x2,0
+    li x3,0
+    li x4,0
+    li x5,0
+    li x6,0
+    li x7,0
+    li x8,0
+    li x9,0
+    li x10,0
+    li x11,0
+    li x12,0
+    li x13,0
+    li x14,0
+    li x15,0
+    li x16,0
+    li x17,0
+    li x18,0
+    li x19,0
+    li x20,0
+    li x21,0
+    li x22,0
+    li x23,0
+    li x24,0
+    li x25,0
+    li x26,0
+    li x27,0
+    li x28,0
+    li x29,0
+    li x30,0
+    li x31,0
+
+                  slt         t1, tp, s1
+                  auipc       zero, 486015
+                  srl         s11, a0, t0
+                  addi        s5, tp, 449
+                  slti        t1, a7, -915
+                  add         t0, s4, zero
+                  ori         sp, s8, 1038
+                  nop
+                  sub         s5, a0, a0
+                  ori         s7, a1, -1141
+                  addi        zero, zero, 649
+                  add         a3, t4, s9
+                  slti        t3, a3, -553
+                  andi        s6, s3, 1837
+                  ori         tp, s8, 1766
+                  or          zero, a5, s6
+                  slti        s0, s9, 770
+                  or          a1, t6, a3
+                  srai        s7, a6, 8
+                  srai        tp, s7, 1
+                  xori        a4, ra, 1258
+                  xor         t2, gp, a0
+                  xori        a3, t1, 365
+                  auipc       s11, 699273
+                  or          t0, s11, s10
+                  ori         t2, a5, 473
+                  nop
+                  sltiu       s3, s7, 169
+                  auipc       s10, 34275
+                  slt         s7, ra, a7
+                  srli        s5, tp, 7
+                  srl         s10, a7, t4
+                  sltu        s7, a2, s0
+                  slli        sp, a2, 20
+                  sll         zero, s10, tp
+                  auipc       a2, 140546
+                  ori         zero, t1, 356
+                  srl         gp, s9, s2
+                  sll         zero, a1, tp
+                  nop
+                  sltu        a5, a5, a6
+                  xor         a0, gp, a0
+                  xor         t2, a5, a5
+                  auipc       ra, 181596
+                  sltu        s7, s1, s11
+                  xor         t6, a2, t5
+                  ori         a4, a4, 1692
+                  srl         zero, s8, t2
+                  sll         s5, s10, s3
+                  lui         t3, 229654
+                  addi        zero, s11, -1402
+                  sub         a0, s3, a1
+                  lui         s5, 228362
+                  slti        a0, a3, -210
+                  sub         s6, s4, s5
+                  sltu        s4, s6, t3
+                  srl         zero, s2, s5
+                  sltiu       s7, s10, 1404
+                  add         sp, a3, s9
+                  andi        gp, s5, 1700
+                  li         t6, 0x1
+                  li         s11, 0x0
+                  li         t5, 0x4b471998
+                  li         s2, 0x0
+                  li         t1, 0x2a75593e
+                  li         s7, 0x4935a758
+                  li         t3, 0x0
+                  li         s10, 0x1
+                  li         a2, 0x1
+                  li         s5, 0x1
+                  lui         ra, 213070
+                  lui         s11, 284286
+                  nop
+                  add         s0, a6, sp
+                  addi        t2, t6, 1813
+                  lui         a1, 76773
+                  add         a2, s4, a3
+                  addi        a7, t3, 531
+                  nop
+                  add         s4, zero, s1
+                  add         ra, a5, s9
+                  add         t2, ra, s5
+                  sub         s2, t6, s0
+                  nop
+                  addi        s11, t0, 1949
+                  lui         a1, 362753
+                  sub         t6, sp, a3
+                  add         a4, a1, t1
+                  sub         s11, t2, s3
+                  sub         a7, s1, t3
+                  addi        sp, a5, 557
+                  sub         s2, zero, gp
+                  nop
+                  lui         sp, 333704
+                  nop
+                  nop
+                  addi        s2, s4, 469
+                  nop
+                  lui         s2, 221996
+                  sub         t2, s6, a0
+                  and         t0, ra, a7
+                  srl         s3, ra, sp
+                  lui         a1, 481295
+                  and         ra, ra, t3
+                  ori         gp, a3, 1741
+                  xor         zero, tp, tp
+                  srli        s4, s5, 23
+                  auipc       t2, 687477
+                  srli        zero, a0, 9
+                  lui         t5, 752913
+                  xori        zero, a4, -759
+                  srai        gp, sp, 7
+                  ori         s3, t6, -1111
+                  auipc       a0, 1012643
+                  sll         sp, zero, a1
+                  srai        s0, ra, 22
+                  slli        s6, a6, 10
+                  srai        s7, s2, 26
+                  ori         a2, s5, -1533
+                  andi        s7, t0, 311
+                  sra         s2, s2, s9
+                  sll         a3, a5, a0
+                  slt         a6, a5, a4
+                  addi        zero, a5, 603
+                  sll         s2, s6, ra
+                  or          s10, s1, a4
+                  addi        gp, s3, -1952
+                  or          a2, a3, a4
+                  auipc       t1, 872541
+                  andi        s5, s7, -437
+                  add         t1, s5, ra
+                  sra         ra, a0, s2
+                  srai        a0, s6, 6
+                  xor         t5, ra, s9
+                  lui         t0, 379818
+                  and         s1, s8, s1
+                  srli        zero, t0, 18
+                  sub         t0, tp, t3
+                  sltiu       s3, s6, 1842
+                  addi        tp, t3, -1363
+                  xori        gp, t0, 201
+                  sra         gp, tp, zero
+                  or          a2, t0, t1
+                  sltiu       a3, gp, -613
+                  sltiu       t6, s5, 1951
+                  nop
+                  or          a0, s5, s3
+                  sub         t1, a2, t1
+                  slti        a1, ra, 1270
+                  nop
+                  xor         t2, a2, a2
+                  add         s3, s9, t5
+                  add         a4, a6, s2
+                  srli        s3, s6, 20
+                  sltu        a3, s0, a7
+                  sltiu       a3, a4, -2010
+                  add         t3, s6, s3
+                  srai        s1, a1, 28
+                  srl         a2, s1, a4
+                  slt         gp, t0, t0
+                  or          zero, zero, sp
+                  slti        zero, t0, -1415
+                  ori         a2, a6, 376
+                  slt         t3, s11, s7
+                  srli        t0, s5, 18
+                  lui         t1, 789618
+                  nop
+                  sub         s7, s9, a3
+                  slli        ra, sp, 23
+                  slli        s7, s7, 5
+                  and         a0, tp, gp
+                  slli        zero, t1, 8
+                  auipc       t6, 285354
+                  sll         a0, s7, s9
+                  sltu        a4, a2, s3
+                  sub         s11, tp, s0
+                  sra         s3, t0, a6
+                  sub         a5, s8, a3
+                  la x29, test_done
+                  jalr x0, x29, 0
+                  li gp, 1
+
+
+test_done:
+    beq x0, x0, test_done
+    
+    
+Result :
+
+python3 compare_logs1.py
+
+RTL commits
+TYPE   PC        RD/ADDR      DATA
+---------------------------------------
+reg    80000000  x1          00000000
+reg    80000004  x2          00000000
+reg    80000008  x3          00000000
+reg    8000000c  x4          00000000
+reg    80000010  x5          00000000
+reg    80000014  x6          00000000
+reg    80000018  x7          00000000
+reg    8000001c  x8          00000000
+reg    80000020  x9          00000000
+reg    80000024  x10         00000000
+reg    80000028  x11         00000000
+reg    8000002c  x12         00000000
+reg    80000030  x13         00000000
+reg    80000034  x14         00000000
+reg    80000038  x15         00000000
+reg    8000003c  x16         00000000
+reg    80000040  x17         00000000
+reg    80000044  x18         00000000
+reg    80000048  x19         00000000
+reg    8000004c  x20         00000000
+reg    80000050  x21         00000000
+reg    80000054  x22         00000000
+reg    80000058  x23         00000000
+reg    8000005c  x24         00000000
+reg    80000060  x25         00000000
+reg    80000064  x26         00000000
+reg    80000068  x27         00000000
+reg    8000006c  x28         00000000
+reg    80000070  x29         00000000
+reg    80000074  x30         00000000
+reg    80000078  x31         00000000
+reg    8000007c  x6          00000000
+reg    80000084  x27         00000000
+reg    80000088  x21         000001c1
+reg    8000008c  x6          00000000
+reg    80000090  x5          00000000
+reg    80000094  x2          0000040e
+reg    8000009c  x21         00000000
+reg    800000a0  x23         fffffb8b
+reg    800000a8  x13         00000000
+reg    800000ac  x28         00000000
+reg    800000b0  x22         00000000
+reg    800000b4  x4          000006e6
+reg    800000bc  x8          00000001
+reg    800000c0  x11         00000000
+reg    800000c4  x23         00000000
+reg    800000c8  x4          00000000
+reg    800000cc  x14         000004ea
+reg    800000d0  x7          00000000
+reg    800000d4  x13         0000016d
+reg    800000d8  x27         2ab890d8
+reg    800000dc  x5          2ab890d8
+reg    800000e0  x7          000001d9
+reg    800000e8  x19         00000001
+reg    800000ec  x26         885e30ec
+reg    800000f0  x23         00000000
+reg    800000f4  x21         00000000
+reg    800000f8  x26         00000000
+reg    800000fc  x23         00000001
+reg    80000100  x2          00000000
+reg    80000108  x12         a2502108
+reg    80000110  x3          00000000
+reg    8000011c  x15         00000000
+reg    80000120  x10         00000000
+reg    80000124  x7          00000000
+reg    80000128  x1          ac55c128
+reg    8000012c  x23         00000001
+reg    80000130  x31         a2502108
+reg    80000134  x14         000006fe
+reg    8000013c  x21         00000000
+reg    80000140  x28         38116000
+reg    80000148  x10         00000001
+reg    8000014c  x21         37c0a000
+reg    80000150  x10         00000000
+reg    80000154  x22         c83f6000
+reg    80000158  x20         00000000
+reg    80000160  x23         00000001
+reg    80000164  x2          0000016d
+reg    80000168  x3          00000000
+reg    8000016c  x31         00000001
+reg    80000170  x27         00000000
+reg    80000174  x30         4b472000
+reg    80000178  x30         4b471998
+reg    8000017c  x18         00000000
+reg    80000180  x6          2a756000
+reg    80000184  x6          2a75593e
+reg    80000188  x23         4935a000
+reg    8000018c  x23         4935a758
+reg    80000190  x28         00000000
+reg    80000194  x26         00000001
+reg    80000198  x12         00000001
+reg    8000019c  x21         00000001
+reg    800001a0  x1          3404e000
+reg    800001a4  x27         4567e000
+reg    800001ac  x8          0000016d
+reg    800001b0  x7          00000716
+reg    800001b4  x11         12be5000
+reg    800001b8  x12         0000016d
+reg    800001bc  x17         00000213
+reg    800001c4  x20         00000000
+reg    800001c8  x1          00000000
+reg    800001cc  x7          00000001
+reg    800001d0  x18         fffffe94
+reg    800001d8  x27         2ab89875
+reg    800001dc  x11         58901000
+reg    800001e0  x31         00000000
+reg    800001e4  x14         8305693e
+reg    800001e8  x27         00000000
+reg    800001ec  x17         00000000
+reg    800001f0  x2          0000022d
+reg    800001f4  x18         00000000
+reg    800001fc  x2          51788000
+reg    80000208  x18         000001d5
+reg    80000210  x18         3632c000
+reg    80000214  x7          c83f6000
+reg    80000218  x5          00000000
+reg    8000021c  x19         00000000
+reg    80000220  x11         7580f000
+reg    80000224  x1          00000000
+reg    80000228  x3          000007ed
+reg    80000230  x20         00000000
+reg    80000234  x7          27d75234
+reg    8000023c  x30         b7d11000
+reg    80000244  x3          00a2f100
+reg    80000248  x19         fffffba9
+reg    8000024c  x10         773a324c
+reg    80000250  x2          00000000
+reg    80000254  x8          00000000
+reg    80000258  x22         00000000
+reg    8000025c  x23         0000000d
+reg    80000260  x12         fffffa03
+reg    80000264  x23         00000000
+reg    80000268  x18         3632c000
+reg    8000026c  x13         00000000
+reg    80000270  x16         00000000
+reg    80000278  x18         00000000
+reg    8000027c  x26         8305693e
+reg    80000280  x3          fffff409
+reg    80000284  x12         8305693e
+reg    80000288  x6          5505d288
+reg    8000028c  x21         00000000
+reg    80000290  x6          00000000
+reg    80000294  x1          773a324c
+reg    80000298  x10         00000000
+reg    8000029c  x30         773a324c
+reg    800002a0  x5          5cbaa000
+reg    800002a4  x9          00000000
+reg    800002ac  x5          00000000
+reg    800002b0  x19         00000001
+reg    800002b4  x4          fffffaad
+reg    800002b8  x3          000000c9
+reg    800002bc  x3          fffffaad
+reg    800002c0  x12         00000000
+reg    800002c4  x13         00000001
+reg    800002c8  x31         00000001
+reg    800002d0  x10         00000001
+reg    800002d4  x6          00000000
+reg    800002d8  x11         00000000
+reg    800002e0  x7          00000000
+reg    800002e4  x19         773a324c
+reg    800002e8  x14         00000000
+reg    800002ec  x19         00000000
+reg    800002f0  x13         00000000
+reg    800002f4  x13         00000001
+reg    800002f8  x28         00000000
+reg    800002fc  x9          00000000
+reg    80000300  x12         00000000
+reg    80000304  x3          00000000
+reg    80000310  x12         00000178
+reg    80000314  x28         00000000
+reg    80000318  x5          00000000
+reg    8000031c  x6          c0c72000
+reg    80000324  x23         ffffffff
+reg    80000328  x1          00000000
+reg    8000032c  x23         ffffffe0
+reg    80000330  x10         00000000
+reg    80000338  x31         c5aaa338
+reg    8000033c  x10         ffffffe0
+reg    80000340  x14         00000000
+reg    80000344  x27         fffffaad
+reg    80000348  x19         00000000
+reg    8000034c  x15         ffffffff
+reg    80000350  x29         80000350
+reg    80000354  x29         80000360
+
+Spike commits
+TYPE   PC        RD/ADDR      DATA
+---------------------------------------
+reg    80000000  x1          00000000
+reg    80000004  x2          00000000
+reg    80000008  x3          00000000
+reg    8000000c  x4          00000000
+reg    80000010  x5          00000000
+reg    80000014  x6          00000000
+reg    80000018  x7          00000000
+reg    8000001c  x8          00000000
+reg    80000020  x9          00000000
+reg    80000024  x10         00000000
+reg    80000028  x11         00000000
+reg    8000002c  x12         00000000
+reg    80000030  x13         00000000
+reg    80000034  x14         00000000
+reg    80000038  x15         00000000
+reg    8000003c  x16         00000000
+reg    80000040  x17         00000000
+reg    80000044  x18         00000000
+reg    80000048  x19         00000000
+reg    8000004c  x20         00000000
+reg    80000050  x21         00000000
+reg    80000054  x22         00000000
+reg    80000058  x23         00000000
+reg    8000005c  x24         00000000
+reg    80000060  x25         00000000
+reg    80000064  x26         00000000
+reg    80000068  x27         00000000
+reg    8000006c  x28         00000000
+reg    80000070  x29         00000000
+reg    80000074  x30         00000000
+reg    80000078  x31         00000000
+reg    8000007c  x6          00000000
+reg    80000084  x27         00000000
+reg    80000088  x21         000001c1
+reg    8000008c  x6          00000000
+reg    80000090  x5          00000000
+reg    80000094  x2          0000040e
+reg    8000009c  x21         00000000
+reg    800000a0  x23         fffffb8b
+reg    800000a8  x13         00000000
+reg    800000ac  x28         00000000
+reg    800000b0  x22         00000000
+reg    800000b4  x4          000006e6
+reg    800000bc  x8          00000001
+reg    800000c0  x11         00000000
+reg    800000c4  x23         00000000
+reg    800000c8  x4          00000000
+reg    800000cc  x14         000004ea
+reg    800000d0  x7          00000000
+reg    800000d4  x13         0000016d
+reg    800000d8  x27         2ab890d8
+reg    800000dc  x5          2ab890d8
+reg    800000e0  x7          000001d9
+reg    800000e8  x19         00000001
+reg    800000ec  x26         885e30ec
+reg    800000f0  x23         00000000
+reg    800000f4  x21         00000000
+reg    800000f8  x26         00000000
+reg    800000fc  x23         00000001
+reg    80000100  x2          00000000
+reg    80000108  x12         a2502108
+reg    80000110  x3          00000000
+reg    8000011c  x15         00000000
+reg    80000120  x10         00000000
+reg    80000124  x7          00000000
+reg    80000128  x1          ac55c128
+reg    8000012c  x23         00000001
+reg    80000130  x31         a2502108
+reg    80000134  x14         000006fe
+reg    8000013c  x21         00000000
+reg    80000140  x28         38116000
+reg    80000148  x10         00000001
+reg    8000014c  x21         37c0a000
+reg    80000150  x10         00000000
+reg    80000154  x22         c83f6000
+reg    80000158  x20         00000000
+reg    80000160  x23         00000001
+reg    80000164  x2          0000016d
+reg    80000168  x3          00000000
+reg    8000016c  x31         00000001
+reg    80000170  x27         00000000
+reg    80000174  x30         4b472000
+reg    80000178  x30         4b471998
+reg    8000017c  x18         00000000
+reg    80000180  x6          2a756000
+reg    80000184  x6          2a75593e
+reg    80000188  x23         4935a000
+reg    8000018c  x23         4935a758
+reg    80000190  x28         00000000
+reg    80000194  x26         00000001
+reg    80000198  x12         00000001
+reg    8000019c  x21         00000001
+reg    800001a0  x1          3404e000
+reg    800001a4  x27         4567e000
+reg    800001ac  x8          0000016d
+reg    800001b0  x7          00000716
+reg    800001b4  x11         12be5000
+reg    800001b8  x12         0000016d
+reg    800001bc  x17         00000213
+reg    800001c4  x20         00000000
+reg    800001c8  x1          00000000
+reg    800001cc  x7          00000001
+reg    800001d0  x18         fffffe94
+reg    800001d8  x27         2ab89875
+reg    800001dc  x11         58901000
+reg    800001e0  x31         00000000
+reg    800001e4  x14         8305693e
+reg    800001e8  x27         00000000
+reg    800001ec  x17         00000000
+reg    800001f0  x2          0000022d
+reg    800001f4  x18         00000000
+reg    800001fc  x2          51788000
+reg    80000208  x18         000001d5
+reg    80000210  x18         3632c000
+reg    80000214  x7          c83f6000
+reg    80000218  x5          00000000
+reg    8000021c  x19         00000000
+reg    80000220  x11         7580f000
+reg    80000224  x1          00000000
+reg    80000228  x3          000007ed
+reg    80000230  x20         00000000
+reg    80000234  x7          27d75234
+reg    8000023c  x30         b7d11000
+reg    80000244  x3          00a2f100
+reg    80000248  x19         fffffba9
+reg    8000024c  x10         773a324c
+reg    80000250  x2          00000000
+reg    80000254  x8          00000000
+reg    80000258  x22         00000000
+reg    8000025c  x23         0000000d
+reg    80000260  x12         fffffa03
+reg    80000264  x23         00000000
+reg    80000268  x18         3632c000
+reg    8000026c  x13         00000000
+reg    80000270  x16         00000000
+reg    80000278  x18         00000000
+reg    8000027c  x26         8305693e
+reg    80000280  x3          fffff409
+reg    80000284  x12         8305693e
+reg    80000288  x6          5505d288
+reg    8000028c  x21         00000000
+reg    80000290  x6          00000000
+reg    80000294  x1          773a324c
+reg    80000298  x10         00000000
+reg    8000029c  x30         773a324c
+reg    800002a0  x5          5cbaa000
+reg    800002a4  x9          00000000
+reg    800002ac  x5          00000000
+reg    800002b0  x19         00000001
+reg    800002b4  x4          fffffaad
+reg    800002b8  x3          000000c9
+reg    800002bc  x3          fffffaad
+reg    800002c0  x12         00000000
+reg    800002c4  x13         00000001
+reg    800002c8  x31         00000001
+reg    800002d0  x10         00000001
+reg    800002d4  x6          00000000
+reg    800002d8  x11         00000000
+reg    800002e0  x7          00000000
+reg    800002e4  x19         773a324c
+reg    800002e8  x14         00000000
+reg    800002ec  x19         00000000
+reg    800002f0  x13         00000000
+reg    800002f4  x13         00000001
+reg    800002f8  x28         00000000
+reg    800002fc  x9          00000000
+reg    80000300  x12         00000000
+reg    80000304  x3          00000000
+reg    80000310  x12         00000178
+reg    80000314  x28         00000000
+reg    80000318  x5          00000000
+reg    8000031c  x6          c0c72000
+reg    80000324  x23         ffffffff
+reg    80000328  x1          00000000
+reg    8000032c  x23         ffffffe0
+reg    80000330  x10         00000000
+reg    80000338  x31         c5aaa338
+reg    8000033c  x10         ffffffe0
+reg    80000340  x14         00000000
+reg    80000344  x27         fffffaad
+reg    80000348  x19         00000000
+reg    8000034c  x15         ffffffff
+reg    80000350  x29         80000350
+reg    80000354  x29         80000360
+
+====================
+CHECKING
+====================
+
+PASS
+RTL and Spike logs match
+mohdirfan@mohdpc:~/Desktop/processor$ 
+
+
+2.Loop test
+.section .text
+.globl _start
+_start:
+
+        li x1,0
+        li x2,0
+        li x3,0
+        li x4,0
+        li x5,0
+        li x6,0
+        li x7,0
+        li x8,0
+        li x9,0
+        li x10,0
+        li x11,0
+        li x12,0
+        li x13,0
+        li x14,0
+        li x15,0
+        li x16,0
+        li x17,0
+        li x18,0
+        li x19,0
+        li x20,0
+        li x21,0
+        li x22,0
+        li x23,0
+        li x24,0
+        li x25,0
+        li x26,0
+        li x27,0
+        li x28,0
+        li x29,0
+        li x30,0
+        li x31,0
+
+                      slt         s8, s8, s9
+                  ori         zero, a6, -1552
+                  bltu        a6, s6, 14f
+                  andi        t3, a0, -1775
+                  sltiu       s2, t1, -1432
+                  add         a7, s9, s1
+                  sra         a5, ra, t6
+                  slt         ra, t5, a6
+                  ori         s9, t4, -1183
+                  srli        s2, tp, 22
+                  sra         a6, a5, t5
+                  sub         a6, s1, s2
+                  add         s5, t4, a4
+14:               sub         s2, tp, t2
+                  xor         s10, t6, s2
+                  srl         a5, s5, a3
+                  lui         s7, 761860
+                  nop
+                  slt         zero, a3, zero
+                  ori         zero, a6, -1793
+                  add         zero, s2, s7
+                  beq         a5, s1, 34f
+                  bne         t6, a6, 35f
+                  sltu        s8, s8, zero
+                  slti        t1, s10, -1817
+                  xor         s2, zero, t4
+                  auipc       a7, 573538
+                  srli        a2, a4, 4
+                  bne         t4, s1, 32f
+                  slt         t5, t3, s6
+                  srli        a4, a2, 23
+32:               add         s8, s4, t5
+                  srai        zero, s7, 28
+34:               add         s3, t5, s8
+35:               lui         s2, 694242
+                  bgeu        a7, sp, 40f
+                  or          zero, t3, a1
+                  ori         a5, s3, -1760
+                  addi        zero, s6, 1788
+40:               ori         s0, s11, 452
+                  auipc       a0, 365431
+                  srli        a4, t3, 24
+                  bgeu        a5, t3, 56f
+                  lui         zero, 916473
+                  ori         s7, a0, 483
+                  auipc       t5, 476863
+                  addi        a1, t2, 1038
+                  sll         s2, s4, s0
+                  addi        s5, ra, -1520
+                  xor         a4, a7, t4
+                  add         s2, ra, a5
+                  bltu        t5, a5, 69f
+                  nop
+                  bgeu        t1, s9, 73f
+                  slli        zero, t3, 18
+56:               lui         sp, 144671
+                  slli        s10, s8, 28
+                  blt         s6, s10, 65f
+                  xor         zero, a6, t5
+                  blt         t1, t0, 65f
+                  sub         a5, s11, t5
+                  add         s6, s2, s7
+                  beq         t5, t2, 76f
+                  slti        a3, a6, 439
+65:               sltu        zero, s5, t1
+                  bltu        a5, a4, 81f
+                  sll         a3, t3, t4
+                  add         t3, s5, a6
+69:               bgeu        s4, t6, 79f
+                  slt         s6, sp, s2
+                  addi        a3, s8, -1495
+                  slti        s6, a3, -2027
+73:               xori        s3, t0, -638
+                  sll         t3, zero, s6
+                  lui         a2, 124457
+                  slti        zero, ra, -951
+                  bge         zero, s8, 94f
+                  add         s7, t6, s5
+main_0_0_t:       xori        a1, s1, -1717
+                  sra         zero, s0, a2
+                  sltu        zero, zero, zero
+                  auipc       s7, 499743
+                  sll         t3, zero, s6
+                  addi        zero, s9, 757
+                  bltu        t3, s4, main_0_0_t
+                  addi        zero, s4, -956
+                  slt         s8, t3, t2
+                  sll         a0, sp, t2
+                  andi        a4, zero, -8
+main_0_1_t:       or          t1, a5, a4
+                  xor         t2, t3, s5
+                  sltu        ra, a3, a6
+                  slti        a1, a0, 606
+                  andi        a5, t6, -592
+                  bgeu        zero, zero, 93f
+                  bge         zero, s8, 94f
+                  slti        zero, t3, -1444
+                  add         a2, a6, a6
+                  slt         zero, s9, s0
+                  beq         t5, sp, main_0_1_t
+                  ori         t4, s5, 1669
+                  and         gp, s6, s5
+                  sll         zero, s1, s2
+76:               andi        t0, gp, 1675
+                  bgeu        t6, s11, 83f
+                  sltiu       s5, s8, -177
+79:               bne         a0, a4, 82f
+                  srai        s6, s1, 25
+81:               bltu        s6, t0, 84f
+82:               or          t5, t3, s8
+83:               slli        t4, s10, 28
+84:               sltiu       zero, t5, 1068
+                  sltiu       s2, t6, 1367
+                  xori        ra, a3, -1962
+                  xor         zero, s10, t4
+                  and         s3, sp, t3
+                  lui         t3, 960340
+                  bne         a6, t2, 99f
+                  slt         a4, s9, s6
+                  srli        s8, s7, 24
+93:               and         a3, t4, s1
+94:               or          a6, a5, s9
+                  bltu        a6, ra, 100f
+                  srai        s4, gp, 6
+                  sltu        sp, t0, s7
+                  add         a2, s3, sp
+99:               add         t5, zero, s11
+100:              or          sp, a6, s0
+                  add         a6, s0, t0
+                  andi        t3, s7, 635
+                  srl         t2, ra, s5
+                  slt         s2, a4, t6
+                  add         s4, s4, s3
+                  xori        s10, zero, -1449
+                  auipc       ra, 181313
+                  slli        a2, a6, 18
+                  add         s3, s10, t3
+                  bne         s8, gp, 113f
+                  or          s2, t4, s4
+                  xori        s6, t3, 1865
+113:              nop
+                  ori         a7, gp, -1725
+                  xori        t4, t2, -916
+                  slt         a3, a5, s11
+                  beq         a0, s3, 137f
+                  andi        a0, tp, 1303
+                  and         zero, s6, t3
+                  bne         t5, s10, 131f
+                  slti        t3, a7, -1901
+                  xor         s4, s1, t3
+                  beq         t3, zero, 127f
+                  bgeu        s10, s11, 127f
+                  sll         s5, a5, a6
+                  nop
+127:              sub         s6, s5, tp
+                  andi        zero, a4, -2008
+                  nop
+                  ori         t5, zero, 8
+                  auipc       s8, 556197
+                  bne         zero, tp, 132f
+                  slli        zero, s10, 18
+main_1_0_t:       sltu        s3, zero, ra
+                  beq         zero, zero, 143f
+                  ori         t5, zero, 8
+                  or          a0, t1, gp
+                  bgeu        t5, a7, main_1_0_t
+                  nop
+                  slti        s1, t5, 1265
+131:              srai        s10, a1, 14
+132:              beq         t2, s4, 143f
+                  slt         a4, a5, s5
+                  beq         gp, s7, 142f
+                  bne         a0, t5, 143f
+                  slt         zero, a5, tp
+137:              add         gp, t3, a4
+                  bne         s4, s9, 143f
+                  srli        a6, gp, 8
+                  srl         s5, s10, t5
+                  slti        a3, s1, -766
+142:              slti        a4, s1, 301
+143:              and         s5, ra, s6
+                  la x31, test_done
+                  jalr x0, x31, 0
+                  li gp, 1
+
+
+test_done:
+    beq x0, x0, test_done
+
+
+Result :
+python3 compare_logs1.py
+
+RTL commits
+TYPE   PC        RD/ADDR      DATA
+---------------------------------------
+reg    80000000  x1          00000000
+reg    80000004  x2          00000000
+reg    80000008  x3          00000000
+reg    8000000c  x4          00000000
+reg    80000010  x5          00000000
+reg    80000014  x6          00000000
+reg    80000018  x7          00000000
+reg    8000001c  x8          00000000
+reg    80000020  x9          00000000
+reg    80000024  x10         00000000
+reg    80000028  x11         00000000
+reg    8000002c  x12         00000000
+reg    80000030  x13         00000000
+reg    80000034  x14         00000000
+reg    80000038  x15         00000000
+reg    8000003c  x16         00000000
+reg    80000040  x17         00000000
+reg    80000044  x18         00000000
+reg    80000048  x19         00000000
+reg    8000004c  x20         00000000
+reg    80000050  x21         00000000
+reg    80000054  x22         00000000
+reg    80000058  x23         00000000
+reg    8000005c  x24         00000000
+reg    80000060  x25         00000000
+reg    80000064  x26         00000000
+reg    80000068  x27         00000000
+reg    8000006c  x28         00000000
+reg    80000070  x29         00000000
+reg    80000074  x30         00000000
+reg    80000078  x31         00000000
+reg    8000007c  x24         00000000
+reg    80000088  x28         00000000
+reg    8000008c  x18         00000001
+reg    80000090  x17         00000000
+reg    80000094  x15         00000000
+reg    80000098  x1          00000000
+reg    8000009c  x25         fffffb61
+reg    800000a0  x18         00000000
+reg    800000a4  x16         00000000
+reg    800000a8  x16         00000000
+reg    800000ac  x21         00000000
+reg    800000b0  x18         00000000
+reg    800000b4  x26         00000000
+reg    800000b8  x15         00000000
+reg    800000bc  x23         ba004000
+reg    80000100  x19         00000000
+reg    80000104  x18         a97e2000
+reg    80000118  x8          000001c4
+reg    8000011c  x10         d937711c
+reg    80000120  x14         00000000
+reg    80000158  x2          2351f000
+reg    8000015c  x26         00000000
+reg    8000016c  x15         00000000
+reg    80000170  x22         637e6000
+reg    80000218  x5          00000000
+reg    80000234  x29         00000000
+reg    8000023c  x18         00000001
+reg    80000240  x1          fffff856
+reg    80000248  x19         00000000
+reg    8000024c  x28         ea754000
+reg    80000254  x14         00000001
+reg    80000258  x24         000000ba
+reg    8000025c  x13         00000000
+reg    80000260  x16         fffffb61
+reg    80000268  x20         00000000
+reg    8000026c  x2          00000001
+reg    80000270  x12         00000001
+reg    80000274  x30         00000000
+reg    80000278  x2          fffffbe5
+reg    8000027c  x16         000001c4
+reg    80000280  x28         00000000
+reg    80000284  x7          fffff856
+reg    80000288  x18         00000000
+reg    8000028c  x20         00000000
+reg    80000290  x26         fffffa57
+reg    80000294  x1          ac441294
+reg    80000298  x12         07100000
+reg    8000029c  x19         fffffa57
+reg    800002b0  x17         fffff943
+reg    800002b4  x29         0000043a
+reg    800002b8  x13         00000000
+reg    800002c0  x10         00000000
+reg    8000031c  x26         00000000
+reg    80000324  x14         00000000
+reg    80000334  x3          00000000
+reg    8000034c  x21         20440000
+reg    80000350  x31         80000350
+reg    80000354  x31         80000360
+
+Spike commits
+TYPE   PC        RD/ADDR      DATA
+---------------------------------------
+reg    80000000  x1          00000000
+reg    80000004  x2          00000000
+reg    80000008  x3          00000000
+reg    8000000c  x4          00000000
+reg    80000010  x5          00000000
+reg    80000014  x6          00000000
+reg    80000018  x7          00000000
+reg    8000001c  x8          00000000
+reg    80000020  x9          00000000
+reg    80000024  x10         00000000
+reg    80000028  x11         00000000
+reg    8000002c  x12         00000000
+reg    80000030  x13         00000000
+reg    80000034  x14         00000000
+reg    80000038  x15         00000000
+reg    8000003c  x16         00000000
+reg    80000040  x17         00000000
+reg    80000044  x18         00000000
+reg    80000048  x19         00000000
+reg    8000004c  x20         00000000
+reg    80000050  x21         00000000
+reg    80000054  x22         00000000
+reg    80000058  x23         00000000
+reg    8000005c  x24         00000000
+reg    80000060  x25         00000000
+reg    80000064  x26         00000000
+reg    80000068  x27         00000000
+reg    8000006c  x28         00000000
+reg    80000070  x29         00000000
+reg    80000074  x30         00000000
+reg    80000078  x31         00000000
+reg    8000007c  x24         00000000
+reg    80000088  x28         00000000
+reg    8000008c  x18         00000001
+reg    80000090  x17         00000000
+reg    80000094  x15         00000000
+reg    80000098  x1          00000000
+reg    8000009c  x25         fffffb61
+reg    800000a0  x18         00000000
+reg    800000a4  x16         00000000
+reg    800000a8  x16         00000000
+reg    800000ac  x21         00000000
+reg    800000b0  x18         00000000
+reg    800000b4  x26         00000000
+reg    800000b8  x15         00000000
+reg    800000bc  x23         ba004000
+reg    80000100  x19         00000000
+reg    80000104  x18         a97e2000
+reg    80000118  x8          000001c4
+reg    8000011c  x10         d937711c
+reg    80000120  x14         00000000
+reg    80000158  x2          2351f000
+reg    8000015c  x26         00000000
+reg    8000016c  x15         00000000
+reg    80000170  x22         637e6000
+reg    80000218  x5          00000000
+reg    80000234  x29         00000000
+reg    8000023c  x18         00000001
+reg    80000240  x1          fffff856
+reg    80000248  x19         00000000
+reg    8000024c  x28         ea754000
+reg    80000254  x14         00000001
+reg    80000258  x24         000000ba
+reg    8000025c  x13         00000000
+reg    80000260  x16         fffffb61
+reg    80000268  x20         00000000
+reg    8000026c  x2          00000001
+reg    80000270  x12         00000001
+reg    80000274  x30         00000000
+reg    80000278  x2          fffffbe5
+reg    8000027c  x16         000001c4
+reg    80000280  x28         00000000
+reg    80000284  x7          fffff856
+reg    80000288  x18         00000000
+reg    8000028c  x20         00000000
+reg    80000290  x26         fffffa57
+reg    80000294  x1          ac441294
+reg    80000298  x12         07100000
+reg    8000029c  x19         fffffa57
+reg    800002b0  x17         fffff943
+reg    800002b4  x29         0000043a
+reg    800002b8  x13         00000000
+reg    800002c0  x10         00000000
+reg    8000031c  x26         00000000
+reg    80000324  x14         00000000
+reg    80000334  x3          00000000
+reg    8000034c  x21         20440000
+reg    80000350  x31         80000350
+reg    80000354  x31         80000360
+
+====================
+CHECKING
+====================
+
+PASS
+RTL and Spike logs match
+mohdirfan@mohdpc:~/Desktop/processor$ 
+
+3.Jump test 
+.section .text
+.globl _start
+_start:
+
+                  bgeu        a3, s5, 12f
+                  nop
+                  srl         a4, sp, s10
+                  addi        gp, t5, 843
+                  add         s5, s6, a6
+                  lui         a0, 159921
+                  sll         zero, s1, a4
+                  beq         s5, a7, 12f
+                  bgeu        s0, ra, 12f
+                  xor         s11, t6, t3
+                  andi        a6, t1, -403
+main_0:           jal         s8, 2f
+0:                jal         t6, 10f
+1:                jal         ra, 22f
+2:                jal         s3, 18f
+3:                jal         ra, 13f
+4:                jal         s0, 3b
+5:                jal         ra, 19f
+6:                jal         ra, 0b
+7:                jal         ra, 17f
+8:                jal         ra, 4b
+9:                jal         ra, 20f
+10:               jal         s5, 11f
+11:               jal         ra, 25f
+12:               jal         s9, 7b
+13:               jal         t0, 6b
+14:               jal         ra, 8b
+15:               jal         gp, 16f
+16:               jal         a0, 23f
+17:               jal         t6, 14b
+18:               jal         ra, 1b
+19:               jal         ra, 21f
+20:               jal         ra, 24f
+21:               jal         ra, 15b
+22:               jal         ra, 5b
+23:               jal         t3, 9b
+24:               jal         ra, 12b
+25:               ori         t0, s9, 177
+12:               auipc       a2, 645414
+                 jal x0, test_done 
+                  li gp, 1
+
+
+test_done:
+    beq x0, x0, test_done
+    
+    
+Result:
+python3 compare_logs1.py
+
+RTL commits
+TYPE   PC        RD/ADDR      DATA
+---------------------------------------
+reg    80000060  x25         80000064
+reg    8000004c  x1          80000050
+reg    80000074  x31         80000078
+reg    80000068  x1          8000006c
+reg    80000050  x1          80000054
+reg    80000040  x8          80000044
+reg    8000003c  x1          80000040
+reg    80000064  x5          80000068
+reg    80000048  x1          8000004c
+reg    80000030  x31         80000034
+reg    80000058  x21         8000005c
+reg    8000005c  x1          80000060
+reg    80000094  x5          800000f5
+reg    80000098  x12         1d926098
+
+Spike commits
+TYPE   PC        RD/ADDR      DATA
+---------------------------------------
+reg    80000060  x25         80000064
+reg    8000004c  x1          80000050
+reg    80000074  x31         80000078
+reg    80000068  x1          8000006c
+reg    80000050  x1          80000054
+reg    80000040  x8          80000044
+reg    8000003c  x1          80000040
+reg    80000064  x5          80000068
+reg    80000048  x1          8000004c
+reg    80000030  x31         80000034
+reg    80000058  x21         8000005c
+reg    8000005c  x1          80000060
+reg    80000094  x5          800000f5
+reg    80000098  x12         1d926098
+
+====================
+CHECKING
+====================
+
+PASS
+RTL and Spike logs match
+
