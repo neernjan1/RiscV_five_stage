@@ -137,7 +137,7 @@ output reg alu_pc_sel
          jump = 1;
          jalr_sel = 1; // NEW
          alu_pc_sel = 1;// NEW
-                //  result_src = 2'b10;// 🔥 NEW
+                //  result_src = 2'b10;//  NEW
 
     end
 
