@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module apb_master (
     input clk,
     input rst,
@@ -24,7 +25,7 @@ module apb_master (
 
     // Debug
     output [1:0] debug_state,
-    output busy
+    output reg busy
 );
 
     parameter IDLE   = 2'b00;
@@ -35,10 +36,11 @@ module apb_master (
 
     assign debug_state = state;
 
-    // 🔥 CORRECT BUSY LOGIC
+    //  CORRECT BUSY LOGIC
     wire done;
-    assign done = (state == ACCESS) && PREADY;
-    assign busy = (state != IDLE) && ~done;
+    assign done = (state == ACCESS) && PREADY; 
+    // assign busy =
+    //    (state != IDLE) ; // changed from busy = (state != IDLE) && ~done; to busy = (state != IDLE); because it is ending stall one cycle before data read is valid 
 
     reg [31:0] addr_reg, wdata_reg;
     reg write_reg, read_reg;
@@ -69,11 +71,13 @@ module apb_master (
                 wdata_reg <= wdata;
                 write_reg <= 1;
                 read_reg  <= 0;
+               
             end
             else if (mem_read) begin
                 addr_reg  <= addr;
                 write_reg <= 0;
                 read_reg  <= 1;
+               
             end
         end
     end
@@ -103,16 +107,36 @@ module apb_master (
                 PADDR = addr_reg;
                 PWDATA = wdata_reg;
 
-                if (PREADY)
+                if (PREADY) begin
                     ready = 1;
+                   
+                end
             end
+            default: ready = 1;
         endcase
     end
 
     // Read capture
-    always @(posedge clk) begin
+    always @(*) begin
         if (state == ACCESS && PREADY && read_reg)
-            rdata <= PRDATA;
+            rdata = PRDATA;
     end
+
+    //Handling busy logic
+    always @(*) begin
+    if (rst)
+        busy = 0;
+
+    else begin
+
+        // request accepted
+        if(state==IDLE && (mem_read || mem_write))
+            busy = 1;
+
+        // transaction completed
+        else if(state==ACCESS && PREADY)
+            busy = 0;
+    end
+end
 
 endmodule

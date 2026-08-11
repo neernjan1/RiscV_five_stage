@@ -1,0 +1,19 @@
+volatile int result;
+
+int main()
+{
+    int a = 5;
+
+    a = a + 1;
+    a = a + 1;
+    a = a + 1;
+    a = a + 1;
+
+    result = a;
+
+    while(1);
+
+    return 0;
+}
+
+// result = 9

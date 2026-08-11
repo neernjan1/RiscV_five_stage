@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module apb_top (
 
     input clk,
@@ -42,12 +43,17 @@ module apb_top (
 
     // APB outputs
     output uart_PSEL,
+    output spi_PSEL,
+    output ascon_PSEL,
+    output gpio_PSEL,
+    output clint_PSEL,
+
     output PENABLE_out,
     output PWRITE_out,
     output [31:0] PADDR_out,
-    output [31:0] PWDATA_out,
+    output [31:0] PWDATA_out
 
-    output ready   // optional debug
+      
 );
 
     // decoder
@@ -57,20 +63,19 @@ module apb_top (
     wire [1:0] apb_state;
     wire apb_busy;
 
-    assign ready = apb_busy;
+    //assign ready = apb_busy;
 
     // APB internal
     wire PSEL, PENABLE, PWRITE;
     wire [31:0] PADDR, PWDATA;
-    wire [31:0] PRDATA_bus;   // ✅ internal only
+    wire [31:0] PRDATA_bus;   // internal only
     wire PREADY;
 
     wire [31:0] apb_rdata;
     wire apb_ready;
 
-    // peripheral select
-    wire ascon_PSEL, gpio_PSEL, spi_PSEL;
-    wire i2c_PSEL, plic_PSEL, timer_PSEL, clint_PSEL;
+    // peripheral select (gpio_PSEL, clint_PSEL are output ports above)
+    wire i2c_PSEL, plic_PSEL, timer_PSEL;
 
     // ---------------- decoder ----------------
     addr_decoder u_decoder (
@@ -86,6 +91,27 @@ module apb_top (
         .sel_clint(sel_clint)
     );
 
+wire sel_periph;
+
+assign sel_periph = sel_uart | sel_gpio | sel_spi | sel_i2c |
+                    sel_ascon | sel_plic | sel_timer | sel_clint;
+
+wire apb_read;
+wire apb_write;
+
+assign apb_read =
+        mem_read && !sel_mem;
+
+assign apb_write =
+        mem_write && !sel_mem;
+
+
+wire apb_request;
+
+assign apb_request =
+       (~sel_mem) &&
+       (mem_read || mem_write);
+
     // ---------------- master ----------------
     apb_master u_apb_master (
         .clk(clk),
@@ -93,10 +119,8 @@ module apb_top (
 
         .addr(addr),
         .wdata(wdata),
-
-        .mem_read(mem_read & ~sel_mem),
-        .mem_write(mem_write & ~sel_mem),
-
+        .mem_read(apb_read),
+        .mem_write(apb_write),
         .PSEL(PSEL),
         .PENABLE(PENABLE),
         .PWRITE(PWRITE),
@@ -169,15 +193,21 @@ module apb_top (
     // ---------------- mux ----------------
     mem_apb_mux u_mux (
         .sel_mem(sel_mem),
-        .mem_read(mem_read),
-
+        
         .r_data_mem(mem_rdata),
         .r_data_periph(apb_rdata),
-
-        .busy_apb(apb_busy),
-
-        .r_data_out(rdata),
-        .stall_mem(stall_mem)
+        .r_data_out(rdata)
     );
 
+
+   
+    // Stall Controller
+   
+    stall_controller u_stall_controller (
+
+        .apb_request(apb_request),
+        .apb_busy(apb_busy),
+        .stall_pipeline(stall_mem)
+
+    );
 endmodule

@@ -1,0 +1,261 @@
+`timescale 1ns/1ps
+
+module top;
+
+import reg_pkg::*;
+
+parameter N_SOURCE = 30;
+parameter N_TARGET = 2;
+
+logic clk;
+logic rst_ni;
+
+reg_req_t req;
+reg_rsp_t rsp;
+
+logic [N_SOURCE-1:0] irq_sources;
+logic [N_SOURCE-1:0] le;
+logic [N_TARGET-1:0] eip;
+
+//////////////////////////////////////////////////////
+// DUT
+//////////////////////////////////////////////////////
+
+plic_top #(
+    .N_SOURCE(N_SOURCE),
+    .N_TARGET(N_TARGET),
+    .MAX_PRIO(7),
+    .reg_req_t(reg_req_t),
+    .reg_rsp_t(reg_rsp_t)
+) dut (
+    .clk_i(clk),
+    .rst_ni(rst_ni),
+
+    .req_i(req),
+    .resp_o(rsp),
+
+    .le_i(le),
+    .irq_sources_i(irq_sources),
+
+    .eip_targets_o(eip)
+);
+
+//////////////////////////////////////////////////////
+// Clock
+//////////////////////////////////////////////////////
+
+initial clk = 0;
+always #5 clk = ~clk;
+
+//////////////////////////////////////////////////////
+// Logging / waveform setup
+//////////////////////////////////////////////////////
+
+integer log_fd;
+int pass_count = 0;
+int fail_count = 0;
+
+initial begin
+    log_fd = $fopen("plic_test.log", "w");
+    // Waveform dump: view with GTKWave (`gtkwave waves.vcd`).
+    // Compile/run with `verilator --trace ...` for this to populate.
+    $dumpfile("waves.vcd");
+    $dumpvars(0, top);
+end
+
+final begin
+    $display("\n==== SUMMARY: %0d passed, %0d failed ====", pass_count, fail_count);
+    $fdisplay(log_fd, "\n==== SUMMARY: %0d passed, %0d failed ====", pass_count, fail_count);
+    $fclose(log_fd);
+end
+
+// Self-checking helper. Call after a stimulus step to assert what
+// the DUT should be doing instead of eyeballing raw signal dumps.
+task check(input string label, input logic [31:0] actual, input logic [31:0] expected);
+begin
+    if (actual === expected) begin
+        pass_count++;
+        $display("[%0t] PASS: %s (=%0d)", $time, label, actual);
+        $fdisplay(log_fd, "[%0t] PASS: %s (=%0d)", $time, label, actual);
+    end else begin
+        fail_count++;
+        $display("[%0t] FAIL: %s -- got %0d, expected %0d", $time, label, actual, expected);
+        $fdisplay(log_fd, "[%0t] FAIL: %s -- got %0d, expected %0d", $time, label, actual, expected);
+    end
+end
+endtask
+
+//////////////////////////////////////////////////////
+// Tasks
+//////////////////////////////////////////////////////
+
+logic [31:0] last_rdata;
+
+task apb_write(input [31:0] addr,
+               input [31:0] data);
+begin
+    @(posedge clk);
+
+    req.valid = 1;
+    req.write = 1;
+    req.addr  = addr;
+    req.wdata = data;
+
+    @(posedge clk);
+
+    req.valid = 0;
+    req.write = 0;
+
+    $display("[%0t] WRITE Addr=%08h Data=%08h", $time, addr, data);
+    $fdisplay(log_fd, "[%0t] WRITE Addr=%08h Data=%08h", $time, addr, data);
+end
+endtask
+
+
+task apb_read(input [31:0] addr);
+begin
+    @(posedge clk);
+
+    req.valid = 1;
+    req.write = 0;
+    req.addr  = addr;
+
+    @(posedge clk);
+
+    last_rdata = rsp.rdata;
+
+    $display("[%0t] READ Addr=%08h Data=%08h", $time, addr, rsp.rdata);
+    $fdisplay(log_fd, "[%0t] READ Addr=%08h Data=%08h", $time, addr, rsp.rdata);
+
+    req.valid = 0;
+end
+endtask
+
+//////////////////////////////////////////////////////
+// Test
+//////////////////////////////////////////////////////
+
+initial begin
+
+    req = '0;
+    irq_sources = '0;
+    le = '0;
+
+    rst_ni = 0;
+
+    repeat(5) @(posedge clk);
+
+    rst_ni = 1;
+
+    $display("\n==============================");
+    $display(" RESET RELEASED ");
+    $display("==============================");
+
+    //--------------------------------------------
+    // Source-2 priority register
+    // (irq_sources[1] == Source 2)
+    //--------------------------------------------
+
+    apb_write(32'h0C000008, 32'h3);
+    apb_read (32'h0C000008);
+    check("priority readback (source 2)", last_rdata, 32'h3);
+
+    //--------------------------------------------
+    // Enable Source 2
+    // NOTE: ie_q is shifted down by 1 relative to ie_o
+    // (matching the same shift on the priority path:
+    // prio_q[i] = prio_o[i+1]). Bit2 of the raw register
+    // -> ie_q[1] -> source 2.
+    //--------------------------------------------
+
+    apb_write(32'h0C002000, 32'h4);
+    check("ie_q[1] set (source 2 enabled)", dut.ie_q[0][1], 1'b1);
+
+    //--------------------------------------------
+    // Threshold = 0 (target 0)
+    //--------------------------------------------
+
+    apb_write(32'h0C200000, 32'h0);
+
+    //--------------------------------------------
+    // Edge Trigger
+    //--------------------------------------------
+
+    le[1] = 1;
+
+    //--------------------------------------------
+    // Raise interrupt
+    //--------------------------------------------
+
+    #20;
+    irq_sources[1] = 1;
+    #20;
+    irq_sources[1] = 0;
+    #100;
+
+    check("pending bit (source 2)", dut.ip[1], 1'b1);
+    check("target IRQ asserted", eip, 2'b01);
+
+    //--------------------------------------------
+    // Claim
+    //--------------------------------------------
+
+    apb_read(32'h0C200004);
+    check("claimed source ID", last_rdata, 32'd2);
+
+    #20;
+
+    check("pending cleared after claim", dut.ip[1], 1'b0);
+
+    //--------------------------------------------
+    // Complete (Source 2)
+    //--------------------------------------------
+
+    apb_write(32'h0C200004, 32'h2);
+
+    #50;
+
+    check("target IRQ cleared after complete", eip, 2'b00);
+    check("pending after complete", dut.ip, {N_SOURCE{1'b0}});
+
+    #100;
+
+    $finish;
+
+end
+
+//////////////////////////////////////////////////////
+// Monitor -- prints only on state change, to file + console
+//////////////////////////////////////////////////////
+
+logic [N_SOURCE-1:0] ip_prev, irq_sources_prev;
+logic [N_TARGET-1:0] eip_prev;
+logic [31:0] ie_prev, claim_prev;
+
+initial begin
+    ip_prev = '0;
+    irq_sources_prev = '0;
+    eip_prev = '0;
+    ie_prev = '0;
+    claim_prev = '0;
+end
+
+always @(posedge clk) begin
+    if (dut.ip !== ip_prev || irq_sources !== irq_sources_prev ||
+        eip !== eip_prev || dut.ie_q[0] !== ie_prev ||
+        dut.claim_id[0] !== claim_prev) begin
+
+        $display("[%0t] IP=%b IRQ_SRC=%b IE=%b EIP=%b CLAIM=%0d",
+                  $time, dut.ip, irq_sources, dut.ie_q[0], eip, dut.claim_id[0]);
+        $fdisplay(log_fd, "[%0t] IP=%b IRQ_SRC=%b IE=%b EIP=%b CLAIM=%0d",
+                  $time, dut.ip, irq_sources, dut.ie_q[0], eip, dut.claim_id[0]);
+
+        ip_prev = dut.ip;
+        irq_sources_prev = irq_sources;
+        eip_prev = eip;
+        ie_prev = dut.ie_q[0];
+        claim_prev = dut.claim_id[0];
+    end
+end
+
+endmodule

@@ -20,6 +20,7 @@
 `define OPCODE_JAL       7'b1101111
 `define OPCODE_JALR      7'b1100111
 `define OPCODE_AUIPC     7'b0010111
+`define OPCODE_SYSTEM    7'b1110011
 
 
 // =============================================================================
@@ -86,5 +87,10 @@
 `define ALUOP_JALR         3'b101  // rs1 + imm
 `define ALUOP_LUI          3'b110  // imm << 12
 `define ALUOP_AUIPC        3'b111  // PC + imm
+
+`define BYTE 2'b00
+`define HALF 2'b01
+`define WORD 2'b10
+
 
 `endif // DEFINES_VH

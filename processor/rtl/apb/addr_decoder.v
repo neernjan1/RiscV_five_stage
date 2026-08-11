@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module addr_decoder(
     input  [31:0] addr,
 
@@ -19,15 +20,12 @@ always @(*) begin
 
     case (addr[31:12])   // 4KB regions
 
-        // Memory (0x0000_0000 - 0x2000_3FFF)
-        20'h00000,
-        20'h00001,
-        20'h00002,
-        20'h00003,
-        20'h00004,
-        20'h00005,
-        20'h00006,
-        20'h00007: sel_mem = 1;
+        // Data Memory (0x80010000 - 0x80013FFF) : 16 KB
+        20'h80010,
+        20'h80011,
+        20'h80012,
+        20'h80013:
+            sel_mem = 1;
 
         // Peripherals
         20'h40000: sel_ascon = 1;
@@ -39,7 +37,9 @@ always @(*) begin
         20'h40006: sel_timer = 1;
         20'h40007: sel_clint = 1;
 
-        default: sel_mem = 1;
+        default: 
+        // sel_mem = 1
+        ;
 
     endcase
 end

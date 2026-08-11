@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module hazard_detection(
 input [4:0] rs1_id,
 input [4:0] rs2_id,

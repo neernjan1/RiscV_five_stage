@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module apb_bus (
 
     // From APB master
@@ -67,7 +68,7 @@ module apb_bus (
     // PSEL GENERATION
     // =========================
     assign ascon_PSEL = PSEL & sel_ascon;
-    assign uart_PSEL  = PSEL & sel_uart;
+    assign uart_PSEL  = PSEL & sel_uart;// uart_psel
     assign gpio_PSEL  = PSEL & sel_gpio;
     assign spi_PSEL   = PSEL & sel_spi;
     assign i2c_PSEL   = PSEL & sel_i2c;
