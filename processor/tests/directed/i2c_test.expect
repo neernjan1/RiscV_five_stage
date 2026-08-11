@@ -1,0 +1,4 @@
+# See i2c_test.s's header comment for what each register means.
+x20=1
+x22=3
+x24=0x21
