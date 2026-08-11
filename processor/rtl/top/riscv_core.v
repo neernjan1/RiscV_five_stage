@@ -582,7 +582,7 @@ assign mret_execute = (instruction_code_id == 32'h30200073);
 csr_file u_csr(
 
 .clk(clk),
-.rst_n(~rst),
+.rst(rst),
 
 .csr_we(csr_we_ex),
 .csr_addr(csr_addr_id),

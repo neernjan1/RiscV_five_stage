@@ -73,9 +73,22 @@ all: slang_test verilate
 slang_test:
 	slang $(SRC)
 
+# Every -Wno- below is scoped to genuine vendored-IP characteristics
+# (verified: none currently fire anywhere in the core's own hand-written
+# RTL), not core bugs being swept under the rug:
+#   MODDUP      -- CLINT/apb_uart's own vendored checkouts declare a
+#                  couple of modules twice across their dependency tree.
+#   PINMISSING  -- unused pins on vendored submodule instances (e.g.
+#                  CLINT's clint_reg_top.sv, apb_uart's AXI internals).
+#   fatal       -- CLINT's vendored prim_subreg_arb.sv references a
+#                  typedef before its declaration; a strict IEEE
+#                  1800-2023 ordering violation that would otherwise
+#                  hard-fail the build even though every real EDA tool
+#                  (and Verilator's own default, non-strict elaboration)
+#                  accepts it fine.
 verilate:
 	@echo "Running V E R I L A T O R....."
-	@verilator -Wno-MODDUP -Wno-PINMISSING -Wno-WIDTHEXPAND -Wno-WIDTHTRUNC -Wno-LATCH -Wno-fatal --sv --binary $(SRC) -f $(UART_F) --top $(TOP) --trace --quiet
+	@verilator -Wno-MODDUP -Wno-PINMISSING -Wno-fatal --sv --binary $(SRC) -f $(UART_F) --top $(TOP) --trace --quiet
 	@cp $(MEM) ./
 	@./obj_dir/V$(TOP) +trace --quiet +TESTNAME=$(TESTNAME) $(if $(filter 1,$(VERBOSE)),+VERBOSE)
 

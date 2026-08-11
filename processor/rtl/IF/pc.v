@@ -8,7 +8,11 @@ module pc(
     output reg [31:0] pc
 );
 
-always @(posedge clk or posedge rst) begin
+// Synchronous reset, matching every other pipeline register in the
+// core (IF_ID/ID_EX/EX_MEM/MEM_WB, reg_file.v, csr_file.sv) -- a
+// single, consistent reset style within the core's clock domain is
+// what a scan/ATPG flow wants.
+always @(posedge clk) begin
     if (rst)
         pc <= 32'h80000000;
     else if (pc_write)

@@ -6,12 +6,12 @@
 `define I2C_CMD_WRITE 4'b0100
 `define I2C_CMD_READ  4'b1000
 
-`define REG_CLK_PRESCALER 3'b000 //BASEADDR+0x00
-`define REG_CTRL          3'b001 //BASEADDR+0x04
-`define REG_RX            3'b010 //BASEADDR+0x08
-`define REG_STATUS        3'b011 //BASEADDR+0x0C
-`define REG_TX            3'b100 //BASEADDR+0x10
-`define REG_CMD           3'b101 //BASEADDR+0x14
+`define I2C_REG_CLK_PRESCALER 3'b000 //BASEADDR+0x00
+`define I2C_REG_CTRL          3'b001 //BASEADDR+0x04
+`define I2C_REG_RX            3'b010 //BASEADDR+0x08
+`define I2C_REG_STATUS        3'b011 //BASEADDR+0x0C
+`define I2C_REG_TX            3'b100 //BASEADDR+0x10
+`define I2C_REG_CMD           3'b101 //BASEADDR+0x14
 
 module apb_i2c
 #(
@@ -90,13 +90,13 @@ module apb_i2c
                 r_cmd[2:1] <= 2'b0;                 // reserved bits
                 r_cmd[0]   <= 1'b0;                 // clear IRQ_ACK bit
                 case (s_apb_addr)
-                    `REG_CLK_PRESCALER:
+                    `I2C_REG_CLK_PRESCALER:
                         r_pre <= PWDATA[15:0];
-                    `REG_CTRL:
+                    `I2C_REG_CTRL:
                         r_ctrl <= PWDATA[7:0];
-                    `REG_TX:
+                    `I2C_REG_TX:
                         r_tx <= PWDATA[7:0];
-                    `REG_CMD:
+                    `I2C_REG_CMD:
                     begin
                         if(s_core_en)
                             r_cmd <= PWDATA[7:0];
@@ -116,17 +116,17 @@ module apb_i2c
     always_comb
     begin
         case (s_apb_addr)
-            `REG_CLK_PRESCALER:
+            `I2C_REG_CLK_PRESCALER:
                 PRDATA = {16'h0,r_pre};
-            `REG_CTRL:
+            `I2C_REG_CTRL:
                 PRDATA = {24'h0,r_ctrl};
-            `REG_RX:
+            `I2C_REG_RX:
                 PRDATA = {24'h0,s_rx};
-            `REG_STATUS: 
+            `I2C_REG_STATUS: 
                 PRDATA = {24'h0,s_status};
-            `REG_TX:    
+            `I2C_REG_TX:    
                 PRDATA = {24'h0,r_tx};
-            `REG_CMD:
+            `I2C_REG_CMD:
                 PRDATA = {24'h0,r_cmd};
             default:
                 PRDATA = 'h0;

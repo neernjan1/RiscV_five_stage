@@ -34,7 +34,10 @@
 module csr_file (
 
     input  logic        clk,
-    input  logic        rst_n,
+    input  logic        rst,       // synchronous, active-high -- matches
+                                    // every other register in the core
+                                    // (pc.v, IF_ID/ID_EX/EX_MEM/MEM_WB,
+                                    // reg_file.v, apb_master.v)
 
     // ---- CSR instruction interface (from pipeline) ----
     // csr_addr:  ID-stage address, drives the read mux (csr_rdata) that
@@ -137,8 +140,8 @@ module csr_file (
     end
 
     // ---- Sequential update ----
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+    always_ff @(posedge clk) begin
+        if (rst) begin
             mstatus_q <= 32'b0;
             mie_q     <= 32'b0;
             mtvec_q   <= 32'b0;

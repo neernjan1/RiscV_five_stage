@@ -125,7 +125,13 @@ initial begin
     clk = 0;
     rst = 1;
 
-    #2;
+    // Hold reset across at least two full clock periods (clk's first
+    // posedge is at t=5ns -- a #2 pulse used to deassert before that,
+    // which async-reset registers never noticed since they fire
+    // independent of the clock, but a synchronous-reset register only
+    // ever samples rst at a posedge, so it needs to actually see one
+    // while rst is still high.
+    #20;
     rst = 0;
 
     $display("");

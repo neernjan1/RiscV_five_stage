@@ -404,8 +404,11 @@ assign clint_ipi       = clint_ipi_vec[0];
 // divider gives it a genuinely distinguishable edge to detect while still
 // ticking fast enough for directed tests to hit small mtimecmp values
 // quickly.
+// Synchronous reset -- see the core's own registers (pc.v, csr_file.sv)
+// for why this design keeps one consistent reset style throughout its
+// own clock domain.
 reg [3:0] rtc_div;
-always @(posedge clk or posedge rst) begin
+always @(posedge clk) begin
     if (rst) rtc_div <= 4'b0;
     else     rtc_div <= rtc_div + 4'b1;
 end

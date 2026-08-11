@@ -65,21 +65,31 @@ module apb_master (
         endcase
     end
 
-    // Latch inputs
+    // Latch inputs -- reset isn't functionally load-bearing here (state
+    // is IDLE out of reset, and these are always overwritten the same
+    // cycle a request is accepted, before SETUP/ACCESS ever consumes
+    // them), but giving them one anyway removes any doubt for scan/ATPG
+    // capture rather than leaving their power-on value undefined.
     always @(posedge clk) begin
-        if (state == IDLE) begin
+        if (rst) begin
+            addr_reg  <= 32'b0;
+            wdata_reg <= 32'b0;
+            write_reg <= 1'b0;
+            read_reg  <= 1'b0;
+        end
+        else if (state == IDLE) begin
             if (mem_write) begin
                 addr_reg  <= addr;
                 wdata_reg <= wdata;
                 write_reg <= 1;
                 read_reg  <= 0;
-               
+
             end
             else if (mem_read) begin
                 addr_reg  <= addr;
                 write_reg <= 0;
                 read_reg  <= 1;
-               
+
             end
         end
     end
