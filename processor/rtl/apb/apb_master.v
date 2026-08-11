@@ -45,8 +45,10 @@ module apb_master (
     reg [31:0] addr_reg, wdata_reg;
     reg write_reg, read_reg;
 
-    // State register
-    always @(posedge clk or posedge rst) begin
+    // State register -- synchronous reset, matching every other register
+    // in the core's clock domain (pc.v, pipeline regs, reg_file.v,
+    // csr_file.sv).
+    always @(posedge clk) begin
         if (rst)
             state <= IDLE;
         else
@@ -116,27 +118,35 @@ module apb_master (
         endcase
     end
 
-    // Read capture
+    // Read capture -- only ever sampled by a consumer on the same cycle
+    // this condition holds (gated by `ready`/apb_busy upstream), so the
+    // else branch's value is a don't-care; giving it one explicitly
+    // (rather than omitting it) keeps this combinational instead of an
+    // inferred latch.
     always @(*) begin
         if (state == ACCESS && PREADY && read_reg)
             rdata = PRDATA;
+        else
+            rdata = 32'b0;
     end
 
-    //Handling busy logic
+    // Handling busy logic -- fully combinational function of state
+    // (already a registered value) plus the same live inputs next_state
+    // uses, so every case can be spelled out explicitly instead of
+    // relying on an implicit latch-hold for the states/conditions this
+    // used to leave unassigned (SETUP, and ACCESS while still waiting
+    // on PREADY).
     always @(*) begin
-    if (rst)
-        busy = 0;
-
-    else begin
-
-        // request accepted
-        if(state==IDLE && (mem_read || mem_write))
-            busy = 1;
-
-        // transaction completed
-        else if(state==ACCESS && PREADY)
+        if (rst)
             busy = 0;
+        else begin
+            case (state)
+                IDLE:   busy = (mem_read || mem_write);
+                SETUP:  busy = 1'b1;
+                ACCESS: busy = ~PREADY;
+                default: busy = 1'b0;
+            endcase
+        end
     end
-end
 
 endmodule
