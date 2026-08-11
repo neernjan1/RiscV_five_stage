@@ -165,10 +165,13 @@ module data_memory(
 
     end
 
-    //Debug
+    //Debug (only with +VERBOSE -- see tb.v's header comment)
+    reg verbose_trace;
+    initial verbose_trace = $test$plusargs("VERBOSE");
+
                 always @(posedge clk)
             begin
-                 if(mem_write)
+                 if(mem_write && verbose_trace)
                 begin
                     $display("STORE");
                     $display("ADDR=%h",addr);
@@ -178,7 +181,7 @@ module data_memory(
 
             always @(*)
             begin
-                if(mem_read)
+                if(mem_read && verbose_trace)
                 begin
                     $display(
                     "LOAD addr=%h mem_size=%d sign=%d",

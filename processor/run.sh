@@ -7,17 +7,33 @@
 # (gcc_files/tst.c), or just a faster inner loop while
 # iterating on RTL.
 #
+# The sim prints a "Running Test: <name>" banner, the register
+# dump, the functional-coverage report, and a matching "Test
+# Complete" banner. If tests/directed/<name>.expect exists,
+# check_test.py automatically checks the final register values
+# against it and prints PASS/FAIL. Pass -v for full bus-level
+# debug tracing (SPI/STORE/LOAD/AUIPC), off by default.
+#
 # Usage:
 # ./run.sh tests/directed/gpio_test.s
+# ./run.sh -v tests/directed/gpio_test.s
 # ./run.sh gcc_files/tst.c
 # ============================================================
 
+VERBOSE=0
+if [ "$1" = "-v" ]; then
+    VERBOSE=1
+    shift
+fi
+
 if [ $# -ne 1 ]; then
-    echo "Usage: ./run.sh <assembly_file.s | gcc_files/tst.c>"
+    echo "Usage: ./run.sh [-v] <assembly_file.s | gcc_files/tst.c>"
     exit 1
 fi
 
 ASM_FILE="$1"
+TEST_NAME="$(basename "$ASM_FILE")"
+TEST_NAME="${TEST_NAME%.*}"
 
 if [ ! -f "$ASM_FILE" ]; then
     echo "Error: $ASM_FILE not found."
@@ -82,14 +98,15 @@ echo "======================================="
 
 cd verilator || exit 1
 
-make verilate
+make verilate TESTNAME="$TEST_NAME" VERBOSE="$VERBOSE" 2>&1 | tee ../sim_output.log
+SIM_STATUS=${PIPESTATUS[0]}
 
-if [ $? -ne 0 ]; then
+cd ..
+
+if [ "$SIM_STATUS" -ne 0 ]; then
     echo "RTL simulation failed!"
     exit 1
 fi
-
-cd ..
 
 echo
 echo "======================================="
@@ -101,6 +118,11 @@ echo "----------------------------"
 echo "gcc_files/tst.elf"
 echo "memory_files/imem.mem"
 echo "rtl.log"
+echo "sim_output.log"
 echo
 echo "Note: rtl.log has no spike_commit.log to compare against --"
 echo "inspect it directly, or use ./run_assembly.sh for a Spike-checked run."
+
+python3 check_test.py "$TEST_NAME" sim_output.log
+CHECK_STATUS=$?
+exit $CHECK_STATUS

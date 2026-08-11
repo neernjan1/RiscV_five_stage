@@ -1,0 +1,9 @@
+# See soc_integration_test.s's header comment for what each register means.
+x21=1
+x22=1
+x23=1
+x24=1
+x25=1
+x26=1
+x27=1
+x28=0xFFFFFFFF

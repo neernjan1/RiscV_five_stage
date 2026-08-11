@@ -50,12 +50,6 @@ module plic_top #(
   logic [N_SOURCE-1:0][PRIOW-1:0]    prio_q;
   logic [N_TARGET-1:0][N_SOURCE-1:0] ie_q;
 
-// Latch claim ID when the target performs a claim.
-// This prevents the claim ID from changing to zero
-// in the same cycle that the gateway clears the pending bit,
-// avoiding a race between the target and the APB read.
-  logic [N_TARGET-1:0][SRCW-1:0] claim_id_q;
-
   always_comb begin
     claim = '0;
     complete = '0;
@@ -126,7 +120,13 @@ module plic_top #(
     .threshold_o(threshold_o),
     .threshold_we_o(threshold_we_o),
     .threshold_re_o(), // don't care
-    .cc_i( claim_id_q), // changed here from claim_id to this 
+    // rv_plic_target's irq_id (claim_id here) is already a registered,
+    // stable-throughout-the-cycle output -- feed it straight through
+    // rather than re-latching it a second time gated on claim_re, which
+    // only tracks the value for exactly the one cycle right after a
+    // claim read and resets to 0 otherwise (so a first claim read after
+    // an interrupt becomes pending would always see a stale 0).
+    .cc_i( claim_id),
     .cc_o(complete_id),
     .cc_we_o(complete_we),
     .cc_re_o(claim_re),
@@ -144,68 +144,21 @@ module plic_top #(
     assign prio_i[i] = prio_q[i - 1];
   end
 
-  // // registers
-  // always_ff @(posedge clk_i or negedge rst_ni) begin
-  //   if (~rst_ni) begin
-  //     prio_q <= '0;
-  //     ie_q <= '0;
-  //     threshold_q <= '0;
-  //   end else begin
-  //     // source zero is 0
-  //     for (int i = 0; i < N_SOURCE; i++) begin
-  //       prio_q[i] <= prio_we_o[i + 1] ? prio_o[i + 1] : prio_q[i];
-  //     end
-  //     for (int i = 0; i < N_TARGET; i++) begin
-  //       threshold_q[i] <= threshold_we_o[i] ? threshold_o[i] : threshold_q[i];
-  //       ie_q[i] <= ie_we_o[i] ? ie_o[i][N_SOURCE:1] : ie_q[i];
-  //     end
-
-  //   end
-  // end
   always_ff @(posedge clk_i or negedge rst_ni) begin
-  if (!rst_ni) begin
-    prio_q <= '0;
-    ie_q <= '0;
-    threshold_q <= '0;
-  end else begin
-
-    $display("[%0t] BEFORE: we1=%b o1=%0d q1=%0d",
-              $time, prio_we_o[1], prio_o[1], prio_q[1]);
-
-    for (int i = 0; i < N_SOURCE; i++) begin
-      if (prio_we_o[i+1]) begin
-        $display("[%0t] Writing prio[%0d] = %0d",
-                  $time, i, prio_o[i+1]);
+    if (!rst_ni) begin
+      prio_q <= '0;
+      ie_q <= '0;
+      threshold_q <= '0;
+    end else begin
+      // source zero is 0
+      for (int i = 0; i < N_SOURCE; i++) begin
+        prio_q[i] <= prio_we_o[i + 1] ? prio_o[i + 1] : prio_q[i];
       end
-      prio_q[i] <= prio_we_o[i+1] ? prio_o[i+1] : prio_q[i];
-    end
-
-    $display("[%0t] AFTER : q1=%0d", $time, prio_q[1]);
-
-    for (int i = 0; i < N_TARGET; i++) begin
-      threshold_q[i] <= threshold_we_o[i] ? threshold_o[i] : threshold_q[i];
-      ie_q[i] <= ie_we_o[i] ? ie_o[i][N_SOURCE:1] : ie_q[i];
+      for (int i = 0; i < N_TARGET; i++) begin
+        threshold_q[i] <= threshold_we_o[i] ? threshold_o[i] : threshold_q[i];
+        ie_q[i] <= ie_we_o[i] ? ie_o[i][N_SOURCE:1] : ie_q[i];
+      end
     end
   end
-end
-always @(negedge clk_i) begin
-    $display("[%0t] NEGEDGE q1=%0d", $time, prio_q[1]);
-end
-
-//===============================================================
-//changed for claim
-
-always_ff @(posedge clk_i or negedge rst_ni) begin
-    if (!rst_ni) begin
-        claim_id_q <= '0;
-    end else begin
-        for (int i = 0; i < N_TARGET; i++) begin
-            if (claim_re[i])
-                claim_id_q[i] <= claim_id[i];
-            else
-                claim_id_q[i] <= '0;
-        end
-    end
-end
 
 endmodule

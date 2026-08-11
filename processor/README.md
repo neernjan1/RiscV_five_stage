@@ -65,6 +65,7 @@ processor/
 ├── run_assembly.sh        # main entry point: build -> Spike -> Verilator
 ├── run.sh                  # RTL-only: build -> Verilator (Spike skipped)
 ├── compare_logs1.py        # diffs rtl.log against spike_commit.log
+├── check_test.py            # PASS/FAIL vs. tests/directed/<name>.expect
 ├── rtl/                     # core + peripheral RTL (apb, EX/ID/IF/MA/WB,
 │                             #   spi, ascon, CLINT, gpio, apb_uart, plic)
 ├── tb/                      # testbenches
@@ -106,11 +107,10 @@ Try any file under `tests/directed/`, `tests/coverage/`, or
 ```
 
 **Note:** Spike has no model of this project's memory-mapped
-peripherals (SPI, ASCON, CLINT, GPIO, UART), so tests that exercise
-those (`spi_*`, `ascon_*`, `clint_*`, `gpio_test.s`, `uart_test.s`)
-will legitimately diverge from Spike after the peripheral access —
-verify those by reading `rtl.log` directly instead of via
-`compare_logs1.py`.
+peripherals (SPI, ASCON, CLINT, GPIO, UART, PLIC), so tests that
+exercise those will legitimately diverge from Spike after the
+peripheral access. Every one of those tests still gets a real
+automatic PASS/FAIL — see "Testbench output" below.
 
 ## RTL-only run (bypass Spike)
 
@@ -123,14 +123,57 @@ does the build + Verilator run without touching Spike at all:
 ```
 
 This produces `rtl.log` only (no `spike_commit.log`, so
-`compare_logs1.py` doesn't apply) — inspect `rtl.log` directly.
+`compare_logs1.py` doesn't apply) — inspect `rtl.log` directly, or
+just read the PASS/FAIL check printed at the end (see below).
 
 It also accepts a C source file, in which case it links
-`gcc_files/crt0.S` (startup stub: sets `sp`, calls `main()`) alongside
-it automatically:
+`gcc_files/crt0.S` (startup stub: zeroes `.bss`, sets `sp`, calls
+`main()`) alongside it automatically:
 
 ```bash
 ./run.sh gcc_files/tst.c
+```
+
+Pass `-v` (before the file) for full bus-level debug tracing (SPI
+transaction bytes, every DMEM STORE/LOAD, AUIPC decode) — off by
+default since it's mostly noise once a test is working:
+
+```bash
+./run.sh -v tests/directed/spi_read.s
+```
+
+## Testbench output
+
+Every run — `run.sh` or `run_assembly.sh` — prints, in order:
+
+1. A `Running Test: <name>` banner (the test's basename, no
+   extension).
+2. The bus-level debug traces, only with `-v` (`run.sh`) or
+   `VERBOSE=1` (`run_assembly.sh`/`make verilate` directly).
+3. The final register-file dump (`x0`–`x31`).
+4. A functional-coverage report (`tb/tb.v`'s `print_coverage()`):
+   which RV32I instructions executed at least once, branch taken/not-
+   taken coverage, hazard/forwarding-path coverage, and DMEM first/last-
+   address coverage — a quick answer to "what did this run actually
+   exercise."
+5. A `Test Complete: <name>` banner.
+6. If `tests/directed/<name>.expect` exists, an automatic PASS/FAIL
+   check (`check_test.py`) against the register values documented in
+   that test's own header comment. `run.sh` exits non-zero on FAIL;
+   `run_assembly.sh` prints it as an extra signal alongside
+   `compare_logs1.py`, which stays the primary check there.
+
+Not every test has a `.expect` file — `spi_*.s`/`ascon_*.s` don't have
+independently-verified expected register values documented, and
+anything Spike-compares (`tests/coverage/`, `tests/generated/`, the
+`csr_*` tests) is already checked by `compare_logs1.py`. Adding one for
+a new directed test is just a few lines, e.g.
+`tests/directed/plic_test.expect`:
+
+```
+x20=1
+x22=1
+x24=0x41
 ```
 
 ## Running the standalone core testbench
@@ -153,7 +196,7 @@ Expect `TESTBENCH: PASS (8 checks)` at the end.
 ## Cleaning build artifacts
 
 ```bash
-rm -f test.bin rtl.log spike_commit.log
+rm -f test.bin rtl.log spike_commit.log sim_output.log
 rm -rf verilator/obj_dir verilator/riscv.vcd
 rm -f gcc_files/tst.elf gcc_files/tst_spike.elf memory_files/*.mem
 ```

@@ -1,0 +1,3 @@
+# See clint_timer_test.s's header comment for what each register means.
+x2=1
+x8=0x80000007

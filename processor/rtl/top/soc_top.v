@@ -104,8 +104,7 @@ riscv_core cpu(
     //--------------------------
     // Interrupts
     //--------------------------
-    // No PLIC instantiated yet -- tie inactive rather than leave floating.
-    .external_irq(1'b0),
+    .external_irq(plic_eip_targets[0]),
     .mtip(clint_timer_irq),
     .msip(clint_ipi)
 );
@@ -183,6 +182,7 @@ wire spi_PSEL;
 wire ascon_PSEL;
 wire clint_PSEL;
 wire gpio_PSEL;
+wire plic_PSEL;
 
 wire PENABLE;
 wire PWRITE;
@@ -236,6 +236,7 @@ apb_top apb(
     .ascon_PSEL(ascon_PSEL),
     .clint_PSEL(clint_PSEL),
     .gpio_PSEL(gpio_PSEL),
+    .plic_PSEL(plic_PSEL),
 
     .PENABLE_out(PENABLE),
     .PWRITE_out(PWRITE),
@@ -253,9 +254,6 @@ apb_top apb(
 
 assign i2c_PRDATA = 32'b0;
 assign i2c_PREADY = 1'b1;
-
-assign plic_PRDATA = 32'b0;
-assign plic_PREADY = 1'b1;
 
 assign timer_PRDATA = 32'b0;
 assign timer_PREADY = 1'b1;
@@ -386,8 +384,8 @@ apb_clint_wrapper clint (
 soc_apb_req_t  gpio_apb_req;
 soc_apb_resp_t gpio_apb_rsp;
 wire [31:0] gpio_in_sync;         // unused: sampled/synced copy of gpio_in
-wire        gpio_global_irq;      // unused: no PLIC wired up to catch it yet
-wire [31:0] gpio_pin_level_irq;   // unused: no PLIC wired up to catch it yet
+wire        gpio_global_irq;      // PLIC source 2 (see PLIC section below)
+wire [31:0] gpio_pin_level_irq;   // unused: only the global line feeds PLIC so far
 
 assign gpio_apb_req.paddr   = PADDR;
 assign gpio_apb_req.pprot   = '0;
@@ -425,7 +423,7 @@ gpio_apb_wrap #(
 //UART
 soc_apb_req_t  uart_apb_req;
 soc_apb_resp_t uart_apb_rsp;
-wire uart_intr;   // unused: no PLIC wired up to catch it yet
+wire uart_intr;   // PLIC source 1 (see PLIC section below)
 
 assign uart_apb_req.paddr   = PADDR;
 assign uart_apb_req.pprot   = '0;
@@ -461,6 +459,37 @@ apb_uart_wrap #(
 
     .sin_i  ( uart_rx ),
     .sout_o ( uart_tx )
+);
+
+//PLIC (external interrupt controller)
+//
+// Source 1 (register-visible numbering) = uart_intr (UART RX-data-ready /
+// line-status / THR-empty, whichever the UART's own IER has enabled).
+// Source 2 = gpio_global_irq (GPIO's OR of all its per-pin interrupt
+// causes). Sources 3..30 are wired zero -- free for future peripherals.
+// Target 0's eip line feeds the core's meip (mip.MEIP); target 1 is
+// unused (this is a single-hart, single-context design).
+wire [29:0] plic_irq_sources;
+wire [1:0]  plic_eip_targets;
+
+assign plic_irq_sources = {28'b0, gpio_global_irq, uart_intr};
+
+apb_plic_wrapper plic (
+
+    .PCLK(clk),
+    .PRESETn(~rst),
+
+    .PSEL(plic_PSEL),
+    .PENABLE(PENABLE),
+    .PWRITE(PWRITE),
+    .PADDR(PADDR),
+    .PWDATA(PWDATA),
+
+    .PRDATA(plic_PRDATA),
+    .PREADY(plic_PREADY),
+
+    .irq_sources_i(plic_irq_sources),
+    .eip_targets_o(plic_eip_targets)
 );
 
 endmodule

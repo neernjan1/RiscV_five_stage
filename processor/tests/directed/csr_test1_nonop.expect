@@ -1,0 +1,6 @@
+# Same program as csr_test1.s, minus the nops (this is the original
+# "does csrrw need nops" exploration file -- see csr_hazard_test.s for
+# the full regression this question turned into).
+x1=0x100
+x2=0
+x3=0x100

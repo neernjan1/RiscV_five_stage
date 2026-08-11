@@ -1,5 +1,19 @@
 `timescale 1ns/1ps
 
+// Two run-time plusargs, both optional (both default to a quiet, generic
+// run so nothing breaks for an invocation that doesn't pass them):
+//   +TESTNAME=<name>  Printed in the start/end banners and used by
+//                      check_test.py to look up tests/directed/<name>.expect
+//                      for automatic PASS/FAIL. run.sh/run_assembly.sh pass
+//                      this automatically (derived from the test file's
+//                      basename) -- nothing to do by hand.
+//   +VERBOSE           Turns on the per-peripheral debug traces that used
+//                      to always print (SPI transaction monitor here,
+//                      STORE/LOAD in data_memory.v, AUIPC decode in
+//                      imm_gen.v) -- off by default so a normal run's
+//                      output stays readable, on when you actually need
+//                      to see bus-level activity.
+
 module tb;
 
 //=========================================================
@@ -8,6 +22,15 @@ module tb;
 reg clk;
 reg rst;
 integer i;
+
+reg [8*64-1:0] test_name;
+reg verbose_trace;
+
+initial begin
+    if (!$value$plusargs("TESTNAME=%s", test_name))
+        test_name = "unknown";
+    verbose_trace = $test$plusargs("VERBOSE");
+end
 reg spi_sdi0;
 reg spi_sdi1;
 reg spi_sdi2;
@@ -87,18 +110,28 @@ initial begin
     #2;
     rst = 0;
 
+    $display("");
+    $display("==============================================================");
+    $display(" Running Test: %0s", test_name);
+    $display("==============================================================");
+
     #30000;
-    //For debug 
+
     $display("\n========== REGISTER FILE ==========");
-    
+
     for (i = 0; i < 32; i = i + 1) begin
         $display("x%0d = %08h", i, soc.cpu.rf.register[i]);
     end
     $display("===================================\n");
 
-
     // Print Coverage Report
-   // print_coverage();
+    print_coverage();
+
+    $display("");
+    $display("==============================================================");
+    $display(" Test Complete: %0s", test_name);
+    $display("==============================================================");
+    $display("");
 
     // Close log files
     $fclose(rtl_log);
@@ -955,7 +988,7 @@ always @(negedge soc.spi.spi_csn0) begin
     tx_byte  = 8'h00;
     bit_cnt  = 0;
     byte_cnt = 0;
-    $display("\nSPI Transaction Started");
+    if (verbose_trace) $display("\nSPI Transaction Started");
 end
 
 always @(posedge soc.spi.spi_clk) begin
@@ -964,8 +997,9 @@ always @(posedge soc.spi.spi_clk) begin
         bit_cnt = bit_cnt + 1;
 
         if (bit_cnt == 8) begin
-            $display("Byte %0d = 0x%02h (%08b)",
-                     byte_cnt, tx_byte, tx_byte);
+            if (verbose_trace)
+                $display("Byte %0d = 0x%02h (%08b)",
+                         byte_cnt, tx_byte, tx_byte);
             byte_cnt = byte_cnt + 1;
             bit_cnt  = 0;
             tx_byte  = 8'h00;
@@ -974,7 +1008,7 @@ always @(posedge soc.spi.spi_clk) begin
 end
 
 always @(posedge soc.spi.spi_csn0)
-    $display("SPI Transaction Finished\n");
+    if (verbose_trace) $display("SPI Transaction Finished\n");
 
 ///=====================================================
 // SPI FLASH MODEL (RX DATA)
@@ -1000,10 +1034,11 @@ begin
     begin
         spi_sdi1 = slave_data[7-rx_bit];
 
-        $display("[%0t] Driving bit %0d = %b",
-                 $time,
-                 rx_bit,
-                 spi_sdi1);
+        if (verbose_trace)
+            $display("[%0t] Driving bit %0d = %b",
+                     $time,
+                     rx_bit,
+                     spi_sdi1);
 
         rx_bit = rx_bit + 1;
 
@@ -1017,7 +1052,7 @@ end
 // Optional monitor
 always @(posedge soc.spi.spi_clk)
 begin
-    if (!soc.spi.spi_csn0)
+    if (!soc.spi.spi_csn0 && verbose_trace)
     begin
         $display("[%0t] slave_data=%h  rx_bit=%0d  drive=%b",
          $time,
@@ -1029,21 +1064,21 @@ end
 
 
 always @(posedge clk) begin
-    if (soc.spi.u_spictrl.spi_ctrl_data_rx_valid)
+    if (soc.spi.u_spictrl.spi_ctrl_data_rx_valid && verbose_trace)
         $display("[%0t] CTRL RX = %08h",
                  $time,
                  soc.spi.u_spictrl.spi_ctrl_data_rx);
 end
 
 always @(posedge clk) begin
-    if (soc.spi.u_rxfifo.valid_o)
+    if (soc.spi.u_rxfifo.valid_o && verbose_trace)
         $display("[%0t] FIFO RX = %08h",
                  $time,
                  soc.spi.u_rxfifo.data_o);
 end
 
 always @(posedge clk) begin
-    if (soc.spi.u_axiregs.spi_data_rx_ready)
+    if (soc.spi.u_axiregs.spi_data_rx_ready && verbose_trace)
         $display("[%0t] CPU read RXFIFO = %08h",
                  $time,
                  soc.spi.u_axiregs.spi_data_rx);

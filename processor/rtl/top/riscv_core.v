@@ -228,7 +228,8 @@ wire [11:0] csr_addr_ex ;
 ID_EX id_ex1 (
     .clk(clk),
     .rst(rst),
-    .stall(control_mux_sel_id | stall_mem), // Stall the pipeline if there's a hazard or if APB is busy
+    .stall(control_mux_sel_id), // load-use hazard: bubble-insert
+    .freeze(stall_mem),         // APB busy: true hold, see ID_EX.v
     .flush(flush| trap_taken_ok),
 
     .pc_id(pc_id),

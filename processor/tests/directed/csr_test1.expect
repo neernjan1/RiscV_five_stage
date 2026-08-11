@@ -1,0 +1,5 @@
+# x2 = old mtvec (0, before being set); x3 = mtvec read right after
+# being written to x1's value (0x100).
+x1=0x100
+x2=0
+x3=0x100

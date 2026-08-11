@@ -1,0 +1,8 @@
+# See csr_hazard_test.s's header comment for what each register means.
+x1=0x100
+x2=0
+x3=0x100
+x4=0x200
+x5=0
+x8=0x300
+x9=0x200

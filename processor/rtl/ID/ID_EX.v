@@ -7,7 +7,14 @@ module ID_EX(
   
     input clk,
     input rst,
-    input stall, 
+    input stall,
+    // True freeze: an instruction already latched into this register's
+    // OUTPUT must stay there unchanged (not even its control signals
+    // rippling to a bubble) because downstream (EX_MEM) is itself frozen
+    // by the same condition and hasn't accepted it yet. Driven by
+    // stall_mem -- see the comment on the `stall` branch below for why
+    // this has to be separate from a bubble-insert.
+    input freeze,
     input flush,
      // Control signal to stall the pipeline by preventing the ID/EX register from updating
 
@@ -140,11 +147,26 @@ module ID_EX(
         end
 
 
-        // STALL (HOLD VALUE)
-      
+        // FREEZE (genuine hold -- nothing in this register changes,
+        // control signals included). Used when stall_mem is why we're
+        // stalling: EX_MEM is frozen too and hasn't accepted whatever
+        // this register is currently holding, so zeroing aluOp_ex etc.
+        // here would corrupt that instruction's still-combinational
+        // alu_result before it ever reaches EX_MEM -- the exact bug this
+        // branch exists to avoid (see soc_integration_test.s Stage 4).
+        else if (freeze) begin
+            // Intentionally empty: every output keeps its current value.
+        end
+
+        // STALL (INSERT BUBBLE)
+        //
+        // Used for the load-use hazard (control_mux_sel_id): the
+        // instruction currently in ID must NOT execute yet, and IF_ID
+        // is held so it can be decoded fresh once the hazard clears --
+        // so here we discard it going into EX and clear control signals
+        // to a NOP rather than freezing (there's nothing valid already
+        // in this register's output that a freeze would need to protect).
         else if (stall) begin
-            // Do nothing → retain previous values
-             // Control signals cleared → NOP //added by me to prevent unintended writes during stall
             regWrite_ex     <= 0;
             aluSrc_ex       <= 0;
             aluOp_ex        <= 0;
@@ -153,7 +175,7 @@ module ID_EX(
             memRead_ex      <= 0;
             memToReg_ex     <= 0;
             jump_ex         <= 0;
-              jalr_sel_ex <= 0;    
+              jalr_sel_ex <= 0;
              alu_pc_sel_ex <= 0;
              csr_read_ex <=0;
              csr_we_ex <= 0;

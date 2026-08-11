@@ -341,17 +341,8 @@ always_comb begin
           threshold_re_o[1] = 1'b1;
         end
         32'hc200004: begin
-
-           $display("[%0t] READ CLAIM", $time);
-          $display("cc_i      = %0d", cc_i[0]);
-          $display("claim_re(before) = %b", cc_re_o[0]);
-
           resp_o.rdata[4:0] = cc_i[0][4:0];
           cc_re_o[0] = 1'b1;
-
-          $display("rdata      = %0d", resp_o.rdata);
-          $display("claim_re(after) = %b", cc_re_o[0]);
-
         end
         32'hc201004: begin
           resp_o.rdata[4:0] = cc_i[1][4:0];

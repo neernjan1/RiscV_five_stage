@@ -1,0 +1,2 @@
+# See uart_test.s's header comment for what each register means.
+x12=0x41

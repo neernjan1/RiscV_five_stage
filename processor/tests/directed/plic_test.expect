@@ -1,0 +1,4 @@
+# See plic_test.s's header comment for what each register means.
+x20=1
+x22=1
+x24=0x41

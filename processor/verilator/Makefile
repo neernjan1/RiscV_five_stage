@@ -59,6 +59,12 @@ MEM := ../memory_files/*.mem
 
 SRC = $(SRC6) $(TOPF) $(SRC1) $(SRC2) $(SRC3) $(SRC4) $(SRC5) $(SRC7) $(SRC8) $(SRC9) $(SRC10) $(SRC11) $(SRC12) $(SRC13) $(SRC14) $(CLINT_INCDIR) $(GPIO_INCDIR)
 
+# Passed through to the sim binary as plusargs -- see tb.v's header
+# comment. run.sh/run_assembly.sh set TESTNAME automatically; VERBOSE is
+# opt-in (make verilate VERBOSE=1) for full bus-level tracing.
+TESTNAME ?= unknown
+VERBOSE  ?=
+
 .PHONY: all verilate clean
 
 all: slang_test verilate
@@ -70,7 +76,7 @@ verilate:
 	@echo "Running V E R I L A T O R....."
 	@verilator -Wno-MODDUP -Wno-PINMISSING -Wno-WIDTHEXPAND -Wno-WIDTHTRUNC -Wno-LATCH -Wno-fatal --sv --binary $(SRC) -f $(UART_F) --top $(TOP) --trace --quiet
 	@cp $(MEM) ./
-	@./obj_dir/V$(TOP) +trace --quiet
+	@./obj_dir/V$(TOP) +trace --quiet +TESTNAME=$(TESTNAME) $(if $(filter 1,$(VERBOSE)),+VERBOSE)
 
 clean:
 	rm -rf obj_dir

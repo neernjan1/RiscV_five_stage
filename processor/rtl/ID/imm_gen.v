@@ -2,9 +2,13 @@
 `timescale 1ns / 1ps
 
 module imm_gen(
-    input  [31:0] instruction, 
-    output reg [31:0] imm_val 
+    input  [31:0] instruction,
+    output reg [31:0] imm_val
 );
+
+// Debug (only with +VERBOSE -- see tb.v's header comment)
+reg verbose_trace;
+initial verbose_trace = $test$plusargs("VERBOSE");
 
 always @(*) begin
     case (instruction[6:0])   // opcode
@@ -40,7 +44,8 @@ always @(*) begin
 
         `OPCODE_AUIPC: begin
             imm_val = {{12{instruction[31]}}, instruction[31:12], 12'b0};
-            $display("AUIPC instr=%h imm=%h",instruction,imm_val);
+            if (verbose_trace)
+                $display("AUIPC instr=%h imm=%h",instruction,imm_val);
         end
 
          

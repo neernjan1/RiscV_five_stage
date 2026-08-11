@@ -13,6 +13,8 @@ if [ $# -ne 1 ]; then
 fi
 
 ASM_FILE="$1"
+TEST_NAME="$(basename "$ASM_FILE")"
+TEST_NAME="${TEST_NAME%.*}"
 
 if [ ! -f "$ASM_FILE" ]; then
     echo "Error: $ASM_FILE not found."
@@ -99,14 +101,15 @@ echo "======================================="
 
 cd verilator || exit 1
 
-make verilate
+make verilate TESTNAME="$TEST_NAME" 2>&1 | tee ../sim_output.log
+SIM_STATUS=${PIPESTATUS[0]}
 
-if [ $? -ne 0 ]; then
+cd ..
+
+if [ "$SIM_STATUS" -ne 0 ]; then
     echo "RTL simulation failed!"
     exit 1
 fi
-
-cd ..
 
 echo
 echo "======================================="
@@ -121,6 +124,9 @@ echo "gcc_files/tst_spike.elf"
 echo "memory_files/imem.mem"
 echo "spike_commit.log"
 echo "rtl.log"
+echo "sim_output.log"
 echo
 echo "Next Command:"
 echo "python3 compare_logs1.py"
+
+python3 check_test.py "$TEST_NAME" sim_output.log

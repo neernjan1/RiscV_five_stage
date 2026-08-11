@@ -9,20 +9,20 @@
 // Expected Result = 55
 // ============================================================
 
-// int main()
-// {
-//     int n = 10;
-//     int a = 0, b = 1, c = 0;
+int main()
+{
+    int n = 10;
+    int a = 0, b = 1, c = 0;
 
-//     for(int i = 0; i <= n; i++)
-//     {
-//         c = a;
-//         a = b;
-//         b = c + b;
-//     }
+    for(int i = 0; i <= n; i++)
+    {
+        c = a;
+        a = b;
+        b = c + b;
+    }
 
-//     return c;
-// }
+    return c;
+}
 
 
 // ============================================================
@@ -268,27 +268,27 @@
 // Expected Result = 720
 // ============================================================
 
-volatile int result;
+// volatile int result;
 
-int main()
-{
-    int n = 6;
-    int fact = 1;
+// int main()
+// {
+//     int n = 6;
+//     int fact = 1;
 
-    for(int i=1;i<=n;i++)
-    {
-        int temp = 0;
+//     for(int i=1;i<=n;i++)
+//     {
+//         int temp = 0;
 
-        for(int j=0;j<i;j++)
-            temp += fact;
+//         for(int j=0;j<i;j++)
+//             temp += fact;
 
-        fact = temp;
-    }
+//         fact = temp;
+//     }
 
-    result = fact;
+//     result = fact;
 
-    while(1);
-}
+//     while(1);
+// }
 
 
 // ============================================================
