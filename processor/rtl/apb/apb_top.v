@@ -49,6 +49,7 @@ module apb_top (
     output spi_PSEL,
     output ascon_PSEL,
     output gpio_PSEL,
+    output i2c_PSEL,
     output clint_PSEL,
     output plic_PSEL,
 
@@ -78,8 +79,8 @@ module apb_top (
     wire [31:0] apb_rdata;
     wire apb_ready;
 
-    // peripheral select (gpio_PSEL, clint_PSEL, plic_PSEL are output ports above)
-    wire i2c_PSEL, timer_PSEL;
+    // peripheral select (gpio_PSEL, i2c_PSEL, clint_PSEL, plic_PSEL are output ports above)
+    wire timer_PSEL;
 
     // ---------------- decoder ----------------
     addr_decoder u_decoder (

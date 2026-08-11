@@ -31,7 +31,21 @@ module soc_top(
 
     // UART
     output uart_tx,
-    input  uart_rx
+    input  uart_rx,
+
+    // I2C: open-drain pad model, split into in/out/output-enable like
+    // this SoC's other pins (see gpio_tx_en) rather than a true inout --
+    // whatever instantiates soc_top (tb.v, or a real pad ring) is
+    // responsible for resolving scl_o/scl_oen (and sda_o/sda_oen) down
+    // to the actual wired-AND bus level and looping that back into
+    // scl_i/sda_i. oen is active-low: 0 drives *_o (always 0, open-drain
+    // only ever pulls low), 1 releases the line.
+    input  i2c_scl_i,
+    output i2c_scl_o,
+    output i2c_scl_oen,
+    input  i2c_sda_i,
+    output i2c_sda_o,
+    output i2c_sda_oen
 
 );
 
@@ -185,6 +199,7 @@ wire clint_PREADY;
 wire uart_PSEL;
 wire spi_PSEL;
 wire ascon_PSEL;
+wire i2c_PSEL;
 wire clint_PSEL;
 wire gpio_PSEL;
 wire plic_PSEL;
@@ -240,6 +255,7 @@ apb_top apb(
     .uart_PSEL(uart_PSEL),
     .spi_PSEL(spi_PSEL),
     .ascon_PSEL(ascon_PSEL),
+    .i2c_PSEL(i2c_PSEL),
     .clint_PSEL(clint_PSEL),
     .gpio_PSEL(gpio_PSEL),
     .plic_PSEL(plic_PSEL),
@@ -257,9 +273,6 @@ apb_top apb(
 
 // assign ascon_PRDATA = 32'b0;
 // assign ascon_PREADY = 1'b1;
-
-assign i2c_PRDATA = 32'b0;
-assign i2c_PREADY = 1'b1;
 
 assign timer_PRDATA = 32'b0;
 assign timer_PREADY = 1'b1;
@@ -338,6 +351,40 @@ ascon_accelerator ascon (
     .PREADY(ascon_PREADY),
 
     .PSLVERR(ascon_PSLVERR)
+
+);
+
+//I2C
+wire i2c_PSLVERR;
+wire i2c_interrupt;
+
+apb_i2c #(
+    .APB_ADDR_WIDTH(12)
+) i2c (
+
+    .HCLK(clk),
+    .HRESETn(~rst),
+
+    .PADDR(PADDR[11:0]),
+    .PWDATA(PWDATA),
+    .PWRITE(PWRITE),
+
+    .PSEL(i2c_PSEL),
+    .PENABLE(PENABLE),
+
+    .PRDATA(i2c_PRDATA),
+    .PREADY(i2c_PREADY),
+    .PSLVERR(i2c_PSLVERR),
+
+    .interrupt_o(i2c_interrupt),
+
+    .scl_pad_i(i2c_scl_i),
+    .scl_pad_o(i2c_scl_o),
+    .scl_padoen_o(i2c_scl_oen),
+
+    .sda_pad_i(i2c_sda_i),
+    .sda_pad_o(i2c_sda_o),
+    .sda_padoen_o(i2c_sda_oen)
 
 );
 
@@ -469,16 +516,28 @@ apb_uart_wrap #(
 
 //PLIC (external interrupt controller)
 //
+// Every peripheral with an actual interrupt line feeds PLIC (CLINT is
+// the one exception: its timer/software interrupts go straight to the
+// core's mtip/msip, bypassing PLIC entirely -- that's the standard
+// RISC-V split, not an oversight. ASCON has no interrupt output at all
+// -- it's a fully synchronous accelerator with nothing async to signal
+// -- so there's nothing to wire for it either).
+//
 // Source 1 (register-visible numbering) = uart_intr (UART RX-data-ready /
 // line-status / THR-empty, whichever the UART's own IER has enabled).
 // Source 2 = gpio_global_irq (GPIO's OR of all its per-pin interrupt
-// causes). Sources 3..30 are wired zero -- free for future peripherals.
+// causes).
+// Source 3 = i2c_interrupt (transfer-done / arbitration-lost, gated by
+// the core's own IEN bit -- see apb_i2c.sv).
+// Source 4 = spi_events[0] (tx/rx event), source 5 = spi_events[1]
+// (end-of-transfer).
+// Sources 6..30 are wired zero -- free for future peripherals.
 // Target 0's eip line feeds the core's meip (mip.MEIP); target 1 is
 // unused (this is a single-hart, single-context design).
 wire [29:0] plic_irq_sources;
 wire [1:0]  plic_eip_targets;
 
-assign plic_irq_sources = {28'b0, gpio_global_irq, uart_intr};
+assign plic_irq_sources = {25'b0, spi_events[1], spi_events[0], i2c_interrupt, gpio_global_irq, uart_intr};
 
 apb_plic_wrapper plic (
 

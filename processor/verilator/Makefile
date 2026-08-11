@@ -49,6 +49,7 @@ SRC11 := ../rtl/ascon/*.v
 SRC12 := ../rtl/plic/*.sv
 SRC13 := ../rtl/CLINT/pkg/*.sv ../rtl/CLINT/rtl/*.sv
 SRC14 := ../rtl/gpio/pkg/*.sv ../rtl/gpio/rtl/*.sv
+SRC15 := ../rtl/i2c/apb_i2c.sv ../rtl/i2c/i2c_master_bit_ctrl.sv ../rtl/i2c/i2c_master_byte_ctrl.sv ../rtl/i2c/i2c_defines.sv
 
 CLINT_INCDIR := +incdir+../rtl/CLINT/dependencies +incdir+../rtl/CLINT/rtl
 GPIO_INCDIR := +incdir+../rtl/gpio/dependency
@@ -57,7 +58,7 @@ UART_F := ../rtl/apb_uart/files.f   # ✅ important
 
 MEM := ../memory_files/*.mem
 
-SRC = $(SRC6) $(TOPF) $(SRC1) $(SRC2) $(SRC3) $(SRC4) $(SRC5) $(SRC7) $(SRC8) $(SRC9) $(SRC10) $(SRC11) $(SRC12) $(SRC13) $(SRC14) $(CLINT_INCDIR) $(GPIO_INCDIR)
+SRC = $(SRC6) $(TOPF) $(SRC1) $(SRC2) $(SRC3) $(SRC4) $(SRC5) $(SRC7) $(SRC8) $(SRC9) $(SRC10) $(SRC11) $(SRC12) $(SRC13) $(SRC14) $(SRC15) $(CLINT_INCDIR) $(GPIO_INCDIR)
 
 # Passed through to the sim binary as plusargs -- see tb.v's header
 # comment. run.sh/run_assembly.sh set TESTNAME automatically; VERBOSE is

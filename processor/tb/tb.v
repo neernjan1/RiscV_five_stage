@@ -59,6 +59,16 @@ wire [31:0] gpio_tx_en;
 // TX/RX framing logic end to end.
 wire uart_tx;
 wire uart_rx = uart_tx;
+
+// I2C: open-drain bus with no other simulated device on it, so model
+// the pull-up resistor directly (line reads 1 unless this core is
+// actively driving it low via *_oen) and loop the resulting bus level
+// straight back into the input pads -- the same self-loopback idea as
+// uart_rx above.
+wire i2c_scl_o, i2c_scl_oen;
+wire i2c_sda_o, i2c_sda_oen;
+wire i2c_scl = i2c_scl_oen ? 1'b1 : i2c_scl_o;
+wire i2c_sda = i2c_sda_oen ? 1'b1 : i2c_sda_o;
 //=========================================================
 // DUT
 //=========================================================
@@ -89,7 +99,15 @@ soc_top soc(
     .gpio_tx_en(gpio_tx_en),
 
     .uart_tx(uart_tx),
-    .uart_rx(uart_rx)
+    .uart_rx(uart_rx),
+
+    .i2c_scl_i(i2c_scl),
+    .i2c_scl_o(i2c_scl_o),
+    .i2c_scl_oen(i2c_scl_oen),
+
+    .i2c_sda_i(i2c_sda),
+    .i2c_sda_o(i2c_sda_o),
+    .i2c_sda_oen(i2c_sda_oen)
 
 );
 
