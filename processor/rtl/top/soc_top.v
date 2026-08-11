@@ -113,11 +113,16 @@ riscv_core cpu(
 // Instruction Memory
 ///////////////////////////////////////////////////////////
 
+wire [31:0] imem_rdata;
+
 instruction_memory imem(
 
     .pc(instr_addr),
 
-    .instruction_code(instruction)
+    .instruction_code(instruction),
+
+    .data_addr(data_addr),
+    .data_rdata(imem_rdata)
 
 );
 
@@ -206,6 +211,7 @@ apb_top apb(
     .stall_mem(stall_mem),
 
     .mem_rdata(dmem_rdata),
+    .imem_rdata(imem_rdata),
 
     .uart_PRDATA(uart_PRDATA),
     .uart_PREADY(uart_PREADY),

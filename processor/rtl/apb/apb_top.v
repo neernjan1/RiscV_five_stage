@@ -16,6 +16,9 @@ module apb_top (
     // memory
     input [31:0] mem_rdata,
 
+    // instruction memory's read-only data port (.rodata / .data LMA)
+    input [31:0] imem_rdata,
+
     // peripherals input
     input [31:0] uart_PRDATA,
     input uart_PREADY,
@@ -58,7 +61,7 @@ module apb_top (
 );
 
     // decoder
-    wire sel_mem, sel_ascon, sel_uart, sel_gpio;
+    wire sel_mem, sel_imem, sel_ascon, sel_uart, sel_gpio;
     wire sel_spi, sel_i2c, sel_plic, sel_timer, sel_clint;
 
     wire [1:0] apb_state;
@@ -82,6 +85,7 @@ module apb_top (
     addr_decoder u_decoder (
         .addr(addr),
         .sel_mem(sel_mem),
+        .sel_imem(sel_imem),
         .sel_ascon(sel_ascon),
         .sel_uart(sel_uart),
         .sel_gpio(sel_gpio),
@@ -97,20 +101,27 @@ wire sel_periph;
 assign sel_periph = sel_uart | sel_gpio | sel_spi | sel_i2c |
                     sel_ascon | sel_plic | sel_timer | sel_clint;
 
+// Local (non-APB) memory: DMEM or IMEM's read-only data port.
+wire sel_local_mem;
+wire [31:0] r_data_local_mem;
+
+assign sel_local_mem = sel_mem | sel_imem;
+assign r_data_local_mem = sel_imem ? imem_rdata : mem_rdata;
+
 wire apb_read;
 wire apb_write;
 
 assign apb_read =
-        mem_read && !sel_mem;
+        mem_read && !sel_local_mem;
 
 assign apb_write =
-        mem_write && !sel_mem;
+        mem_write && !sel_local_mem;
 
 
 wire apb_request;
 
 assign apb_request =
-       (~sel_mem) &&
+       (~sel_local_mem) &&
        (mem_read || mem_write);
 
     // ---------------- master ----------------
@@ -193,9 +204,9 @@ assign apb_request =
 
     // ---------------- mux ----------------
     mem_apb_mux u_mux (
-        .sel_mem(sel_mem),
-        
-        .r_data_mem(mem_rdata),
+        .sel_mem(sel_local_mem),
+
+        .r_data_mem(r_data_local_mem),
         .r_data_periph(apb_rdata),
         .r_data_out(rdata)
     );

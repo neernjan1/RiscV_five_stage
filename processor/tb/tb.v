@@ -115,7 +115,7 @@ initial begin
     $display(" Running Test: %0s", test_name);
     $display("==============================================================");
 
-    #30000;
+    #200000;
 
     $display("\n========== REGISTER FILE ==========");
 

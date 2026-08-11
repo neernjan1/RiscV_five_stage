@@ -3,6 +3,7 @@ module addr_decoder(
     input  [31:0] addr,
 
     output reg sel_mem,
+    output reg sel_imem,
     output reg sel_ascon,
     output reg sel_uart,
     output reg sel_gpio,
@@ -15,7 +16,7 @@ module addr_decoder(
 
 always @(*) begin
     // default
-    {sel_mem, sel_ascon, sel_uart, sel_gpio,
+    {sel_mem, sel_imem, sel_ascon, sel_uart, sel_gpio,
      sel_spi, sel_i2c, sel_plic, sel_timer, sel_clint} = 0;
 
     case (addr[31:12])   // 4KB regions
@@ -26,6 +27,12 @@ always @(*) begin
         20'h80012,
         20'h80013:
             sel_mem = 1;
+
+        // Instruction Memory (0x80000000 - 0x80000FFF) : 4 KB
+        // read-only access for .rodata / the .data LMA copy that
+        // crt0.S relocates into DMEM at boot.
+        20'h80000:
+            sel_imem = 1;
 
         // Peripherals
         20'h40000: sel_ascon = 1;

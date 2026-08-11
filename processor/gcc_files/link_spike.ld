@@ -1,7 +1,9 @@
 ENTRY(_start)
 
 MEMORY {
-    IMEM (rx)  : ORIGIN = 0x80000000, LENGTH = 64k /* Changed from 4 kb to 64 kb */
+    /* Must match link.ld / rtl/IF/instruction_memory.v's imem[0:1023]
+       exactly, so Spike and RTL place everything at identical addresses. */
+    IMEM (rx)  : ORIGIN = 0x80000000, LENGTH = 4k
     DMEM (rwx) : ORIGIN = 0x80010000, LENGTH = 16k   /* changed from 0x80001000 to 0x80010000 */
 }
 
@@ -15,22 +17,26 @@ SECTIONS {
         . = ALIGN(4);
     } > IMEM
 
+    /* Read-only, stays resident in IMEM -- no relocation needed. */
     .rodata :
     {
         . = ALIGN(4);
         *(.rodata .rodata.*)
         . = ALIGN(4);
-    } > DMEM
+    } > IMEM
 
+    /* VMA in DMEM (writable), LMA staged in IMEM; crt0 copies
+       LMA -> VMA before main(). _data_load_start is the LMA. */
     .data :
     {
         . = ALIGN(4);
         _data_start = .;
         *(.data .data.*)
-        *(.sdata .sdata.*) 
+        *(.sdata .sdata.*)
         . = ALIGN(4);
         _data_end = .;
-    } > DMEM
+    } > DMEM AT> IMEM
+    _data_load_start = LOADADDR(.data);
 
     .bss :
     {

@@ -25,13 +25,27 @@ echo "======================================="
 echo "Building RTL ELF"
 echo "======================================="
 
-riscv64-unknown-elf-gcc \
-    -march=rv32i_zicsr \
-    -mabi=ilp32 \
-    -nostdlib \
-    -T gcc_files/link.ld \
-    "$ASM_FILE" \
-    -o gcc_files/tst.elf
+if [ "${ASM_FILE##*.}" = "c" ]; then
+    # C source has no _start of its own -- link crt0.S's startup
+    # stub (sets sp, copies .data, zeros .bss, calls main()) alongside it.
+    riscv64-unknown-elf-gcc \
+        -march=rv32i_zicsr \
+        -mabi=ilp32 \
+        -nostdlib \
+        -ffreestanding \
+        -T gcc_files/link.ld \
+        gcc_files/crt0.S \
+        "$ASM_FILE" \
+        -o gcc_files/tst.elf
+else
+    riscv64-unknown-elf-gcc \
+        -march=rv32i_zicsr \
+        -mabi=ilp32 \
+        -nostdlib \
+        -T gcc_files/link.ld \
+        "$ASM_FILE" \
+        -o gcc_files/tst.elf
+fi
 
 if [ $? -ne 0 ]; then
     echo "RTL compilation failed!"
@@ -43,13 +57,25 @@ echo "======================================="
 echo "Building Spike ELF"
 echo "======================================="
 
-riscv64-unknown-elf-gcc \
-    -march=rv32i_zicsr \
-    -mabi=ilp32 \
-    -nostdlib \
-    -T gcc_files/link_spike.ld \
-    "$ASM_FILE" \
-    -o gcc_files/tst_spike.elf
+if [ "${ASM_FILE##*.}" = "c" ]; then
+    riscv64-unknown-elf-gcc \
+        -march=rv32i_zicsr \
+        -mabi=ilp32 \
+        -nostdlib \
+        -ffreestanding \
+        -T gcc_files/link_spike.ld \
+        gcc_files/crt0.S \
+        "$ASM_FILE" \
+        -o gcc_files/tst_spike.elf
+else
+    riscv64-unknown-elf-gcc \
+        -march=rv32i_zicsr \
+        -mabi=ilp32 \
+        -nostdlib \
+        -T gcc_files/link_spike.ld \
+        "$ASM_FILE" \
+        -o gcc_files/tst_spike.elf
+fi
 
 if [ $? -ne 0 ]; then
     echo "Spike compilation failed!"
@@ -85,7 +111,7 @@ spike \
     -l \
     --log-commits \
     --isa=rv32i \
-    --instructions=500 \
+    --instructions=10000 \
     gcc_files/tst_spike.elf \
     > spike_commit.log 2>&1
 
