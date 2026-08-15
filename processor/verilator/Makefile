@@ -1,37 +1,3 @@
-# TOP := tb
-# TOPF := ../tb/tb.v
-# SRC1 := ../rtl/apb/*.v
-# SRC2 := ../rtl/EX/*.v
-# SRC3 := ../rtl/hazard_unit/*.v
-# SRC4 := ../rtl/ID/*.v
-# SRC5 := ../rtl/IF/*.v
-# SRC6 := ../rtl/include/defines.vh
-# SRC7 := ../rtl/MA/*.v
-# SRC8 := ../rtl/top/*.v
-# SRC9 := ../rtl/WB/*.v
-# UART_F := ../rtl/apb_uart/files.f
-
-# MEM := ../memory_files/*.mem
-
-# SRC = $(SRC6) $(TOPF) $(SRC1) $(SRC2) $(SRC3) $(SRC4) $(SRC5) $(SRC7) $(SRC8) $(SRC9) 
-
-# .PHONY: all verilate clean
-# all: slang_test verilate
-
-
-# slang_test:
-# 	slang $(SRC)
-
-# verilate:
-# 	@echo "Running V E R I L A T O R....."
-# 	@verilator --sv --binary $(SRC) --top $(TOP) --trace   --quiet
-# 	@cp $(MEM) ./
-# 	@./obj_dir/V$(TOP) +trace --quiet
-
-# clean:
-# 	rm -rf obj_dir
-# 	clear
-
 TOP := tb
 TOPF := ../tb/tb.v
 
@@ -73,19 +39,7 @@ all: slang_test verilate
 slang_test:
 	slang $(SRC)
 
-# Every -Wno- below is scoped to genuine vendored-IP characteristics
-# (verified: none currently fire anywhere in the core's own hand-written
-# RTL), not core bugs being swept under the rug:
-#   MODDUP      -- CLINT/apb_uart's own vendored checkouts declare a
-#                  couple of modules twice across their dependency tree.
-#   PINMISSING  -- unused pins on vendored submodule instances (e.g.
-#                  CLINT's clint_reg_top.sv, apb_uart's AXI internals).
-#   fatal       -- CLINT's vendored prim_subreg_arb.sv references a
-#                  typedef before its declaration; a strict IEEE
-#                  1800-2023 ordering violation that would otherwise
-#                  hard-fail the build even though every real EDA tool
-#                  (and Verilator's own default, non-strict elaboration)
-#                  accepts it fine.
+
 verilate:
 	@echo "Running V E R I L A T O R....."
 	@verilator -Wno-MODDUP -Wno-PINMISSING -Wno-fatal --sv --binary $(SRC) -f $(UART_F) --top $(TOP) --trace --quiet
