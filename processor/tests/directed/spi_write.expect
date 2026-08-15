@@ -1,0 +1,8 @@
+# See spi_write.s's header comment for what each register means.
+# Plain config-register readback: CLKDIV/SPICMD/SPIADR/SPILEN/SPIDUM
+# must read back what was just written to each.
+x3=4
+x4=0xa5000000
+x5=0x12340000
+x6=0x00080808
+x7=0

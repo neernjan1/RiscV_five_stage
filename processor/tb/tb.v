@@ -516,17 +516,33 @@ case(soc.cpu.alu1.operation)
     `ALU_LUI   : lui_cov   <= lui_cov + 1;
     `ALU_AUIPC : auipc_cov <= auipc_cov + 1;
 
-    // Loads
-    `ALU_L_BYTE : lb_cov   <= lb_cov + 1;
-    `ALU_L_HALF : lh_cov   <= lh_cov + 1;
-    `ALU_L_WORD : lw_cov   <= lw_cov + 1;
-    `ALU_L_BU   : lbu_cov  <= lbu_cov + 1;
-    `ALU_L_HU   : lhu_cov  <= lhu_cov + 1;
+    // Loads. Gated on mem_read_ex, not just the operation encoding:
+    // alu_control.v's `operation` defaults to ALU_L_BYTE (6'b010011)
+    // on every pipeline bubble/flush, not just real LB instructions.
+    // ID_EX.v's flush branch zeroes aluOp_ex (-> ALUOP_LOAD_STORE,
+    // which is 3'b000) and funct3_ex (-> 3'b000) alongside memRead_ex;
+    // alu_control.v's LOAD_STORE case has no way to tell that apart
+    // from a genuine `lb` (funct3=000) and decodes it the same way.
+    // The result is a huge but meaningless lb_cov that fires on every
+    // bubble regardless of whether any real LB ever executed -- gating
+    // on mem_read_ex (which flush also clears, but only reflects real
+    // decoded loads otherwise) makes the count -- and the YES/NO in
+    // print_coverage() -- actually mean "a real load happened".
+    `ALU_L_BYTE : if (soc.cpu.mem_read_ex) lb_cov   <= lb_cov + 1;
+    `ALU_L_HALF : if (soc.cpu.mem_read_ex) lh_cov   <= lh_cov + 1;
+    `ALU_L_WORD : if (soc.cpu.mem_read_ex) lw_cov   <= lw_cov + 1;
+    `ALU_L_BU   : if (soc.cpu.mem_read_ex) lbu_cov  <= lbu_cov + 1;
+    `ALU_L_HU   : if (soc.cpu.mem_read_ex) lhu_cov  <= lhu_cov + 1;
 
-    // Stores
-    `ALU_S_BYTE : sb_cov   <= sb_cov + 1;
-    `ALU_S_HALF : sh_cov   <= sh_cov + 1;
-    `ALU_S_WORD : sw_cov   <= sw_cov + 1;
+    // Stores. Not observed to false-positive today (mem_write_ex
+    // resets/flushes to 0 right alongside the fields above, so the
+    // store case branch in alu_control.v never even activates on a
+    // bubble), but gated the same way for consistency with the loads
+    // above and as insurance against the same aliasing if the reset/
+    // flush encoding ever changes.
+    `ALU_S_BYTE : if (soc.cpu.mem_write_ex) sb_cov   <= sb_cov + 1;
+    `ALU_S_HALF : if (soc.cpu.mem_write_ex) sh_cov   <= sh_cov + 1;
+    `ALU_S_WORD : if (soc.cpu.mem_write_ex) sw_cov   <= sw_cov + 1;
 
     // Branches
     `ALU_BEQ : begin

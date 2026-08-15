@@ -54,7 +54,7 @@ SRC15 := ../rtl/i2c/apb_i2c.sv ../rtl/i2c/i2c_master_bit_ctrl.sv ../rtl/i2c/i2c_
 CLINT_INCDIR := +incdir+../rtl/CLINT/dependencies +incdir+../rtl/CLINT/rtl
 GPIO_INCDIR := +incdir+../rtl/gpio/dependency
 
-UART_F := ../rtl/apb_uart/files.f   # ✅ important
+UART_F := ../rtl/apb_uart/files.f   
 
 MEM := ../memory_files/*.mem
 

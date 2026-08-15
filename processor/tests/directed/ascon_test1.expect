@@ -1,0 +1,11 @@
+# See ascon_test1.s's header comment for what each register means.
+# This test writes CONTROL=0 once and never sets the start bit, so the
+# accelerator's FSM stays in IDLE for the whole run: status, output
+# data, and generated tag must all read back as their reset value (0).
+x10=0
+x11=0
+x12=0
+x13=0
+x14=0
+x15=0
+x16=0

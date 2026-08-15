@@ -1,0 +1,4 @@
+# See gpio_irq_test.s's header comment for what each register means.
+x20=1
+x22=2
+x24=1

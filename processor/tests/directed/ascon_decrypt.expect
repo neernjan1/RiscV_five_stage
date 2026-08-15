@@ -1,0 +1,8 @@
+# See ascon_decrypt.s's header comment for what each register means.
+# Feeds back ascon_encrypt.s's ciphertext/tag; a correct decrypt must
+# recover the original plaintext (DATA LOW=0x00001111, DATA HIGH=0x11110000
+# from ascon_encrypt.s) and report the tag as valid.
+x10=0x00001111
+x11=0x11110000
+x12=0x00000005
+x13=1

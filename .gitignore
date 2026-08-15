@@ -17,7 +17,7 @@ obj_dir/
 
 # Generated C++ (Verilator)
 *.cpp
-*.h
+
 
 # Waveforms
 *.vcd
@@ -29,9 +29,7 @@ obj_dir/
 # =========================
 # IMAGES / TEMP FILES
 # =========================
-#*.png
-#*.jpg
-#*.jpeg
+
 
 # =========================
 # OS / EDITOR
@@ -40,7 +38,7 @@ obj_dir/
 *.swp
 
 # =========================
-# OPTIONAL (if generated)
+# OPTIONAL 
 # =========================
 coverage/
 build/

@@ -1,0 +1,9 @@
+# See ascon_encrypt.s's header comment for what each register means.
+# Ciphertext (x10,x11) and authentication tag (x12-x15) for the
+# fixed key/nonce/plaintext this test writes into the accelerator.
+x10=0xf3a1740a
+x11=0xad920fbe
+x12=0xf4bb8c3e
+x13=0xcaa4db86
+x14=0x9c9a14a3
+x15=0x52d70172

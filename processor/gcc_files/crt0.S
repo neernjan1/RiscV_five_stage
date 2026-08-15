@@ -36,11 +36,12 @@ bss_clear_loop:
     j     bss_clear_loop
 bss_clear_done:
 
-    # Optional peripheral bring-up hook, for future use. Weak so this
-    # build links the no-op default below; a future C file can define its
-    # own non-weak board_init() (same name, no args/return) to override
-    # it with real driver setup -- see gcc_files/board_init_example.c for
-    # a template.
+    # Peripheral bring-up hook. Weak so a build that doesn't link
+    # gcc_files/drivers/ still gets the no-op default below; run.sh's
+    # C-file build links gcc_files/drivers/board_init.c, whose non-weak
+    # board_init() overrides this one via normal linker weak-symbol
+    # resolution and brings up UART/GPIO/SPI/CLINT/PLIC -- see that
+    # file for exactly what it does and doesn't touch.
     call  board_init
 
     jal   ra, main

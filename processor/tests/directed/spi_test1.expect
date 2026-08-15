@@ -1,0 +1,5 @@
+# See spi_test1.s's header comment for what each register means.
+# Plain config-register readback: CLKDIV/SPICMD must read back what
+# was just written to each.
+x3=4
+x4=0xa5000000

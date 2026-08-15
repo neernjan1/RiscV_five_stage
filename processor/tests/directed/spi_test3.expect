@@ -1,0 +1,17 @@
+# See spi_test3.s's header comment for what each register means.
+# Mixes plain ALU/branch/DMEM checks with an SPI read; tb.v's SPI
+# flash model always drives 0xB9 back on MISO (see slave_data in tb.v).
+x12=0x28
+x13=0xa
+x14=0x16
+x21=0x28
+x22=0xa
+x23=0x16
+x24=0x1234
+x27=0x15e
+x5=0xb9
+x28=0xe1
+x29=0xb3
+x30=0x19
+x31=0xb9
+x6=0xb9

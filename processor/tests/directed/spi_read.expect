@@ -1,0 +1,6 @@
+# See spi_read.s's header comment for what each register means.
+# tb.v's SPI flash model always drives 0xB9 back on MISO (see
+# slave_data in tb.v), so a correct read lands that byte in RXFIFO.
+x5=0xb9
+x7=0x00010001
+x8=0xb9

@@ -77,6 +77,10 @@ processor/
 │   ├── coverage/             # memory/APB/instruction-coverage tests
 │   └── generated/            # riscv-dv-generated instruction corpus
 ├── gcc_files/                # linker scripts + crt0 used by the build
+│   └── drivers/               # peripheral drivers (UART/GPIO/SPI/CLINT/
+│                               #   PLIC init + basic ops), linked into
+│                               #   every C build; crt0.S calls their
+│                               #   board_init() before main()
 ├── memory_files/              # generated $readmemh images (build output)
 ├── verilator/                 # Verilator Makefile + build output (obj_dir/, *.vcd)
 └── legacy/                    # superseded run.sh/testbench/verification flow,
@@ -128,7 +132,9 @@ just read the PASS/FAIL check printed at the end (see below).
 
 It also accepts a C source file, in which case it links
 `gcc_files/crt0.S` (startup stub: zeroes `.bss`, sets `sp`, calls
-`main()`) alongside it automatically:
+`board_init()` then `main()`) and `gcc_files/drivers/` (real
+UART/GPIO/SPI/CLINT/PLIC bring-up — see `drivers/board_init.c` for
+exactly what it does and doesn't touch) alongside it automatically:
 
 ```bash
 ./run.sh gcc_files/tst.c

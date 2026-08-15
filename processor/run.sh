@@ -45,15 +45,28 @@ echo "Building RTL ELF"
 echo "======================================="
 
 if [ "${ASM_FILE##*.}" = "c" ]; then
-    # C source has no _start of its own -- link crt0.S's startup
-    # stub (sets sp, calls main()) alongside it.
+    # C source has no _start of its own -- link crt0.S's startup stub
+    # (sets sp, copies .data, zeros .bss, calls board_init() then
+    # main()) alongside it, plus gcc_files/drivers/ so crt0.S's call
+    # to board_init() resolves to the real peripheral bring-up in
+    # drivers/board_init.c instead of crt0.S's own weak no-op default.
+    # (Not done in run_assembly.sh's Spike-side build: Spike has no
+    # model of these peripherals, so real MMIO writes to their
+    # addresses would fault there.)
     riscv64-unknown-elf-gcc \
         -march=rv32i_zicsr \
         -mabi=ilp32 \
         -nostdlib \
         -ffreestanding \
         -T gcc_files/link.ld \
+        -I gcc_files/drivers \
         gcc_files/crt0.S \
+        gcc_files/drivers/board_init.c \
+        gcc_files/drivers/uart_driver.c \
+        gcc_files/drivers/gpio_driver.c \
+        gcc_files/drivers/spi_driver.c \
+        gcc_files/drivers/clint_driver.c \
+        gcc_files/drivers/plic_driver.c \
         "$ASM_FILE" \
         -o gcc_files/tst.elf
 else
